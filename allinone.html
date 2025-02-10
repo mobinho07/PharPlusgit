@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pharmacy Management Dashboard</title>
+    <style>
+        /* Basic CSS styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        header {
+            background-color: #4CAF50;
+            padding: 15px;
+            color: white;
+            text-align: right;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1;
+        }
+        header .profile {
+            display: inline-block;
+            position: relative;
+        }
+        header .profile img {
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+        }
+        header .profile-menu {
+            display: none;
+            position: absolute;
+            top: 45px;
+            right: 0;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+        }
+        header .profile-menu a {
+            display: block;
+            padding: 5px 10px;
+            color: black;
+            text-decoration: none;
+        }
+        header .profile-menu a:hover {
+            background-color: #f1f1f1;
+        }
+        header .profile:hover .profile-menu {
+            display: block;
+        }
+        #menu {
+            width: 200px;
+            background-color: #333;
+            color: white;
+            padding-top: 50px;
+            position: fixed;
+            height: 100%;
+        }
+        #menu a {
+            color: white;
+            padding: 15px;
+            text-decoration: none;
+            display: block;
+        }
+        #menu a:hover {
+            background-color: #575757;
+        }
+        #content {
+            margin-left: 200px;
+            padding: 20px;
+            margin-top: 50px;
+            width: 100%;
+        }
+        .module {
+            margin-bottom: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+        }
+        .responsive-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .responsive-table th, .responsive-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        .responsive-table th {
+            background-color: #f2f2f2;
+        }
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            #menu {
+                width: 100px;
+            }
+            #content {
+                margin-left: 100px;
+            }
+        }
+        @media screen and (max-width: 480px) {
+            #menu {
+                display: none;
+            }
+            #content {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <span id="date-time"></span>
+        <div class="profile">
+            <img src="user-icon.png" alt="User">
+            <div class="profile-menu">
+                <a href="#">Voir le profil</a>
+                <a href="#">Déconnexion</a>
+            </div>
+        </div>
+    </header>
+
+    <nav id="menu">
+        <a href="#dashboard">Dashboard</a>
+        <a href="#stock">Stock</a>
+        <a href="#prevision">Prévision</a>
+        <a href="#inventaire">Inventaire</a>
+        <a href="#vente">Vente</a>
+        <a href="#gestion-produit">Gestion Produit</a>
+        <a href="#gestion-utilisateur">Gestion Utilisateurs</a>
+        <a href="#parametres">Paramètres</a>
+    </nav>
+
+    <div id="content">
+        <!-- Modules here -->
+        <section id="dashboard" class="module">
+            <h2>Dashboard</h2>
+            <p>Vue d'ensemble des stocks, des ventes et des alertes.</p>
+            <!-- Add dashboard content like charts, tables here -->
+        </section>
+
+        <section id="stock" class="module">
+            <h2>Gestion du Stock</h2>
+            <p>Ajouter, modifier, supprimer et interroger les stocks.</p>
+            <!-- Add form or table for stock management -->
+        </section>
+
+        <section id="prevision" class="module">
+            <h2>Prévision des Ventes</h2>
+            <p>Suggestions de produits à ravitailler pour augmenter la productivité.</p>
+            <!-- Add forecast content and logic here -->
+        </section>
+
+        <section id="inventaire" class="module">
+            <h2>Inventaire</h2>
+            <p>Créer des inventaires, comparer et imprimer des rapports.</p>
+            <!-- Add inventory management tools here -->
+        </section>
+
+        <section id="vente" class="module">
+            <h2>Gestion des Ventes</h2>
+            <p>Gérer les ventes, mettre en pause, modifier les commandes.</p>
+            <!-- Add sales form, queue and logic here -->
+        </section>
+
+        <section id="gestion-produit" class="module">
+            <h2>Gestion des Produits</h2>
+            <p>Ajouter, modifier, supprimer des produits, gérer les images.</p>
+            <!-- Add product management logic and forms here -->
+        </section>
+
+        <section id="gestion-utilisateur" class="module">
+            <h2>Gestion des Utilisateurs</h2>
+            <p>Créer, modifier, supprimer des utilisateurs.</p>
+            <!-- Add user management forms here -->
+        </section>
+
+        <section id="parametres" class="module">
+            <h2>Paramètres</h2>
+            <p>Configurer les paramètres de l'application.</p>
+            <!-- Add settings options here -->
+        </section>
+    </div>
+
+    <script>
+        // Script pour afficher la date et l'heure en temps réel
+        function updateDateTime() {
+            const now = new Date();
+            const dateTimeString = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
+            document.getElementById('date-time').textContent = dateTimeString;
+        }
+        setInterval(updateDateTime, 1000);
+    </script>
+</body>
+</html>

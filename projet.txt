@@ -1,0 +1,380 @@
+Besoin d'une application web en html-css-javascript de gestion d'une pharmacie. L'application doit avoir les options suivant:
+1. Dashboard : donne un aperçu des états de stocks, les alertes, les top x des ventes, top x des produits non vendu il y a longtemps, évolution des ventes (jour-7, par mois YTD), et autres que tu juge utile pour un dashboard.
+2. Stock : permettre de gérer le stock (Interroger, ajouter, supprimer, modifier)
+3. Prevision : un module spécialement pour des previsions à long terme en se basant sur les statistiques des ventes. faire des suggestions sur les produits à ravitailler pour croitre la productivité.
+4. Inventaire : ce module va permettre de créer une inventaire pour une periode donné, interroger les inventaires passés, comparer, imprimer (en pdf)
+5. Vente : permet de gérer les ventes. un écran demandant le code du produit ou son nom et ajoute à la queue jusqu'à la validation de la commande et paiement. une commande en cours peut être mis en pause et repris plutard. On peut aussi retirer un article de la commande avant paiement, tout comme modifier la quantité (mais seul un utilisateur autorisé comme Admin peut le faire). permettre, si possible, de scaner le code QR ou code Barre pour la recherche des produits avec l'appareil photo 
+5. Gestion Produit : module spécialement pour la gestion des produits (CRUD), impression des liste, etc. prevoir la possibilité d'ajouter les images pour chaque produit.
+6. Gestion des utilisateurs: aussi en CRUD comme le précédent
+7. Paramettre: un module qui peut contenir des paramettres modifiable comme le type de sortie des rapports, etc
+
+* L'application doit être responsive. s'adapter aux telephone mobile aussi.
+* Les modules doivent apparaitre à gauche (Menu) et le contenu à droite
+* L'application doit tourner sur une fenetre unique sauf les impression dont l'apercu s'ouvre sur une nouvelle fenetre
+* l'entête de la page doit donner le nom de l'utilisateur connecté, la date en temps réel ainsi que l'icone de l'utilisateur qui lorsqu'on clique donne les option: deconnexion, voir le profil, etc
+* L'application doit gérer le rabais ou promotion. Une promotion a une date de début et une date de fin.
+* L'application doit allerter lorsque la date de péromption arrive à terme. Il doit y avoir un paramettre pour la date d'avertissement
+* L'application doit permettre l'impression des étiquettes à code barre(avec numero). l'étiquette doit avoir l'information sur l'id du produit, l'id du fournisseur ainsi que la date en format YYMMDD.
+* Le produit doit avoir son id ainsi que le code de l'étiquette (qui permet de différencier les produits selon les dates d'entrée et ainsi gérer différents date de peromptions pour chacun des produits).
+* Pour modifier/supprimer les informations d'un produit, il faut entrer le code de modification (reservé à l'admin).
+* Avoir un menu pour voir les transactions: Ventes, Stock, Opérations divers. Par periode et utilisateur
+* Pouvoir gérer aussi les dépenses effectué: Raison, date, montant, utilisateur
+
+
+Operations
+* Le programme permet d'enregistrer les Produits avec ces détails: id_produit, Description, Catégorie, Fournisseur,ClasseAge,
+
+***SQL***
+1. Afficher les produits en stock avec leurs quantités disponibles par lot
+Cette requête liste tous les produits en stock ainsi que les quantités disponibles pour chaque lot, en prenant en compte les approvisionnements.
+
+SELECT P.nom, LS.quantite, LS.date_expiration
+FROM Produits P
+JOIN Lot_Stock LS ON P.id_produit = LS.id_produit
+WHERE LS.quantite > 0;
+
+2. Rechercher les produits proches de leur date d'expiration
+Cette requête liste les produits dont les lots ont une date d'expiration proche, par exemple dans les 30 prochains jours.
+
+SELECT P.nom, LS.date_expiration, LS.quantite
+FROM Produits P
+JOIN Lot_Stock LS ON P.id_produit = LS.id_produit
+WHERE LS.date_expiration < CURDATE() + INTERVAL 30 DAY
+AND LS.quantite > 0;
+
+3. Afficher les ventes réalisées par un utilisateur spécifique
+Cette requête affiche les ventes effectuées par un utilisateur spécifique, par exemple l'utilisateur avec id_utilisateur = 1.
+
+SELECT V.id_vente, V.date_vente, V.montant_total
+FROM Ventes V
+WHERE V.id_utilisateur = 1;
+
+4. Lister les produits les plus vendus sur une période donnée
+Cette requête permet d'obtenir les produits les plus vendus sur une période donnée, par exemple au cours du mois dernier.
+
+SELECT P.nom, SUM(LV.quantite) AS total_quantite_vendue
+FROM Lignes_vente LV
+JOIN Lot_Stock LS ON LV.id_lot = LS.id_lot
+JOIN Produits P ON LS.id_produit = P.id_produit
+JOIN Ventes V ON LV.id_vente = V.id_vente
+WHERE V.date_vente BETWEEN '2025-01-01' AND '2025-01-31'
+GROUP BY P.nom
+ORDER BY total_quantite_vendue DESC;
+
+5. Calculer le stock total pour chaque produit
+Cette requête calcule la quantité totale disponible en stock pour chaque produit en additionnant les quantités de tous les lots.
+
+SELECT P.nom, SUM(LS.quantite) AS total_stock
+FROM Produits P
+JOIN Lot_Stock LS ON P.id_produit = LS.id_produit
+GROUP BY P.nom;
+
+6. Suivre l'historique des mouvements de stock pour un produit donné
+Cette requête montre tous les mouvements de stock (entrées et sorties) pour un produit spécifique.
+
+SELECT P.nom, SM.type_mouvement, SM.quantite, SM.date_mouvement
+FROM Stock_Mouvements SM
+JOIN Lot_Stock LS ON SM.id_lot = LS.id_lot
+JOIN Produits P ON LS.id_produit = P.id_produit
+WHERE P.id_produit = 1
+ORDER BY SM.date_mouvement DESC;
+
+7. Lister les produits dont le stock est inférieur à un certain seuil
+Cette requête permet de lister les produits dont le stock total est inférieur à un seuil donné (par exemple, 50 unités).
+
+SELECT P.nom, SUM(LS.quantite) AS total_stock
+FROM Produits P
+JOIN Lot_Stock LS ON P.id_produit = LS.id_produit
+GROUP BY P.nom
+HAVING total_stock < 50;
+
+8. Calculer le chiffre d'affaires total sur une période donnée
+Cette requête calcule le montant total des ventes réalisées sur une période donnée.
+
+SELECT SUM(montant_total) AS chiffre_affaires
+FROM Ventes
+WHERE date_vente BETWEEN '2025-01-01' AND '2025-01-31';
+
+9. Lister les produits jamais vendus ou invendus depuis une longue période
+Cette requête montre les produits qui n'ont jamais été vendus ou qui n'ont pas été vendus depuis une certaine date.
+
+SELECT P.nom
+FROM Produits P
+LEFT JOIN Lot_Stock LS ON P.id_produit = LS.id_produit
+LEFT JOIN Lignes_vente LV ON LS.id_lot = LV.id_lot
+LEFT JOIN Ventes V ON LV.id_vente = V.id_vente
+WHERE LV.id_ligne_vente IS NULL OR V.date_vente < '2025-01-01';
+
+10. Afficher le détail d'une vente spécifique
+Cette requête affiche les produits vendus dans une vente spécifique, ainsi que les quantités et le prix de chaque produit.
+
+SELECT P.nom, LV.quantite, LV.prix_unitaire
+FROM Lignes_vente LV
+JOIN Lot_Stock LS ON LV.id_lot = LS.id_lot
+JOIN Produits P ON LS.id_produit = P.id_produit
+WHERE LV.id_vente = 1001;  -- Remplacer par l'ID de la vente
+
+Explication des Requêtes :
+-Stock et disponibilité : Vous pouvez suivre les quantités disponibles en stock et identifier les produits en quantité faible ou expirée.
+-Ventes et performances : Ces requêtes permettent d'analyser les ventes par produit, par utilisateur, et d'identifier les produits les plus populaires ou ceux qui ne se vendent pas.
+-Mouvements de stock : Les mouvements de stock permettent de tracer l'historique des entrées et sorties de stock pour un produit donné.
+-Chiffre d'affaires : Le calcul du chiffre d'affaires sur une période donnée vous aide à surveiller la performance financière de la pharmacie.
+-Alertes de réapprovisionnement : Les requêtes permettant de repérer les produits avec un stock inférieur à un seuil donné facilitent la gestion des commandes et du réapprovisionnement.
+
+******SQL DASHBOARD******
+1. Résumé des stocks disponibles
+Affiche un résumé du stock total actuellement disponible pour chaque produit.
+
+SELECT P.nom, SUM(LS.quantite) AS total_stock
+FROM Produits P
+JOIN Lot_Stock LS ON P.id_produit = LS.id_produit
+GROUP BY P.nom;
+
+2. Top 5 des produits les plus vendus (sur une période donnée)
+Affiche les produits les plus vendus, par exemple, au cours du mois précédent.
+
+SELECT P.nom, SUM(LV.quantite) AS total_vendu
+FROM Lignes_vente LV
+JOIN Lot_Stock LS ON LV.id_lot = LS.id_lot
+JOIN Produits P ON LS.id_produit = P.id_produit
+JOIN Ventes V ON LV.id_vente = V.id_vente
+WHERE V.date_vente BETWEEN CURDATE() - INTERVAL 1 MONTH AND CURDATE()
+GROUP BY P.nom
+ORDER BY total_vendu DESC
+LIMIT 5;
+
+3. Top 5 des produits invendus depuis longtemps
+Affiche les produits qui n'ont pas été vendus depuis un certain temps (par exemple 6 mois).
+
+SELECT P.nom, MAX(V.date_vente) AS derniere_vente
+FROM Produits P
+JOIN Lot_Stock LS ON P.id_produit = LS.id_produit
+LEFT JOIN Lignes_vente LV ON LS.id_lot = LV.id_lot
+LEFT JOIN Ventes V ON LV.id_vente = V.id_vente
+GROUP BY P.nom
+HAVING MAX(V.date_vente) IS NULL OR MAX(V.date_vente) < CURDATE() - INTERVAL 6 MONTH
+ORDER BY derniere_vente ASC
+LIMIT 5;
+
+4. Évolution des ventes (sur les 7 derniers jours)
+Affiche le total des ventes pour chaque jour des 7 derniers jours.
+
+SELECT DATE(V.date_vente) AS jour, SUM(V.montant_total) AS total_ventes
+FROM Ventes V
+WHERE V.date_vente BETWEEN CURDATE() - INTERVAL 7 DAY AND CURDATE()
+GROUP BY DATE(V.date_vente)
+ORDER BY jour ASC;
+
+5. Chiffre d'affaires mensuel (YTD - Year To Date)
+Affiche le chiffre d'affaires pour chaque mois de l'année en cours.
+
+SELECT MONTH(V.date_vente) AS mois, SUM(V.montant_total) AS chiffre_affaires
+FROM Ventes V
+WHERE YEAR(V.date_vente) = YEAR(CURDATE())
+GROUP BY MONTH(V.date_vente)
+ORDER BY mois ASC;
+
+6. Produits proches de la date d'expiration
+Affiche les produits dont les lots expirent dans les 30 prochains jours.
+
+SELECT P.nom, LS.date_expiration, LS.quantite
+FROM Produits P
+JOIN Lot_Stock LS ON P.id_produit = LS.id_produit
+WHERE LS.date_expiration BETWEEN CURDATE() AND CURDATE() + INTERVAL 30 DAY;
+
+7. Stock global par catégorie (si applicable)
+Affiche le stock total pour chaque catégorie de produit (par exemple, médicaments, soins, etc.), si une telle catégorie existe dans la base de données.
+
+SELECT C.nom_categorie, SUM(LS.quantite) AS total_stock
+FROM Produits P
+JOIN Lot_Stock LS ON P.id_produit = LS.id_produit
+JOIN Categories C ON P.id_categorie = C.id_categorie
+GROUP BY C.nom_categorie;
+
+8. Alertes de stock bas
+Affiche les produits dont le stock total est inférieur à un seuil (par exemple, 10 unités), nécessitant un réapprovisionnement.
+
+SELECT P.nom, SUM(LS.quantite) AS total_stock
+FROM Produits P
+JOIN Lot_Stock LS ON P.id_produit = LS.id_produit
+GROUP BY P.nom
+HAVING total_stock < 10
+ORDER BY total_stock ASC;
+
+9. Nombre total de ventes du jour
+Affiche le nombre total de ventes effectuées aujourd'hui.
+
+SELECT COUNT(*) AS total_ventes
+FROM Ventes
+WHERE DATE(date_vente) = CURDATE();
+
+10. Montant total des ventes du jour
+Affiche le montant total des ventes réalisées aujourd'hui.
+
+SELECT SUM(montant_total) AS total_montant
+FROM Ventes
+WHERE DATE(date_vente) = CURDATE();
+
+**Utilisation dans un Dashboard
+Ces requêtes peuvent être utilisées pour générer des graphiques, des tableaux de données, ou des alertes dans un tableau de bord. Voici comment elles pourraient être visualisées :
+
+- Résumé des stocks disponibles : Sous forme de tableau ou de graphique en barres pour montrer les quantités disponibles par produit.
+- Top 5 des produits les plus vendus : Graphique en barres ou tableau montrant les produits les plus populaires.
+- Top 5 des produits invendus depuis longtemps : Tableau montrant les produits à écouler rapidement.
+- Évolution des ventes (7 derniers jours) : Graphique linéaire montrant les ventes quotidiennes sur la semaine.
+- Chiffre d'affaires mensuel YTD : Graphique en barres ou linéaire montrant le chiffre d'affaires de chaque mois de l'année.
+- Produits proches de la date d'expiration : Liste d'alertes ou tableau des produits à surveiller.
+- Stock par catégorie : Graphique en barres ou à secteurs montrant le stock par catégorie de produit.
+- Alertes de stock bas : Liste d'alertes pour les produits nécessitant un réapprovisionnement.
+- Nombre total de ventes du jour et Montant total des ventes du jour : Ces informations peuvent être affichées en haut du tableau de bord comme des indicateurs clés.
+
+****BD COMPLET*****
+1. Création des tables
+
+-- Table des utilisateurs
+CREATE TABLE Utilisateurs (
+    id_utilisateur INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(100),
+    email VARCHAR(100) UNIQUE,
+    mot_de_passe VARCHAR(100),
+    role ENUM('Admin', 'Vendeur') NOT NULL
+);
+
+-- Table des produits
+CREATE TABLE Produits (
+    id_produit INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(100) NOT NULL,
+    description TEXT,
+    prix_unitaire DECIMAL(10, 2) NOT NULL,
+    code_barre VARCHAR(50),
+    image_produit VARCHAR(255)
+);
+
+-- Table des approvisionnements ou lots de stock
+CREATE TABLE Lot_Stock (
+    id_lot INT AUTO_INCREMENT PRIMARY KEY,
+    id_produit INT,
+    quantite INT NOT NULL,
+    date_approvisionnement DATE NOT NULL,
+    date_expiration DATE,
+    fournisseur VARCHAR(100),
+    prix_achat DECIMAL(10, 2),
+    id_utilisateur INT,
+    FOREIGN KEY (id_produit) REFERENCES Produits(id_produit),
+    FOREIGN KEY (id_utilisateur) REFERENCES Utilisateurs(id_utilisateur)
+);
+
+-- Table des ventes
+CREATE TABLE Ventes (
+    id_vente INT AUTO_INCREMENT PRIMARY KEY,
+    date_vente DATETIME NOT NULL,
+    montant_total DECIMAL(10, 2) NOT NULL,
+    id_utilisateur INT,
+    FOREIGN KEY (id_utilisateur) REFERENCES Utilisateurs(id_utilisateur)
+);
+
+-- Table des lignes de vente (détails de chaque vente)
+CREATE TABLE Lignes_vente (
+    id_ligne_vente INT AUTO_INCREMENT PRIMARY KEY,
+    id_vente INT,
+    id_lot INT,
+    quantite INT NOT NULL,
+    prix_unitaire DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (id_vente) REFERENCES Ventes(id_vente),
+    FOREIGN KEY (id_lot) REFERENCES Lot_Stock(id_lot)
+);
+
+-- Table des mouvements de stock
+CREATE TABLE Stock_Mouvements (
+    id_mouvement INT AUTO_INCREMENT PRIMARY KEY,
+    id_lot INT,
+    quantite INT NOT NULL,
+    type_mouvement ENUM('entrée', 'sortie') NOT NULL,
+    date_mouvement DATETIME NOT NULL,
+    id_utilisateur INT,
+    FOREIGN KEY (id_lot) REFERENCES Lot_Stock(id_lot),
+    FOREIGN KEY (id_utilisateur) REFERENCES Utilisateurs(id_utilisateur)
+);
+2. Création des Vues pour les rapports et le dashboard
+Vue 1 : Résumé des stocks par produit
+Cette vue calcule la quantité totale disponible pour chaque produit, en additionnant tous les lots.
+
+CREATE VIEW Vue_Resume_Stock AS
+SELECT P.nom AS produit, SUM(LS.quantite) AS total_stock
+FROM Produits P
+JOIN Lot_Stock LS ON P.id_produit = LS.id_produit
+GROUP BY P.nom;
+
+Vue 2 : Top 5 des produits les plus vendus sur les 30 derniers jours
+Cette vue liste les produits les plus vendus sur la période récente.
+
+CREATE VIEW Vue_Top_Produits_Vendus AS
+SELECT P.nom AS produit, SUM(LV.quantite) AS total_vendu
+FROM Lignes_vente LV
+JOIN Lot_Stock LS ON LV.id_lot = LS.id_lot
+JOIN Produits P ON LS.id_produit = P.id_produit
+JOIN Ventes V ON LV.id_vente = V.id_vente
+WHERE V.date_vente BETWEEN CURDATE() - INTERVAL 30 DAY AND CURDATE()
+GROUP BY P.nom
+ORDER BY total_vendu DESC
+LIMIT 5;
+
+Vue 3 : Produits proches de la date d'expiration (dans les 30 prochains jours)
+Cette vue liste les produits dont la date d'expiration est proche.
+
+CREATE VIEW Vue_Produits_Expiration_Proche AS
+SELECT P.nom AS produit, LS.date_expiration, LS.quantite
+FROM Produits P
+JOIN Lot_Stock LS ON P.id_produit = LS.id_produit
+WHERE LS.date_expiration BETWEEN CURDATE() AND CURDATE() + INTERVAL 30 DAY;
+
+Vue 4 : Evolution des ventes sur les 7 derniers jours
+Cette vue fournit l'évolution des ventes quotidiennes sur la semaine écoulée.
+
+CREATE VIEW Vue_Ventes_7_Jours AS
+SELECT DATE(V.date_vente) AS jour, SUM(V.montant_total) AS total_ventes
+FROM Ventes V
+WHERE V.date_vente BETWEEN CURDATE() - INTERVAL 7 DAY AND CURDATE()
+GROUP BY DATE(V.date_vente)
+ORDER BY jour ASC;
+
+Vue 5 : Produits avec stock bas
+Cette vue liste les produits dont le stock total est inférieur à un seuil de 10 unités.
+
+CREATE VIEW Vue_Produits_Stock_Bas AS
+SELECT P.nom AS produit, SUM(LS.quantite) AS total_stock
+FROM Produits P
+JOIN Lot_Stock LS ON P.id_produit = LS.id_produit
+GROUP BY P.nom
+HAVING total_stock < 10
+ORDER BY total_stock ASC;
+
+3. Création d'index pour optimiser les requêtes
+
+-- Index sur les dates d'expiration pour accélérer la recherche des produits proches d'expiration
+CREATE INDEX idx_lot_stock_expiration ON Lot_Stock(date_expiration);
+
+-- Index sur les dates des ventes pour les rapports sur les ventes
+CREATE INDEX idx_ventes_date ON Ventes(date_vente);
+
+-- Index sur le produit dans la table Lot_Stock pour optimiser la recherche par produit
+CREATE INDEX idx_lot_stock_produit ON Lot_Stock(id_produit);
+
+Explication du modèle relationnel et des vues
+Tables principales :
+
+Utilisateurs gère les utilisateurs (administrateurs, vendeurs).
+Produits contient les informations de base sur chaque produit (nom, prix, code-barre).
+Lot_Stock gère les lots de stock avec des informations sur les quantités et les dates d’expiration.
+Ventes et Lignes_vente enregistrent les ventes et les produits vendus dans chaque vente.
+Stock_Mouvements permet de suivre les entrées et sorties de stock.
+Vues :
+
+Vue_Resume_Stock : Affiche le résumé des stocks disponibles par produit.
+Vue_Top_Produits_Vendus : Montre les produits les plus vendus récemment.
+Vue_Produits_Expiration_Proche : Aide à surveiller les produits proches de la date d'expiration.
+Vue_Ventes_7_Jours : Fournit une vue d'ensemble des ventes quotidiennes au cours de la semaine écoulée.
+Vue_Produits_Stock_Bas : Liste les produits avec un stock insuffisant (moins de 10 unités).
+Index :
+
+Des index sont créés pour optimiser les recherches sur les dates d'expiration, les dates de vente et les produits, améliorant ainsi les performances des requêtes fréquentes.
