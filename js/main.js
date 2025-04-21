@@ -6,7 +6,7 @@ document.getElementById('loginForm').addEventListener('submit', function (e) {
     // Simuler une connexion
     if (username === 'admin' && password === 'admin') {
         localStorage.setItem('loggedInUser', username);
-        window.location.href = 'dashboard.html';
+        window.location.href = 'pages/dashboard.html';
     } else {
         alert('Nom d\'utilisateur ou mot de passe incorrect.');
     }
