@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestion du stock - Gestion Pharmacie</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <title>Gestion des ventes - Gestion Pharmacie</title>
+    <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
     <div class="app-container">
@@ -27,7 +27,7 @@
                 <div class="user-info">
                     <span id="usernameDisplay"></span>
                     <span id="currentDate"></span>
-                    <img src="https://via.placeholder.com/30" alt="Icone utilisateur" id="userIcon">
+                    <img src="../images/user.png" alt="Icone utilisateur" id="userIcon">
                     <div id="userDropdown" class="dropdown-content">
                         <a href="#">Profil</a>
                         <a href="#" id="logoutBtn">Déconnexion</a>
@@ -36,27 +36,10 @@
             </header>
 
             <section id="stock">
-                <h2>Gestion du stock</h2>
-                <form id="addStockForm">
-                    <input type="text" id="productName" placeholder="Nom du produit" required>
-                    <input type="number" id="productQuantity" placeholder="Quantité" required>
-                    <button type="submit">Ajouter au stock</button>
-                </form>
-                <table id="stockTable">
-                    <thead>
-                        <tr>
-                            <th>Nom du produit</th>
-                            <th>Quantité</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Les lignes du tableau seront ajoutées dynamiquement -->
-                    </tbody>
-                </table>
+                <h2>Gestion des ventes</h2> 
             </section>
         </main>
     </div>
-    <script src="js/stock.js"></script>
+    <script src="js/sales.js"></script>
 </body>
 </html>
