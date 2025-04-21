@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des ventes - Gestion Pharmacie</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <h2>Menu</h2>
+            <ul>
+                <li><a href="dashboard.html">Tableau de bord</a></li>
+                <li><a href="stock.html">Stock</a></li>
+                <li><a href="sales.html">Ventes</a></li>
+                <li><a href="inventory.html">Inventaire</a></li>
+                <li><a href="forecast.html">Prévision</a></li>
+                <li><a href="products.html">Produits</a></li>
+                <li><a href="users.html">Utilisateurs</a></li>
+                <li><a href="settings.html">Paramètres</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <header>
+                <div class="user-info">
+                    <span id="usernameDisplay"></span>
+                    <span id="currentDate"></span>
+                    <img src="https://via.placeholder.com/30" alt="Icone utilisateur" id="userIcon">
+                    <div id="userDropdown" class="dropdown-content">
+                        <a href="#">Profil</a>
+                        <a href="#" id="logoutBtn">Déconnexion</a>
+                    </div>
+                </div>
+            </header>
+
+            <section id="stock">
+                <h2>Gestion des ventes</h2> 
+            </section>
+        </main>
+    </div>
+    <script src="js/sales.js"></script>
+</body>
+</html>

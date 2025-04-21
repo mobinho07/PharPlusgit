@@ -1,0 +1,82 @@
+#dashboard {
+    width: 70%;
+}
+
+section {
+    display: block;
+}
+
+#main-part {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#right-side{
+    display: block;
+    padding: 10px 5px;
+}
+
+.card {
+    width: 120px;
+    height: 100px;
+    background-color: #fff;
+    padding: 10px 20px 5px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    font-weight: bold;
+    
+    background-color: #ffffff;
+}
+
+.titre {
+    font-size: 10pt; 
+    color: red;
+    margin: 0;
+}
+
+.prix {
+    font-size: 18pt; 
+    color: blue;
+    margin: 0;
+}
+
+.bottom-card {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.stock-title {
+    font-size: 6pt;
+    font-style: oblique;
+    font-weight: lighter;
+    margin: 0;
+}
+
+.stock-value {
+    font-size: 8pt;
+    margin: 0;
+}
+
+#dashboard>div {
+    background-color: rgb(191, 231, 248);
+}
+
+#bottom-one {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(200px, 1fr));
+}
+
+.block-right {
+    width: 90%;
+    height: 18%;
+    align-self: center;
+}

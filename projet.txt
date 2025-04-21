@@ -378,3 +378,4 @@ Vue_Produits_Stock_Bas : Liste les produits avec un stock insuffisant (moins de 
 Index :
 
 Des index sont créés pour optimiser les recherches sur les dates d'expiration, les dates de vente et les produits, améliorant ainsi les performances des requêtes fréquentes.
+
