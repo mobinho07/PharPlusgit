@@ -6,6 +6,7 @@ from routes.sales import sales_bp
 from routes.stock import stock_bp
 from routes.modStock import modStock_bp
 from routes.saleMvt import saleMvt_bp
+from routes.qte_stock_lot import qte_stock_bp
 
 app = Flask(__name__)
 app.config.from_object('config.Config')
@@ -18,6 +19,7 @@ app.register_blueprint(sales_bp, url_prefix='/api/sales')
 app.register_blueprint(stock_bp, url_prefix='/api/stock')
 app.register_blueprint(modStock_bp, url_prefix='/api/modStock')
 app.register_blueprint(saleMvt_bp, url_prefix='/api/saleMvt')
+app.register_blueprint(qte_stock_bp, url_prefix='/api/qteStockLot')
 
 @app.route('/')
 def home():
