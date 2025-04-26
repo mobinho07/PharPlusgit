@@ -26,4 +26,7 @@ def home():
     return jsonify({'status': 'API en fonctionnement'})
 
 if __name__ == '__main__':
+    print("Routes enregistrées:")
+    for rule in app.url_map.iter_rules():
+        print(rule)
     app.run(debug=True)
