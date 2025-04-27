@@ -7,8 +7,10 @@ from routes.stock import stock_bp
 from routes.modStock import modStock_bp
 from routes.saleMvt import saleMvt_bp
 from routes.qte_stock_lot import qte_stock_bp
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)  # Active CORS pour toutes les routes
 app.config.from_object('config.Config')
 FlaskJSON(app)
 

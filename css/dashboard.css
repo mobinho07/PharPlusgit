@@ -34,6 +34,10 @@ section {
     background-color: #ffffff;
 }
 
+.barre-haut {
+    background-color: aquamarine;
+}
+
 .titre {
     font-size: 10pt; 
     color: red;
@@ -79,4 +83,74 @@ section {
     width: 90%;
     height: 18%;
     align-self: center;
+}
+
+/* Style for graphic */
+.graph-container {
+    font-family: Arial, sans-serif;
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+.graph-title {
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.graph-body {
+    display: flex;
+}
+
+.product-labels {
+    display: flex;
+    flex-direction: column;
+    margin-right: 8px;
+}
+
+.product-label {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 10px;
+    margin-bottom: 10px;
+}
+
+.bars-container {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.bar-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    height: 30px;
+}
+
+.bar {
+    height: 20px;
+    background-color: #4a90e2;
+    margin-left: 5px;
+    border-radius: 3px;
+}
+
+.bar-value {
+    margin-left: 10px;
+    font-size: 14px;
+}
+
+.scale {
+    display: flex;
+    margin-top: 5px;
+    margin-left: 120px;
+}
+
+.scale-mark {
+    flex-grow: 1;
+    text-align: center;
+    font-size: 12px;
 }
