@@ -7,13 +7,19 @@ section {
 }
 
 #main-part {
-    display: flex;
-    flex-wrap: wrap;
+    display: flex; 
+    height: 100vh;  
 }
 
 #right-side{
-    display: block;
+    display: flex;
     padding: 10px 5px;
+    flex-wrap: wrap; 
+    max-width: 100%;
+    width: 30%;
+    margin: auto;
+    height: 100%;
+    
 }
 
 .card {
@@ -79,24 +85,29 @@ section {
     grid-template-columns: repeat(auto-fit,minmax(200px, 1fr));
 }
 
-.block-right {
+.block-right { 
+    /*
     width: 90%;
     height: 18%;
-    align-self: center;
+    align-self: center; */
+    flex: 8 100%;
+    min-width: 0;
+
 }
 
 /* Style for graphic */
 .graph-container {
     font-family: Arial, sans-serif;
     width: 100%;
-    max-width: 600px;
-    margin: 20px auto;
+    max-width: 600px; 
 }
 
 .graph-title {
-    font-size: 12px;
+    font-size: 15px;
     font-weight: bold;
-    margin-bottom: 15px;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    background-color: #84fcfc;
 }
 
 .graph-body {
@@ -110,12 +121,11 @@ section {
 }
 
 .product-label {
-    height: 30px;
+    height: 20px;
     display: flex;
     align-items: center;
     justify-content: flex-end;
     padding-right: 10px;
-    margin-bottom: 10px;
 }
 
 .bars-container {
@@ -127,14 +137,12 @@ section {
 .bar-row {
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
-    height: 30px;
+    height: 20px;
 }
 
 .bar {
-    height: 20px;
+    height: 18px;
     background-color: #4a90e2;
-    margin-left: 5px;
     border-radius: 3px;
 }
 
@@ -143,14 +151,3 @@ section {
     font-size: 14px;
 }
 
-.scale {
-    display: flex;
-    margin-top: 5px;
-    margin-left: 120px;
-}
-
-.scale-mark {
-    flex-grow: 1;
-    text-align: center;
-    font-size: 12px;
-}

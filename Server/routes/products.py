@@ -9,7 +9,7 @@ def get_products_in_stock():
     try:
         with get_db_cursor() as (cursor,conn):
             query = """
-            SELECT top 5 P.nom, LS.quantite, LS.date_expiration
+            SELECT top 10 P.nom, LS.quantite, LS.date_expiration
             FROM Produits P
             JOIN Lot_Stock LS ON P.id_produit = LS.id_produit
             WHERE LS.quantite > 0

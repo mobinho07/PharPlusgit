@@ -45,6 +45,16 @@ async function TopFiveStockProduit() {
     }
 }
 
+//Fonction pour afficher les 5 produits les plus vendus
+function AfficheTopVendu(data){
+    if (!data || data.length === 0) {
+        return '<div class="error">Aucune donnée disponible</div>';
+    }
+
+    const innerHTML=`
+        
+    `
+}
 //Fonction pour créer le graphique
 function CreateGraph(data){
     if (!data || data.length === 0) {
@@ -57,7 +67,7 @@ function CreateGraph(data){
                     100;
     const graphHTML =`
         <div class="graph-container">
-            <div class="graph-title">Top 5 Produits/Quantités en Stock</div>
+            <div class="graph-title">Top 10 Produits/Quantités en Stock</div>
             <div class="graph-body">
                 <div class="product-labels">
                     ${data.map(item => `<div class="product-label">${item.name}</div>`).join('')}
@@ -70,10 +80,6 @@ function CreateGraph(data){
                         </div>`).join('')}
                 </div>
             </div>
-            <div class="scale">
-                ${Array.from({length: Math.ceil(maxValue/scaleStep)+1}).map((_,i)=>
-                    `<div class="scale-mark">${i*scaleStep}</div>`).join('')}
-            </div>
         </div>`;
 
         return graphHTML;
@@ -83,6 +89,10 @@ function CreateGraph(data){
 async function initGraph() {
     console.log("Fonction Init Graph appelle")
     const container = document.querySelector('.to-five');
+    const container2 = document.querySelector('.to-five2');
+    const container3 = document.querySelector('.to-five3');
+    const container4 = document.querySelector('.to-five4');
+    const container5 = document.querySelector('.to-five5');
     
     if (!container) {
         console.error("Element .to-five non trouvé");
@@ -91,6 +101,10 @@ async function initGraph() {
 
     // Afficher un message de chargement
     container.innerHTML = '<div class="loading">Chargement des données...</div>';
+    container2.innerHTML = '<div class="loading">Chargement des données...</div>';
+    container3.innerHTML = '<div class="loading">Chargement des données...</div>';
+    container4.innerHTML = '<div class="loading">Chargement des données...</div>';
+    container5.innerHTML = '<div class="loading">Chargement des données...</div>';
 
     try {
         // Récupérer les données depuis l'API
@@ -107,6 +121,10 @@ async function initGraph() {
         
         // Créer et insérer le graphique
         container.innerHTML = CreateGraph(data);
+        container2.innerHTML = CreateGraph(data);
+        container3.innerHTML = CreateGraph(data);
+        container4.innerHTML = CreateGraph(data);
+        container5.innerHTML = CreateGraph(data);
     } catch (error) {
         console.error("Erreur lors de l'initialisation du graphique:", error);
         container.innerHTML = '<div class="error">Erreur lors du chargement des données</div>';

@@ -48,14 +48,16 @@ body {
 }
 
 .app-container {
-    display: flex;
+    display: flex; 
+    flex-wrap: wrap;
+    height: 100%;
 }
 
 .sidebar {
-    width: 20%;
+    width: 15%;
     background-color: #333;
     color: #fff;
-    height: 100vh;
+    height: 120vh;
     padding: 20px;
 }
 
