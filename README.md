@@ -62,3 +62,77 @@ Créer la base si nécessaire (MySQL ou SQLite).
 python app.py
 
 Le backend sera disponible sur http://localhost:5000.
+
+
+
+---
+
+# 📅 Plan réaliste – 5 sprints
+
+⏳ **Durée par sprint : 3 semaines** (adapté à ton emploi du temps et à tes études).  
+👉 Cela fait **~4 mois au total** pour une version solide et pro.
+
+---
+
+### 🔹 Sprint 1 (Semaines 1–3) → README + nettoyage
+- Finaliser le README.md.  
+- Créer `.env` pour gérer les variables sensibles (DB, secret key).  
+- Réorganiser le backend (dossiers `models`, `services`).  
+- Livrable : projet plus propre, bien documenté.  
+
+⏰ Temps : 6–8 séances de 2h (lundi-vendredi)  
+🎯 Conseil : prends 2 jours pour le README/doc, puis 4–5 pour la réorganisation.
+
+---
+
+### 🔹 Sprint 2 (Semaines 4–6) → Authentification solide
+- Intégrer bcrypt ou argon2 pour le hash des mots de passe.  
+- Ajouter JWT (connexion → token → accès routes protégées).  
+- Créer un système de rôles (admin, user).  
+- Livrable : login/logout sécurisés.  
+
+⏰ Temps : 7–8 séances de 2–3h.  
+🎯 Conseil : décomposer → d’abord hash, puis JWT, enfin rôles.
+
+---
+
+### 🔹 Sprint 3 (Semaines 7–9) → Dockerisation
+- Écrire un `Dockerfile` pour Flask.  
+- Ajouter `docker-compose.yml` (API + DB).  
+- Documenter dans README.  
+- Livrable : projet lançable avec `docker-compose up`.  
+
+⏰ Temps : 5–6 séances.  
+🎯 Conseil : commencer simple (API seule), puis ajouter DB.
+
+---
+
+### 🔹 Sprint 4 (Semaines 10–12) → Tests + CI/CD
+- Ajouter `pytest`.  
+- Écrire des tests simples (ex. création produit, login).  
+- Intégrer GitHub Actions (tests lancés automatiquement à chaque push).  
+- Livrable : badge ✅ CI dans README.  
+
+⏰ Temps : 6–7 séances.  
+🎯 Conseil : commencer avec 2–3 tests unitaires, puis étendre.
+
+---
+
+### 🔹 Sprint 5 (Semaines 13–15) → Frontend/API + Doc
+- Documenter API avec Swagger/Flasgger.  
+- Relier proprement frontend JS → API REST.  
+- Bonus : explorer React/Vue pour un module (ex. gestion produits).  
+- Livrable : doc API + frontend connecté.  
+
+⏰ Temps : 8–9 séances.  
+🎯 Conseil : viser petit → 1 module React/Vue max, pas tout refaire.
+
+---
+
+# 🧭 Méthode de travail
+- **Rituels** : choisis 3 jours fixes/semaine (ex. Lundi, Mercredi, Vendredi → 14h–16h).  
+- **Kanban/Trello** : crée un tableau avec "À faire / En cours / Fini".  
+- **Livrable par sprint** : à la fin des 3 semaines, tu pushes sur GitHub + notes dans README ce qui a été fait.  
+
+---
+
