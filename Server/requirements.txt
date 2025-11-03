@@ -2,3 +2,5 @@ flask
 flask-json
 pyodbc
 python-dotenv
+flask-cors
+pymysql
