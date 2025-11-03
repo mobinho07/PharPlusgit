@@ -1,5 +1,4 @@
-from flask import Flask, jsonify
-from flask_json import FlaskJSON
+from flask import Flask, jsonify 
 from routes.products import products_bp
 from routes.productmgt import productmgt_bp
 from routes.sales import sales_bp
@@ -12,8 +11,7 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)  # Active CORS pour toutes les routes
-app.config.from_object('config.Config')
-FlaskJSON(app)
+app.config.from_object('config.Config') 
 
 # Enregistrement des blueprints
 app.register_blueprint(products_bp, url_prefix='/api/products')
@@ -33,4 +31,4 @@ if __name__ == '__main__':
     print("Routes enregistrées:")
     for rule in app.url_map.iter_rules():
         print(rule)
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
