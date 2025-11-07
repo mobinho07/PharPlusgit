@@ -1,9 +1,9 @@
 from flask import Blueprint, request, jsonify
 from database import get_db_cursor 
 
-expire_bp=Blueprint('expire', __name__)
+master_bp=Blueprint('master', __name__)
 
-@expire_bp.route("/produit", methods=["GET"])
+@master_bp.route("/list", methods=["GET"])
 def qte_stock():
     try:
         data=request.get_json()
@@ -16,13 +16,9 @@ def qte_stock():
         
         with get_db_cursor() as (cursor,conn):
             query="""
-            SELECT P.nom, LS.date_expiration, LS.quantite
-            FROM Produits P
-            JOIN Lot_Stock LS ON P.id_produit = LS.id_produit
-            WHERE LS.date_expiration < DATE_ADD(NOW(),INTERVAL %s DAY)
-            AND LS.quantite > 0;
+            SELECT * from vue_produits_disponibles;
             """
-            cursor.execute(query,nombre)
+            cursor.execute(query)
             resultat=cursor.fetchall()
             
             

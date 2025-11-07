@@ -7,6 +7,8 @@ from routes.modStock import modStock_bp
 from routes.saleMvt import saleMvt_bp
 from routes.qte_stock_lot import qte_stock_bp
 from routes.topProduitVendu import topProduitVendu_bp
+from routes.produit_expiration import expire_bp
+from routes.masterView import master_bp
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -22,6 +24,8 @@ app.register_blueprint(modStock_bp, url_prefix='/api/modStock')
 app.register_blueprint(saleMvt_bp, url_prefix='/api/saleMvt')
 app.register_blueprint(qte_stock_bp, url_prefix='/api/qteStockLot')
 app.register_blueprint(topProduitVendu_bp, url_prefix='/api/produitVendu')
+app.register_blueprint(expire_bp, url_prefix='/api/expire') 
+app.register_blueprint(master_bp, url_prefix='/api/master') 
 
 @app.route('/')
 def home():
