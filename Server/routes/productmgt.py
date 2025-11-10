@@ -71,3 +71,50 @@ def gerer_produit():
                 return jsonify({"status": "error", "message": "Action inconnue"}), 400
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
+
+@productmgt_bp.route("/prix", methods=["PUT"])
+def modifier_prix_produit():
+    data = request.get_json()
+    id_produit = data.get("id_produit")
+    nouveau_prix = data.get("nouveau_prix")
+    id_utilisateur = data.get("id_utilisateur")
+    motif = data.get("motif", "Ajustement de prix")
+
+    if not id_produit or not nouveau_prix or not id_utilisateur:
+        return jsonify({"status": "error", "message": "Champs manquants"}), 400
+
+    try:
+        with get_db_cursor() as (cursor, conn):
+            # 🔹 Récupérer le prix actuel
+            cursor.execute("SELECT prix_unitaire FROM Produits WHERE id_produit = %s", (id_produit,))
+            row = cursor.fetchone()
+
+            if not row:
+                return jsonify({"status": "error", "message": "Produit introuvable"}), 404
+
+            ancien_prix = float(row["prix_unitaire"])
+
+            # 🔹 Mettre à jour le nouveau prix
+            cursor.execute("""
+                UPDATE Produits SET prix_unitaire = %s WHERE id_produit = %s
+            """, (nouveau_prix, id_produit))
+
+            # 🔹 Insérer dans Historique_Prix
+            cursor.execute("""
+                INSERT INTO Historique_Prix (id_produit, ancien_prix, nouveau_prix, modifie_par, motif)
+                VALUES (%s, %s, %s, %s, %s)
+            """, (id_produit, ancien_prix, nouveau_prix, id_utilisateur, motif))
+
+            conn.commit()
+
+            return jsonify({
+                "status": "success",
+                "message": "Prix mis à jour avec succès",
+                "id_produit": id_produit,
+                "ancien_prix": ancien_prix,
+                "nouveau_prix": nouveau_prix
+            })
+
+    except Exception as e:
+        print("Erreur SQL:", e)
+        return jsonify({"status": "error", "message": str(e)}), 500
