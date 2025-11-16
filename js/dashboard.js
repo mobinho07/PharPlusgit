@@ -20,7 +20,11 @@ document.addEventListener('DOMContentLoaded', function () {
 async function TopFiveStockProduit() {
     try {
         console.log('Call API for Fetch');
-        const response= await fetch('http://localhost:5000/api/products/stock');
+        const response= await fetch('http://localhost:5000/api/products/stock', {
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ limit: 8 })
+    });
         if (!response.ok){
             throw new Error('Erreur de réseau');
         }else{

@@ -4,13 +4,13 @@ import json
 
 products_bp = Blueprint('products', __name__)
 
-@products_bp.route('/stock', methods=['GET'])
+@products_bp.route('/stock', methods=['POST'])
 def get_products_in_stock():
     data = request.get_json()
     try:
         with get_db_cursor() as (cursor,conn):
             query = """
-                SELECT * FROM v_stock
+                SELECT nom, sum(quantite) as quantite from v_stock group by nom order by 2
                 LIMIT %s
             """
 

@@ -161,7 +161,7 @@ def annuler_vente():
                     # 🧾 Enregistrement d’un mouvement d’annulation
                     cursor.execute("""
                         INSERT INTO stock_mouvements (id_lot, quantite, type_mouvement, date_mouvement, id_utilisateur)
-                        VALUES (%s, %s, 'annulation', NOW(), %s)
+                        VALUES (%s, %s, 'annulation vente', NOW(), %s)
                     """, (id_lot, quantite, id_utilisateur))
 
                 # 4️⃣ Marquer la vente comme annulée + historique
