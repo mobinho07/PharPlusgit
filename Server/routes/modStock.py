@@ -24,13 +24,18 @@ def gerer_stock():
                 lot_id= cursor.lastrowid
                 # Enregistrement du mouvement de stock
                 cursor.execute("""
-                    INSERT INTO Stock_Mouvements (id_lot, quantite, type_mouvement, date_mouvement, id_utilisateur)
-                    VALUES (%s, %s, 'entree', NOW(), %s)""",(
-                    lot_id, data["quantite"], data["id_utilisateur"]))
+                    INSERT INTO Stock_Mouvements (id_lot, quantite, type_mouvement, date_mouvement, id_utilisateur,raison)
+                    VALUES (%s, %s, 'entree', NOW(), %s,%s)""",(
+                    lot_id, data["quantite"], data["id_utilisateur"], data["raison"]))
                 conn.commit()
                 return jsonify({"status": "success", "message": "Stock ajouté"})
 
             elif request.method == "PUT":
+                ancien_v=0
+                cursor.execute("SELECT quantite FROM Lot_Stock WHERE id_lot = %s", (data["id_lot"],))
+                result = cursor.fetchone()["quantite"] # type: ignore
+                if result is not None:
+                    ancien_v = result
                 cursor.execute("""
                     UPDATE Lot_Stock
                     SET quantite = %s, date_expiration = %s, fournisseur = %s, prix_achat = %s
@@ -38,6 +43,13 @@ def gerer_stock():
                     data["quantite"], data.get("date_expiration"), data["fournisseur"],
                     data["prix_achat"], data["id_lot"]))
                 conn.commit()
+
+                cursor.execute("""
+                    INSERT INTO Stock_Mouvements (id_lot, quantite, type_mouvement, date_mouvement, id_utilisateur,raison)
+                    VALUES (%s, %s, 'Modification Stock', NOW(), %s,%s)""",(
+                    data["id_lot"], data["quantite"]-ancien_v, data["id_utilisateur"], data["raison"]))
+                conn.commit()
+
                 return jsonify({"status": "success", "message": "Stock modifié"})
 
     except Exception as e:

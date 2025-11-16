@@ -15,20 +15,16 @@ def get_stock_movements():
         
         with get_db_cursor() as (cursor,conn):
             query = """
-            SELECT P.nom, SM.type_mouvement, SM.quantite, SM.date_mouvement
+            SELECT P.nom, SM.type_mouvement, SM.quantite, DATE_FORMAT(SM.date_mouvement, "%%d-%%m-%%Y") as date_mouvement
             FROM Stock_Mouvements SM
             JOIN Lot_Stock LS ON SM.id_lot = LS.id_lot
             JOIN Produits P ON LS.id_produit = P.id_produit
-            WHERE P.id_produit = ?
+            WHERE P.id_produit = %s
             ORDER BY SM.date_mouvement DESC
             """
             cursor.execute(query, (product_id,))
+            results = cursor.fetchall()
             
-            columns = [column[0] for column in cursor.description]
-            results = []
-            
-            for row in cursor.fetchall():
-                results.append(dict(zip(columns, row)))
             
             return jsonify({'success': True, 'data': results})
     

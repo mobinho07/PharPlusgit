@@ -17,18 +17,13 @@ def qte_stock():
         
         with get_db_cursor() as (cursor,conn):
             query="""
-            SELECT ROW_NUMBER() OVER (ORDER BY nom) AS rang, P.nom, LS.quantite, LS.date_expiration
+            SELECT ROW_NUMBER() OVER (ORDER BY nom) AS rang, P.nom, LS.quantite,  DATE_FORMAT(LS.date_expiration, "%%d-%%m-%%Y") AS date_expiration
             FROM Produits P
             JOIN Lot_Stock LS ON P.id_produit = LS.id_produit
-            WHERE LS.quantite > ?;
+            WHERE LS.quantite > %s;
             """
             cursor.execute(query,quantite)
-            
-            colonnes=[column[0] for column in cursor.description]
-            resultat=[]
-            
-            for ligne in cursor.fetchall():
-                resultat.append(dict(zip(colonnes,ligne)))
+            resultat=cursor.fetchall()
             
             return jsonify({'success': True, 'data': resultat})
     except Exception as e:

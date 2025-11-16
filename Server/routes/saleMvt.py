@@ -194,3 +194,119 @@ def annuler_vente():
             "status": "error",
             "message": str(e)
         }), 500
+
+@saleMvt_bp.route("/retour", methods=["POST"]) # ignore 
+def retour_produits():
+    data = request.get_json()
+    id_vente = data.get("id_vente")
+    id_utilisateur = data.get("id_utilisateur")
+    produits_retour = data.get("produits", [])  # liste: [{id_lot, quantite}]
+    motif = data.get("motif", "Retour client")
+
+    # ✅ Validation des données
+    if not id_vente or not id_utilisateur or not produits_retour:
+        return jsonify({
+            "status": "error",
+            "message": "Champs 'id_vente', 'id_utilisateur' et 'produits' requis."
+        }), 400
+
+    try:
+        with get_db_cursor() as (cursor, conn):
+
+            # 🔹 Vérifier que la vente existe et non annulée
+            cursor.execute("""
+                SELECT id_vente, montant_total, annule
+                FROM ventes
+                WHERE id_vente = %s
+            """, (id_vente,))
+            vente = cursor.fetchone()
+
+            if not vente:
+                return jsonify({"status": "error", "message": f"Vente {id_vente} introuvable"}), 404
+            if vente["annule"] == "1":
+                return jsonify({"status": "error", "message": "Vente déjà annulée"}), 400
+
+            montant_rembourse_total = 0.0
+
+            # 🔹 Gérer chaque produit retourné
+            for item in produits_retour:
+                id_lot = item.get("id_lot")
+                qte_retour = float(item.get("quantite", 0))
+
+                # Vérifier que le produit existe dans la vente
+                cursor.execute("""
+                    SELECT quantite, prix_unitaire
+                    FROM lignes_vente
+                    WHERE id_vente = %s AND id_lot = %s
+                """, (id_vente, id_lot))
+                ligne = cursor.fetchone()
+
+                if not ligne:
+                    raise ValueError(f"Lot {id_lot} non trouvé dans la vente {id_vente}")
+                if qte_retour > ligne["quantite"]:
+                    raise ValueError(f"Quantité retournée ({qte_retour}) supérieure à vendue ({ligne['quantite']})")
+
+                # 💰 Calcul du montant à rembourser
+                montant_retour = qte_retour * float(ligne["prix_unitaire"])
+                montant_rembourse_total += montant_retour
+
+                # 🔄 Réintégration du stock
+                cursor.execute("""
+                    UPDATE lot_stock
+                    SET quantite = quantite + %s
+                    WHERE id_lot = %s
+                """, (qte_retour, id_lot))
+
+                # ✏️ Mise à jour de la ligne_vente
+                nouvelle_quantite = ligne["quantite"] - qte_retour
+                if nouvelle_quantite > 0:
+                    cursor.execute("""
+                        UPDATE lignes_vente
+                        SET quantite = %s
+                        WHERE id_vente = %s AND id_lot = %s
+                    """, (nouvelle_quantite, id_vente, id_lot))
+                else:
+                    cursor.execute("""
+                        DELETE FROM lignes_vente
+                        WHERE id_vente = %s AND id_lot = %s
+                    """, (id_vente, id_lot))
+
+                # 📦 Mouvement de stock
+                cursor.execute("""
+                    INSERT INTO stock_mouvements (id_lot, quantite, type_mouvement, date_mouvement, id_utilisateur)
+                    VALUES (%s, %s, 'retour', NOW(), %s)
+                """, (id_lot, qte_retour, id_utilisateur))
+
+            # 🔹 Recalcul du total de la vente
+            cursor.execute("""
+                SELECT SUM(quantite * prix_unitaire) AS nouveau_total
+                FROM lignes_vente
+                WHERE id_vente = %s
+            """, (id_vente,))
+            nouveau_total = cursor.fetchone()["nouveau_total"] or 0.0 # type: ignore
+
+            cursor.execute("""
+                UPDATE ventes
+                SET montant_total = %s
+                WHERE id_vente = %s
+            """, (nouveau_total, id_vente))
+
+            # 🔹 Historiser le retour
+            cursor.execute("""
+                INSERT INTO annulations_partielles (id_vente, montant_rembourse, date_annulation, id_utilisateur, motif)
+                VALUES (%s, %s, NOW(), %s, %s)
+            """, (id_vente, montant_rembourse_total, id_utilisateur, motif))
+
+            conn.commit()
+
+            return jsonify({
+                "status": "success",
+                "message": "Retour enregistré avec succès",
+                "id_vente": id_vente,
+                "montant_rembourse": montant_rembourse_total,
+                "nouveau_total": nouveau_total
+            })
+
+    except Exception as e:
+        print("Erreur dans retour_produits:", e)
+        return jsonify({"status": "error", "message": str(e)}), 500
