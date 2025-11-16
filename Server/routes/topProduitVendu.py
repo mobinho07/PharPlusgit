@@ -16,7 +16,7 @@ def get_products_in_stock():
                 SUM(LV.quantite) AS Quantite_vendue,
                 (SELECT COALESCE(SUM(LS.quantite), 0) 
                 FROM Lot_Stock LS 
-                WHERE LS.id_produit = P.id_produit) AS Quantite_stock
+                WHERE LS.id_produit = P.id_produit) AS Quantite_stock, date_format(V.date_vente, "%%d-%%m-%%Y") AS date_vente
             FROM 
                 Produits P
             JOIN 
@@ -28,7 +28,7 @@ def get_products_in_stock():
             WHERE 
                 CAST(V.date_vente AS DATE) BETWEEN %s AND %s
             GROUP BY 
-                P.nom, P.id_produit
+                P.nom, P.id_produit, date_vente
             ORDER BY 
                 SUM(LV.quantite * LV.prix_unitaire) DESC
             LIMIT %s"""

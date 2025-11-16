@@ -37,7 +37,7 @@ def enregistrer_vente():
 
                 # 🔍 Récupérer le prix du lot et le stock actuel
                 cursor.execute("""
-                    SELECT ls.prix_achat, ls.quantite, p.prix_unitaire, ls.id_produit
+                    SELECT ls.prix_achat, ls.quantite, p.prix_unitaire, ls.id_produit, p.nom
                     FROM lot_stock ls
                     JOIN produits p ON ls.id_produit = p.id_produit
                     WHERE ls.id_lot = %s
@@ -47,7 +47,7 @@ def enregistrer_vente():
                 if not lot:
                     raise ValueError(f"Lot {id_lot} introuvable.")
                 if lot["quantite"] < quantite:
-                    raise ValueError(f"Stock insuffisant pour le lot {id_lot} (disponible : {lot['quantite']}).")
+                    raise ValueError(f'Stock insuffisant pour le produit "{lot["nom"]}" (disponible : {lot['quantite']}).')
 
                 # 💰 Déterminer le prix de vente
                 # → utilise prix_vente (produit) si défini, sinon prix_achat (lot)
