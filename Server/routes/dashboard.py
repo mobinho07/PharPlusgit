@@ -37,7 +37,7 @@ QUERIES = {
 
     # Graphs ventes
     "chart_ventes_30j": """
-        SELECT jour, total_ventes
+        SELECT jour, total_vente
         FROM vue_ventes_30_jours
         ORDER BY jour;
     """,
@@ -103,6 +103,47 @@ QUERIES = {
         WHERE date_mouvement >= (CURDATE() - INTERVAL 30 DAY)
         GROUP BY DATE(date_mouvement)
         ORDER BY jour;
+    """,
+
+    # Nombre produits expirés encore en stock
+    "kpi_nb_produits_expires_en_stock": """
+    SELECT COUNT(*) AS nb_produits_expires_en_stock
+    FROM lot_stock ls
+    JOIN produits p ON p.id_produit = ls.id_produit
+    WHERE p.actif = 1
+      AND ls.quantite > 0
+      AND ls.date_expiration IS NOT NULL
+      AND ls.date_expiration < CURDATE();
+    """,
+
+    # Marge brute 30 jours
+    "kpi_marge_brute_30j": """
+    SELECT COALESCE(SUM( (lv.prix_unitaire - ls.prix_achat) * lv.quantite ),0) AS marge_brute_30j
+    FROM ventes v
+    JOIN lignes_vente lv ON v.id_vente = lv.id_vente
+    JOIN lot_stock ls ON lv.id_lot = ls.id_lot
+    WHERE v.annule='0'
+      AND v.date_vente >= (CURDATE() - INTERVAL 30 DAY);
+    """,
+
+    # Nombre de fournisseurs (30 jours)
+    "kpi_nb_fournisseurs_30j": """
+    SELECT COUNT(DISTINCT ls.fournisseur) AS nb_fournisseurs_30j
+    FROM lot_stock ls
+    WHERE ls.fournisseur IS NOT NULL
+      AND ls.date_approvisionnement >= (CURDATE() - INTERVAL 30 DAY);
+    """,
+
+    # Top fournisseurs (30 jours)
+    "chart_top_fournisseurs_30j": """
+    SELECT f.nom AS fournisseur,
+           COALESCE(SUM(ls.quantite * ls.prix_achat),0) AS total_achat
+    FROM lot_stock ls
+    JOIN fournisseurs f ON f.id_fournisseur = ls.fournisseur
+    WHERE ls.date_approvisionnement >= (CURDATE() - INTERVAL 30 DAY)
+    GROUP BY f.nom
+    ORDER BY total_achat DESC
+    LIMIT 7;
     """,
 
     # Prévision

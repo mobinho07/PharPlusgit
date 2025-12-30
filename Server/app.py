@@ -17,7 +17,11 @@ from routes.stock2 import stock2_bp
 from routes.price2 import price2_bp
 
 app = Flask(__name__)
-CORS(app)  # Active CORS pour toutes les routes
+#CORS(app)  # Active CORS pour toutes les routes
+CORS(app, resources={r"/api/*": {"origins": [
+    "http://localhost:5500",
+    "http://127.0.0.1:5500"
+]}})
 app.config.from_object('config.Config') 
 
 # Enregistrement des blueprints

@@ -1,3 +1,4 @@
+from datetime import date
 from flask import Blueprint, request, jsonify
 from database import get_db_cursor
 
@@ -37,7 +38,7 @@ def enregistrer_vente():
 
                 # 🔍 Récupérer le prix du lot et le stock actuel
                 cursor.execute("""
-                    SELECT ls.prix_achat, ls.quantite, p.prix_unitaire, ls.id_produit, p.nom
+                    SELECT ls.prix_achat, ls.quantite, p.prix_unitaire, ls.id_produit, p.nom, ls.date_expiration
                     FROM lot_stock ls
                     JOIN produits p ON ls.id_produit = p.id_produit
                     WHERE ls.id_lot = %s
@@ -48,6 +49,8 @@ def enregistrer_vente():
                     raise ValueError(f"Lot {id_lot} introuvable.")
                 if lot["quantite"] < quantite:
                     raise ValueError(f"Stock insuffisant pour le produit \"{lot['nom']}\" (disponible : {lot['quantite']}).")
+                if lot["date_expiration"] and lot["date_expiration"] <= date.today():
+                    raise ValueError(f"Le produit '{lot['nom']}' du lot n°{id_lot} est expiré depuis le {lot['date_expiration']}.")
 
                 # 💰 Déterminer le prix de vente
                 # → utilise prix_vente (produit) si défini, sinon prix_achat (lot)
