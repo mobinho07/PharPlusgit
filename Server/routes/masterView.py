@@ -6,13 +6,15 @@ master_bp=Blueprint('master', __name__)
 @master_bp.route("/list", methods=["GET"])
 def qte_stock():
     try:
-        data=request.get_json()
         
-        if not data or 'nbJours' not in data:
-            return jsonify({'success':False,'error':'Paramètres manquants'}), 400
+        #data=request.get_json()
+        
+       # if not data or 'nbJours' not in data:
+        #    return jsonify({'success':False,'error':'Paramètres manquants'}), 400
         
         #Recupération des données de la requête
-        nombre=data['nbJours']
+        #nombre=data['nbJours']
+        
         
         with get_db_cursor() as (cursor,conn):
             query="""

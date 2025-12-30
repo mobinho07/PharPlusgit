@@ -34,10 +34,10 @@ def gerer_produit():
 
             elif action == "delete":
                 if cascade:
-                    cursor.execute("DELETE FROM Lignes_vente WHERE id_lot IN (SELECT id_lot FROM Lot_Stock WHERE id_produit = %s)", data["id_produit"])
-                    cursor.execute("DELETE FROM Stock_Mouvements WHERE id_lot IN (SELECT id_lot FROM Lot_Stock WHERE id_produit = %s)", data["id_produit"])
-                    cursor.execute("DELETE FROM Lot_Stock WHERE id_produit = %s", data["id_produit"])
-                cursor.execute("DELETE FROM Produits WHERE id_produit = %s", data["id_produit"])
+                    cursor.execute("DELETE FROM Lignes_vente WHERE id_lot IN (SELECT id_lot FROM Lot_Stock WHERE id_produit = %s)", (data["id_produit"],))
+                    cursor.execute("DELETE FROM Stock_Mouvements WHERE id_lot IN (SELECT id_lot FROM Lot_Stock WHERE id_produit = %s)", (data["id_produit"],))
+                    cursor.execute("DELETE FROM Lot_Stock WHERE id_produit = %s", (data["id_produit"],))
+                cursor.execute("DELETE FROM Produits WHERE id_produit = %s", (data["id_produit"],))
                 conn.commit()
                 return jsonify({"status": "success", "message": "Produit supprimé"})
             

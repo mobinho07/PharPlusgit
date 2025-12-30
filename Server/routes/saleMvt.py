@@ -47,7 +47,7 @@ def enregistrer_vente():
                 if not lot:
                     raise ValueError(f"Lot {id_lot} introuvable.")
                 if lot["quantite"] < quantite:
-                    raise ValueError(f'Stock insuffisant pour le produit "{lot["nom"]}" (disponible : {lot['quantite']}).')
+                    raise ValueError(f"Stock insuffisant pour le produit \"{lot['nom']}\" (disponible : {lot['quantite']}).")
 
                 # 💰 Déterminer le prix de vente
                 # → utilise prix_vente (produit) si défini, sinon prix_achat (lot)

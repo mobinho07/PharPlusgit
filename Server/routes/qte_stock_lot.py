@@ -4,7 +4,7 @@ import json
 
 qte_stock_bp=Blueprint('qte_stock', __name__)
 
-@qte_stock_bp.route("/lot_stock", methods=["GET"])
+@qte_stock_bp.route("/lot_stock", methods=["POST"])
 def qte_stock():
     try:
         data=request.get_json()
@@ -18,11 +18,11 @@ def qte_stock():
         with get_db_cursor() as (cursor,conn):
             query="""
             SELECT ROW_NUMBER() OVER (ORDER BY nom) AS rang, P.nom, LS.quantite,  DATE_FORMAT(LS.date_expiration, "%%d-%%m-%%Y") AS date_expiration
-            FROM Produits P
-            JOIN Lot_Stock LS ON P.id_produit = LS.id_produit
+            FROM produits P
+            JOIN lot_stock LS ON P.id_produit = LS.id_produit
             WHERE LS.quantite > %s;
             """
-            cursor.execute(query,quantite)
+            cursor.execute(query,(quantite,))
             resultat=cursor.fetchall()
             
             return jsonify({'success': True, 'data': resultat})

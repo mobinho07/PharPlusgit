@@ -14,7 +14,7 @@ def get_products_in_stock():
                 LIMIT %s
             """
 
-            cursor.execute(query, data["limit"]) 
+            cursor.execute(query, (data["limit"],))
             results = cursor.fetchall()
             
         return jsonify({'success': True, 'data': results})

@@ -11,6 +11,10 @@ from routes.produit_expiration import expire_bp
 from routes.masterView import master_bp
 from routes.dashboard import dashboard_bp
 from flask_cors import CORS
+from routes.products2 import products2_bp
+from routes.lots import lots_bp
+from routes.stock2 import stock2_bp
+from routes.price2 import price2_bp
 
 app = Flask(__name__)
 CORS(app)  # Active CORS pour toutes les routes
@@ -28,6 +32,10 @@ app.register_blueprint(topProduitVendu_bp, url_prefix='/api/produitVendu')
 app.register_blueprint(expire_bp, url_prefix='/api/expire') 
 app.register_blueprint(master_bp, url_prefix='/api/master') 
 app.register_blueprint(dashboard_bp, url_prefix='/api/dashboard')
+app.register_blueprint(products2_bp, url_prefix="/api/products2")
+app.register_blueprint(lots_bp, url_prefix="/api/lots")
+app.register_blueprint(stock2_bp, url_prefix="/api/stock2")
+app.register_blueprint(price2_bp, url_prefix="/api/price2")
 
 @app.route('/')
 def home():

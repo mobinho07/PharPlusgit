@@ -19,11 +19,11 @@ def get_top_sold_products():
         with get_db_cursor() as (cursor,conn):
             query = """
             SELECT P.nom, SUM(LV.quantite) AS total_quantite_vendue
-            FROM Lignes_vente LV
-            JOIN Lot_Stock LS ON LV.id_lot = LS.id_lot
-            JOIN Produits P ON LS.id_produit = P.id_produit
-            JOIN Ventes V ON LV.id_vente = V.id_vente
-            WHERE V.date_vente BETWEEN ? AND ?
+            FROM lignes_vente LV
+            JOIN lot_stock LS ON LV.id_lot = LS.id_lot
+            JOIN produits P ON LS.id_produit = P.id_produit
+            JOIN ventes V ON LV.id_vente = V.id_vente
+            WHERE V.date_vente BETWEEN %s AND %s
             GROUP BY P.nom
             ORDER BY total_quantite_vendue DESC
             """
