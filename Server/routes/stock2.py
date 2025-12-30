@@ -35,7 +35,7 @@ def movements():
                     WHERE p.id_produit=%s
                     ORDER BY sm.date_mouvement DESC
                     LIMIT %s
-                """, (int(product_id), limit))
+                """, (int(product_id or 0), limit))
 
             rows = cursor.fetchall()
 
