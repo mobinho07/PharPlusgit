@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../static/style.css" />
+  <script src="../static/products.js" defer></script>
+  <script src="../static/nav.js" defer></script>
+
+  <title>PharmaPlus - Produits</title>
+</head>
+
+<body>
+  <div class="app">
+    <header>
+      <nav class="nav">
+        <a class="navLink" href="index.html">POS</a>
+        <a class="navLink" href="products_admin.html">Produits</a>
+        <a class="navLink active" href="dashboard.html">Dashboard</a>
+        <span class="navSep"></span>
+        <a class="navLink" href="settings.html">Paramètres</a>
+      </nav>
+
+      <div class="left">
+        <div class="pill">Module: <b>Produits</b></div>
+        <div class="pill">Statut: <b id="status">Prêt</b></div>
+      </div>
+      <div class="actions">
+        <button class="primary" id="btnNew">Nouveau produit</button>
+        <button id="btnRefresh">Rafraîchir</button>
+      </div>
+    </header>
+
+    <div class="grid" style="grid-template-columns: 1fr 360px;">
+      <section class="panel">
+        <div class="toolbar">
+          <input id="q" placeholder="Rechercher (nom / code-barre)..." autocomplete="off" />
+          <select id="cat">
+            <option value="">Toutes catégories</option>
+          </select>
+          <select id="active">
+            <option value="1">Actifs</option>
+            <option value="0">Inactifs</option>
+            <option value="">Tous</option>
+          </select>
+        </div>
+
+        <div class="cart">
+          <table>
+            <thead>
+              <tr>
+                <th>Produit</th>
+                <th>Catégorie</th>
+                <th class="right">Prix</th>
+                <th>Code-barres</th>
+                <th class="right">Stock</th>
+                <th class="right">Seuil</th>
+                <th class="right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="rows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h3>Approvisionnement rapide</h3>
+        <div class="muted">Créer un lot et ajouter un mouvement d’entrée.</div>
+
+        <div class="field">
+          <div class="muted">Produit</div>
+          <input id="supProd" placeholder="Tape le nom..." autocomplete="off" />
+          <div class="suggestions" id="supSug"></div>
+        </div>
+
+        <div class="field">
+          <div class="muted">Fournisseur</div>
+          <select id="supSupplier"></select>
+        </div>
+
+        <div class="field">
+          <div class="muted">Quantité</div>
+          <input id="supQty" type="number" min="1" value="1" />
+        </div>
+
+        <div class="field">
+          <div class="muted">Prix d’achat</div>
+          <input id="supBuy" type="number" min="0" step="0.01" placeholder="ex: 4.50" />
+        </div>
+
+        <div class="field">
+          <div class="muted">Date d’approvisionnement</div>
+          <input id="supDate" type="date" />
+        </div>
+
+        <div class="field">
+          <div class="muted">Date d’expiration (optionnel)</div>
+          <input id="supExp" type="date" />
+        </div>
+
+        <div class="field">
+          <div class="muted">Raison</div>
+          <input id="supReason" placeholder="ex: réassort, commande #..." />
+        </div>
+
+        <button class="primary" id="btnSupply">Enregistrer l’approvisionnement</button>
+        <div class="muted" id="supMsg"></div>
+      </section>
+    </div>
+  </div>
+
+  <!-- MODAL PRODUIT -->
+  <div class="modal" id="prodModal">
+    <div class="box modal-lg">
+      <h4 id="modalTitle">Nouveau produit</h4>
+
+      <div class="field">
+        <div class="muted">Nom</div><input id="pName" />
+      </div>
+      <div class="field">
+        <div class="muted">Description</div><input id="pDesc" />
+      </div>
+      <div class="field">
+        <div class="muted">Catégorie</div><input id="pCat" />
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <div class="muted">Prix unitaire</div><input id="pPrice" type="number" step="0.01" />
+        </div>
+        <div class="field">
+          <div class="muted">Seuil</div><input id="pSeuil" type="number" min="0" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <div class="muted">Code-barres</div><input id="pBarcode" />
+        </div>
+        <div class="field">
+          <div class="muted">Actif</div>
+          <select id="pActive">
+            <option value="1">Oui</option>
+            <option value="0">Non</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="muted">Image (URL)</div><input id="pImg" />
+      </div>
+
+      <div class="row2">
+        <button id="pCancel">Annuler</button>
+        <button class="primary" id="pSave">Enregistrer</button>
+      </div>
+
+      <div class="muted" id="pMsg"></div>
+    </div>
+  </div>
+
+</body>
+
+</html>

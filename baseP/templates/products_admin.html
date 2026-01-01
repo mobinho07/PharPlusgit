@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Reprend ton thème (tu peux aussi fusionner) -->
+  <link rel="stylesheet" href="../static/products_admin.css" />
+  <title>PharmaPlus — Gestion Produits</title>
+  <script src="../static/nav.js" defer></script>
+  <script src="../static/products_admin.js" defer></script>
+</head>
+
+<body>
+  <div class="app">
+    <header>
+      <nav class="nav">
+        <a class="navLink" href="index.html">POS</a>
+        <a class="navLink" href="products_admin.html">Produits</a>
+        <a class="navLink active" href="dashboard.html">Dashboard</a>
+        <span class="navSep"></span>
+        <a class="navLink" href="settings.html">Paramètres</a>
+      </nav>
+
+      <div class="left">
+        <div class="pill">Module: <b>Gestion Produits</b></div>
+        <div class="pill">Statut API: <b id="apiStatus">—</b></div>
+        <div class="pill">Produit: <b id="currentProductName">Aucun</b></div>
+      </div>
+      <div class="actions">
+        <button id="btnNewProduct">Nouveau produit</button>
+        <button class="primary" id="btnSaveProduct" disabled>Enregistrer</button>
+        <button class="danger" id="btnDeactivate" disabled>Désactiver</button>
+      </div>
+    </header>
+
+    <div class="grid">
+      <!-- LEFT: product list -->
+      <section class="panel">
+        <h3>Produits</h3>
+
+        <div class="field">
+          <div class="muted">Recherche</div>
+          <input id="searchProduct" placeholder="Nom / code-barres..." autocomplete="off" />
+        </div>
+
+        <div class="row">
+          <select id="filterActive">
+            <option value="1">Actifs</option>
+            <option value="0">Inactifs</option>
+            <option value="">Tous</option>
+          </select>
+
+          <select id="filterCategory">
+            <option value="">Toutes catégories</option>
+          </select>
+        </div>
+
+        <div class="list" id="productList"></div>
+        <div class="muted" id="productListHint">Astuce: clique un produit pour le charger.</div>
+      </section>
+
+      <!-- CENTER: product form -->
+      <section class="panel">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;">
+          <div>
+            <h3>Fiche produit</h3>
+            <div class="muted">Créer / modifier un produit (prix, code-barres, seuil, catégorie, etc.).</div>
+          </div>
+          <span class="tag" id="productIdTag">ID: —</span>
+        </div>
+
+        <div class="formGrid">
+          <div class="field">
+            <div class="muted">Nom *</div>
+            <input id="p_nom" placeholder="Ex: Paracétamol 500mg" />
+          </div>
+
+          <div class="field">
+            <div class="muted">Code-barres</div>
+            <input id="p_code_barre" placeholder="Ex: 100001" />
+          </div>
+
+          <div class="field">
+            <div class="muted">Prix unitaire (vente) *</div>
+            <input id="p_prix_unitaire" type="number" step="0.01" placeholder="Ex: 6.99" />
+          </div>
+
+          <div class="field">
+            <div class="muted">Catégorie</div>
+            <input id="p_category" placeholder="Ex: Analgésiques" />
+          </div>
+
+          <div class="field">
+            <div class="muted">Seuil stock bas</div>
+            <input id="p_seuil" type="number" step="1" placeholder="Ex: 10" />
+          </div>
+
+          <div class="field">
+            <div class="muted">Actif</div>
+            <select id="p_actif">
+              <option value="1">Oui</option>
+              <option value="0">Non</option>
+            </select>
+          </div>
+
+          <div class="field full">
+            <div class="muted">Description</div>
+            <textarea id="p_description" rows="4" placeholder="Notes / description..."></textarea>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;">
+          <div>
+            <h3>Historique prix</h3>
+            <div class="muted">Ajuster le prix et garder une trace (historique_prix).</div>
+          </div>
+          <button id="btnChangePrice" class="warn" disabled>Modifier prix</button>
+        </div>
+
+        <div class="list" id="priceHistoryList"></div>
+      </section>
+
+      <!-- RIGHT: lots / stock -->
+      <section class="panel">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;">
+          <div>
+            <h3>Lots & stock</h3>
+            <div class="muted">Approvisionnement, modification lot, audit mouvements.</div>
+          </div>
+          <span class="tag" id="stockTag">Stock: —</span>
+        </div>
+
+        <div class="row">
+          <button id="btnNewLot" disabled>Approvisionner (Nouveau lot)</button>
+          <button id="btnRefreshLots" disabled>Rafraîchir</button>
+        </div>
+
+        <div class="cart">
+          <table>
+            <thead>
+              <tr>
+                <th>Lot</th>
+                <th class="right">Qté</th>
+                <th>Expiration</th>
+                <th class="right">Prix achat</th>
+                <th class="right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="lotTableBody"></tbody>
+          </table>
+        </div>
+
+        <div class="divider"></div>
+
+        <h3>Mouvements</h3>
+        <div class="muted">Derniers mouvements de stock liés à ce produit.</div>
+        <div class="list" id="movementList"></div>
+      </section>
+    </div>
+  </div>
+
+  <!-- LOT MODAL -->
+  <div class="modal" id="lotModal">
+    <div class="box">
+      <h4 id="lotModalTitle">Nouveau lot</h4>
+      <div class="muted" id="lotModalHint">Ajout de stock (type_mouvement=entree) ou ajustement.</div>
+
+      <div class="formGrid">
+        <div class="field">
+          <div class="muted">Quantité *</div>
+          <input id="l_quantite" type="number" step="1" />
+        </div>
+
+        <div class="field">
+          <div class="muted">Date expiration</div>
+          <input id="l_date_expiration" type="date" />
+        </div>
+
+        <div class="field">
+          <div class="muted">Fournisseur</div>
+          <input id="l_fournisseur" placeholder="Nom fournisseur" />
+        </div>
+
+        <div class="field">
+          <div class="muted">Prix achat *</div>
+          <input id="l_prix_achat" type="number" step="0.01" />
+        </div>
+
+        <div class="field full">
+          <div class="muted">Raison</div>
+          <input id="l_raison" placeholder="Ex: Approvisionnement / Ajustement inventaire..." />
+        </div>
+      </div>
+
+      <div class="row2">
+        <button id="lotCancel">Annuler</button>
+        <button class="primary" id="lotOk">Valider</button>
+      </div>
+      <div class="muted" id="lotMsg"></div>
+    </div>
+  </div>
+
+  <!-- PRICE MODAL -->
+  <div class="modal" id="priceModal">
+    <div class="box">
+      <h4>Modifier prix</h4>
+      <div class="muted">Met à jour produits.prix_unitaire + insère dans historique_prix.</div>
+
+      <div class="formGrid">
+        <div class="field">
+          <div class="muted">Nouveau prix *</div>
+          <input id="newPrice" type="number" step="0.01" />
+        </div>
+        <div class="field">
+          <div class="muted">Motif</div>
+          <input id="priceMotif" placeholder="Ex: Ajustement prix / Promo / Inflation..." />
+        </div>
+      </div>
+
+      <div class="row2">
+        <button id="priceCancel">Annuler</button>
+        <button class="primary" id="priceOk">Valider</button>
+      </div>
+      <div class="muted" id="priceMsg"></div>
+    </div>
+  </div>
+
+</body>
+
+</html>
