@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PharmaPlus - Fournisseurs</title>
+  <link rel="stylesheet" href="../static/products_admin.css" />
+  <link rel="stylesheet" href="../static/suppliers_admin.css" />
+</head>
+
+<body>
+  <div class="app">
+    <header class="topbar">
+      <nav class="nav">
+        <a class="navLink" href="index.html">POS</a>
+        <a class="navLink" href="products_admin.html">Produits</a>
+        <a class="navLink" href="dashboard.html">Dashboard</a>
+        <a class="navLink" href="suppliers_admin.html">Fournisseurs</a>
+        <span class="navSep"></span>
+        <a class="navLink" href="settings.html">Paramètres</a>
+      </nav>
+      <div class="title">
+        <h2>Gestion des fournisseurs</h2>
+        <div class="muted">Créer / modifier / supprimer • Recherche rapide • Sécurisé (conflit si utilisé)</div>
+      </div>
+
+      <div class="actions">
+        <button id="btnRefresh">Rafraîchir</button>
+        <button class="primary" id="btnNew">Nouveau fournisseur</button>
+      </div>
+    </header>
+
+    <section class="panel">
+      <div class="toolbar">
+        <div class="field">
+          <label class="muted">Recherche</label>
+          <input id="q" placeholder="Nom, contact, email..." autocomplete="off" />
+        </div>
+
+        <div class="field small">
+          <label class="muted">Limite</label>
+          <select id="limit">
+            <option value="10">10</option>
+            <option value="25" selected>25</option>
+            <option value="50">50</option>
+          </select>
+        </div>
+
+        <div class="right">
+          <span class="tag" id="count">0</span>
+          <span class="tag" id="apiStatus">—</span>
+        </div>
+      </div>
+
+      <div class="tablewrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>Contact</th>
+              <th>Téléphone</th>
+              <th>Email</th>
+              <th class="right">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <!-- MODAL Create/Edit -->
+  <div class="modal" id="modal">
+    <div class="box">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;">
+        <h3 id="modalTitle" style="margin:0;">Nouveau fournisseur</h3>
+        <button id="btnClose" class="tinybtn">✕</button>
+      </div>
+
+      <div class="grid2">
+        <div class="field">
+          <label class="muted">Nom *</label>
+          <input id="nom" placeholder="Ex: Jean Coutu Distribution" />
+        </div>
+
+        <div class="field">
+          <label class="muted">Contact</label>
+          <input id="contact" placeholder="Ex: Mme. Tremblay" />
+        </div>
+
+        <div class="field">
+          <label class="muted">Téléphone</label>
+          <input id="telephone" placeholder="Ex: 514-555-1234" />
+        </div>
+
+        <div class="field">
+          <label class="muted">Email</label>
+          <input id="email" placeholder="Ex: achats@fournisseur.com" />
+        </div>
+      </div>
+
+      <div class="row">
+        <button id="btnCancel">Annuler</button>
+        <button class="primary" id="btnSave">Enregistrer</button>
+      </div>
+
+      <div class="muted" id="msg"></div>
+    </div>
+  </div>
+
+  <!-- MODAL Delete -->
+  <div class="modal" id="modalDelete">
+    <div class="box">
+      <h3 style="margin:0;">Supprimer fournisseur</h3>
+      <div class="muted" id="delInfo">—</div>
+
+      <div class="warnbox">
+        <b>Note</b>
+        <div class="muted">
+          Si le fournisseur est utilisé dans des lots, l’API renverra un conflit (409).
+          Tu peux soit annuler, soit forcer la suppression (cascade=1) pour détacher les lots.
+        </div>
+      </div>
+
+      <div class="row">
+        <button id="btnDelCancel">Annuler</button>
+        <button class="danger" id="btnDel">Supprimer</button>
+        <button class="danger" id="btnDelCascade">Forcer (cascade)</button>
+      </div>
+
+      <div class="muted" id="delMsg"></div>
+    </div>
+  </div>
+
+  <script src="../static/suppliers_admin.js"></script>
+</body>
+
+</html>

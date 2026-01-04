@@ -16,6 +16,8 @@ from routes.lots import lots_bp
 from routes.stock2 import stock2_bp
 from routes.price2 import price2_bp
 from routes.fournisseurs import fournisseurs_bp
+from routes.auth_api import auth_api_bp
+from routes.users import users_bp
 
 app = Flask(__name__)
 #CORS(app)  # Active CORS pour toutes les routes
@@ -42,6 +44,8 @@ app.register_blueprint(lots_bp, url_prefix="/api/lots")
 app.register_blueprint(stock2_bp, url_prefix="/api/stock2")
 app.register_blueprint(price2_bp, url_prefix="/api/price2")
 app.register_blueprint(fournisseurs_bp, url_prefix="/api/fournisseurs")
+app.register_blueprint(auth_api_bp, url_prefix="/api/auth")
+app.register_blueprint(users_bp, url_prefix="/api/users")
 
 @app.route('/')
 def home():

@@ -42,7 +42,6 @@ def gerer_stock():
                     WHERE id_lot = %s""",(
                     data["quantite"], data.get("date_expiration"), data["fournisseur"],
                     data["prix_achat"], data["id_lot"]))
-                conn.commit()
 
                 cursor.execute("""
                     INSERT INTO Stock_Mouvements (id_lot, quantite, type_mouvement, date_mouvement, id_utilisateur,raison)
