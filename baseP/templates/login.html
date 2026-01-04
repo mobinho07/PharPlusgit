@@ -1,41 +1,45 @@
 <!doctype html>
 <html lang="fr">
+
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="../static/products_admin.css" /> <!-- réutilise ton style -->
-  <title>PharmaPlus - Connexion</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../static/products_admin.css" /> <!-- réutilise ton style -->
+    <title>PharmaPlus - Connexion</title>
 </head>
+
 <body>
-  <div class="app">
-    <header>
-      <div class="left">
-        <div class="pill">PharmaPlus</div>
-        <div class="pill">Connexion</div>
-      </div>
-    </header>
+    <div class="app">
+        <header>
+            <div class="left">
+                <div class="pill">PharmaPlus</div>
+                <div class="pill">Connexion</div>
+            </div>
+        </header>
 
-    <section class="panel" style="max-width:520px;margin:0 auto;">
-      <h3>Se connecter</h3>
+        <section class="panel" style="max-width:520px;margin:0 auto;">
+            <h3>Se connecter</h3>
 
-      <div class="field">
-        <div class="muted">Utilisateur</div>
-        <input id="email" placeholder="ex: erick@exemple.com" />
-      </div>
+            <div class="field">
+                <div class="muted">Utilisateur</div>
+                <input id="username" placeholder="nom d'utilisateur" />
+            </div>
 
-      <div class="field">
-        <div class="muted">Mot de passe</div>
-        <input id="password" type="password" placeholder="••••••••" />
-      </div>
+            <div class="field">
+                <div class="muted">Mot de passe</div>
+                <input id="password" type="password" placeholder="••••••••" />
+            </div>
 
-      <div class="row">
-        <button class="primary" id="btnLogin">Connexion</button>
-      </div>
+            <div class="row">
+                <button class="primary" id="btnLogin">Connexion</button>
+            </div>
 
-      <div class="muted" id="msg"></div>
-    </section>
-  </div>
+            <div class="muted" id="msg"></div>
+        </section>
+    </div>
 
-  <script src="../static/login.js"></script>
+    <script src="../static/login.js"></script>
+    <!-- script src="../static/auth_guard.js"></script -->
 </body>
+
 </html>

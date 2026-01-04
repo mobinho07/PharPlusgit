@@ -15,7 +15,8 @@ const TAX_RATE = 0.14975; // QC (TPS+TVQ) exemple
 const ADMIN_PIN = "1234"; // demo
 
 // TODO: remplace par ton auth réel (ex: localStorage, token -> decode, etc.)
-const CURRENT_USER_ID = Number(localStorage.getItem("user_id") || "1");
+const CURRENT_USER_ID = Number(localStorage.getItem("user_id") || "0");
+
 
 // --- State ---
 let catalogRows = []; // rows from vue_produits_disponibles
@@ -36,8 +37,13 @@ const money = (n) => `$${Number(n || 0).toFixed(2)}`;
 const uid = () => Math.random().toString(16).slice(2) + Date.now().toString(16);
 
 async function fetchJson(url, opts = {}) {
+  const token = localStorage.getItem("auth_token") || "";
   const res = await fetch(url, {
-    headers: { "Content-Type": "application/json", ...(opts.headers || {}) },
+    headers: {
+      "Content-Type": "application/json",
+      ...(token ? { "Authorization": `Bearer ${token}` } : {}),
+      ...(opts.headers || {})
+    },
     ...opts,
   });
   const text = await res.text();
@@ -575,18 +581,18 @@ async function loadCatalog() {
 
   catalogRows = (resp.data || [])
     .map(normalizeCatalogRow)
-    //.filter(p => p.id_lot && p.id_produit && p.name && p.price > 0);
-    catalogRows = (resp.data || [])
-  .map(normalizeCatalogRow)
-  .filter(p =>
-    p.id_lot &&
-    p.id_produit &&
-    p.name &&
-    p.price > 0 &&
-    p.actif === 1 &&
-    p.quantite > 0 &&
-    !isExpiredDMY(p.date_expiration)   // ✅ bloque expirés
-  );
+  //.filter(p => p.id_lot && p.id_produit && p.name && p.price > 0);
+  catalogRows = (resp.data || [])
+    .map(normalizeCatalogRow)
+    .filter(p =>
+      p.id_lot &&
+      p.id_produit &&
+      p.name &&
+      p.price > 0 &&
+      p.actif === 1 &&
+      p.quantite > 0 &&
+      !isExpiredDMY(p.date_expiration)   // ✅ bloque expirés
+    );
 
 }
 

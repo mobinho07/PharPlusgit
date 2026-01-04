@@ -1,3 +1,4 @@
+import os
 from flask import Flask, jsonify 
 from routes.products import products_bp
 from routes.productmgt import productmgt_bp
@@ -21,6 +22,7 @@ from routes.users import users_bp
 
 app = Flask(__name__)
 #CORS(app)  # Active CORS pour toutes les routes
+app.config["SECRET_KEY"] = os.environ.get("PHARMAPLUS_SECRET_KEY") or "dev-secret-change-me"
 CORS(app, resources={r"/api/*": {"origins": [
     "http://localhost:5500",
     "http://127.0.0.1:5500"

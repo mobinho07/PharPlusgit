@@ -18,13 +18,13 @@ async function fetchJson(url, opts = {}) {
 $("btnLogin").addEventListener("click", async () => {
   $("msg").textContent = "";
 
-  const email = $("email").value.trim();
+  const username = $("username").value.trim();
   const password = $("password").value;
 
   try {
     const resp = await fetchJson(API.login, {
       method: "POST",
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ username, password }),
     });
 
     localStorage.setItem("auth_token", resp.token);

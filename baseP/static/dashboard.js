@@ -15,9 +15,12 @@ function money(n) {
 }
 
 async function postQuery(name) {
+    const token = localStorage.getItem("auth_token") || "";
     const res = await fetch(API.query, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json",
+      ...(token ? { "Authorization": `Bearer ${token}` } : {})
+     },
         body: JSON.stringify({ name }),
     });
 
