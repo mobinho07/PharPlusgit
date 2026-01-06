@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="stylesheet" href="../static/products_admin.css" />
+  <title>PharmaPlus • Utilisateurs</title>
+</head>
+<body>
+  <header class="topbar">
+      <nav class="nav">
+        <a class="navLink" href="index.html">POS</a>
+        <a class="navLink" href="products_admin.html">Produits</a>
+        <a class="navLink" href="dashboard.html">Dashboard</a>
+        <a class="navLink" href="suppliers_admin.html">Fournisseurs</a>
+        <span class="navSep"></span>
+        <a class="navLink" href="settings.html">Paramètres</a>
+        <a class="navLink" href="users_admin.html">Utilisateurs</a>
+      </nav>
+    <div class="left">
+      <h2>Utilisateurs</h2>
+      <div class="muted">Création, rôles, activation, reset mot de passe</div>
+    </div>
+    <div class="actions">
+      <button class="primary" id="btnNew">+ Nouvel utilisateur</button>
+    </div>
+  </header>
+
+  <section class="panel">
+    <div class="row">
+      <input id="q" placeholder="Rechercher nom ou username..."/>
+      <select id="role">
+        <option value="">Tous rôles</option>
+        <option value="admin">Admin</option>
+        <option value="manager">Manager</option>
+        <option value="caissier">Caissier</option>
+      </select>
+      <select id="actif">
+        <option value="">Actif + Inactif</option>
+        <option value="1">Actifs</option>
+        <option value="0">Inactifs</option>
+      </select>
+      <button id="btnSearch">Rechercher</button>
+    </div>
+
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th><th>Nom</th><th>Username</th><th>Rôle</th><th>Actif</th><th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Modal -->
+  <div class="modal" id="modal">
+    <div class="box">
+      <h3 id="modalTitle">Nouvel utilisateur</h3>
+      <div class="field"><div class="muted">Nom</div><input id="m_nom"></div>
+      <div class="field"><div class="muted">Username</div><input id="m_username"></div>
+      <div class="field"><div class="muted">Rôle</div>
+        <select id="m_role">
+          <option value="caissier">Caissier</option>
+          <option value="manager">Manager</option>
+          <option value="admin">Admin</option>
+        </select>
+      </div>
+      <div class="field"><div class="muted">Mot de passe initial</div><input id="m_password" type="password"></div>
+
+      <div class="row">
+        <button id="btnCancel">Annuler</button>
+        <button class="primary" id="btnSave">Enregistrer</button>
+      </div>
+      <div class="muted" id="modalMsg"></div>
+    </div>
+  </div>
+
+  <script src="../static/users_admin.js"></script>
+</body>
+</html>

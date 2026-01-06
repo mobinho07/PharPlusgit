@@ -1,3 +1,5 @@
+Fichier : app.py 
+ 
 import os
 from flask import Flask, jsonify 
 from routes.products import products_bp
@@ -59,4 +61,87 @@ if __name__ == '__main__':
     print("Routes enregistrées:")
     for rule in app.url_map.iter_rules():
         print(rule)
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True) 
+----------------------------Fin du fichier------------------------------- 
+ 
+Fichier : auth.py 
+ 
+from functools import wraps
+from flask import request, jsonify
+import os
+
+def windows_auth_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        # Dans un environnement réel, vous vérifieriez l'identité Windows ici
+        # Par exemple avec request.headers.get('X-Forwarded-User') ou autre mécanisme
+        # Ceci est une simplification pour l'exemple
+        
+        if not request.headers.get('Authorization'):
+            return jsonify({'success': False, 'error': 'Authentification requise'}), 401
+        
+        # En production, vous implémenteriez une vraie vérification ici
+        return f(*args, **kwargs)
+    return decorated_function 
+----------------------------Fin du fichier------------------------------- 
+ 
+Fichier : config.py 
+ 
+class Config:
+    # Configuration de la base de données SQL Server
+    DB_HOST = 'localhost'
+    DB_USER = 'root'
+    DB_PASSWORD = 'Yantete_21' 
+    DB_NAME = 'pharmaplus' 
+    DB_PORT = 3306 
+----------------------------Fin du fichier------------------------------- 
+ 
+Fichier : database.py 
+ 
+import pymysql
+from contextlib import contextmanager
+from config import Config
+
+@contextmanager
+def get_db_connection():
+    conn = None
+    try:
+        conn = pymysql.connect(
+            host=Config.DB_HOST,
+            user=Config.DB_USER,
+            password=Config.DB_PASSWORD,
+            database=Config.DB_NAME,
+            port=getattr(Config, "DB_PORT", 3306),
+            charset="utf8mb4",
+            cursorclass=pymysql.cursors.DictCursor,
+            autocommit=False
+        )
+        yield conn
+    except pymysql.MySQLError as e:
+        print(f"Erreur de connexion à la base MySQL: {e}")
+        raise
+    finally:
+        if conn:
+            conn.close()
+
+@contextmanager
+def get_db_cursor():
+    with get_db_connection() as conn:
+        cursor = conn.cursor()
+        try:
+            yield cursor, conn
+        finally:
+            cursor.close()
+ 
+----------------------------Fin du fichier------------------------------- 
+ 
+Fichier : test_db.py 
+ 
+from database import get_db_cursor
+
+with get_db_cursor() as (cursor, conn):
+    cursor.execute("SELECT * from utilisateurs;")
+    print("Resultat:\n", cursor.fetchone())
+ 
+----------------------------Fin du fichier------------------------------- 
+ 

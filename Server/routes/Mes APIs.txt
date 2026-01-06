@@ -1,0 +1,1994 @@
+Fichier : auth_api.py 
+ 
+# routes/auth_api.py
+from functools import wraps
+from flask import Blueprint, request, jsonify, current_app
+from itsdangerous import URLSafeTimedSerializer, BadSignature, SignatureExpired
+from werkzeug.security import generate_password_hash, check_password_hash
+from database import get_db_cursor
+from functools import wraps
+from flask import request, jsonify, current_app
+from itsdangerous import BadSignature, SignatureExpired
+
+
+auth_api_bp = Blueprint("auth_api", __name__)
+
+def _serializer():
+    secret = current_app.config.get("SECRET_KEY", "dev-secret-change-me")
+    return URLSafeTimedSerializer(secret_key=secret, salt="pharmaplus-auth")
+
+def make_token(user_dict: dict) -> str:
+    # user_dict: {id_utilisateur, nom, username, role}
+    s = _serializer()
+    payload = {
+        "id_utilisateur": user_dict["id_utilisateur"],
+        "nom": user_dict.get("nom"),
+        "username": user_dict.get("username"),
+        "role": user_dict.get("role"),
+    }
+    return s.dumps(payload)
+
+def verify_token(token: str, max_age_seconds: int = 8 * 3600) -> dict:
+    s = _serializer()
+    return s.loads(token, max_age=max_age_seconds)
+
+def verify_password(stored: str, provided: str) -> bool:
+    """
+    Supporte:
+    - mot_de_passe hashé (werkzeug) -> check_password_hash
+    - mot_de_passe en clair (si tu as déjà des users comme ça) -> compare direct
+    """
+    if stored is None:
+        return False
+    stored = str(stored)
+    provided = "" if provided is None else str(provided)
+
+    # Heuristique: hash werkzeug commence souvent par "pbkdf2:" / "scrypt:" / "argon2:"
+    if ":" in stored and stored.split(":", 1)[0] in {"pbkdf2", "scrypt", "argon2"}:
+        return check_password_hash(stored, provided)
+    return stored == provided
+
+def decode_token(token: str, max_age=60*60*24):  # 24h
+    s = _serializer()
+    return s.loads(token, max_age=max_age)
+
+def require_auth(f):
+    @wraps(f)
+    def wrapper(*args, **kwargs):
+        auth = request.headers.get("Authorization", "")
+        if not auth.startswith("Bearer "):
+            return jsonify({"success": False, "error": "Token manquant"}), 401
+
+        token = auth.split(" ", 1)[1].strip()
+        try:
+            user = decode_token(token)
+        except SignatureExpired:
+            return jsonify({"success": False, "error": "Token expiré"}), 401
+        except BadSignature:
+            return jsonify({"success": False, "error": "Token invalide"}), 401
+
+        request.current_user = user  # type: ignore # {id_utilisateur, nom, username, role}
+        return f(*args, **kwargs)
+    return wrapper
+
+def require_role(*roles):
+    def deco(f):
+        @wraps(f)
+        def wrapper(*args, **kwargs):
+            u = getattr(request, "current_user", None)
+            if not u or u.get("role") not in roles:
+                return jsonify({"success": False, "error": "Accès refusé"}), 403
+            return f(*args, **kwargs)
+        return wrapper
+    return deco
+
+
+@auth_api_bp.route("/login", methods=["POST"])
+def login():
+    payload = request.get_json(silent=True) or {}
+    username = (payload.get("username") or "").strip().lower()
+    password = payload.get("password") or payload.get("mot_de_passe")  # tolérant
+
+    if not username or not password:
+        return jsonify({"success": False, "error": "username et password requis"}), 400
+
+    with get_db_cursor() as (cursor, conn):
+        cursor.execute("""
+            SELECT id_utilisateur, nom, username, mot_de_passe, role,email
+            FROM utilisateurs
+            WHERE LOWER(username)=LOWER(%s)
+            LIMIT 1
+        """, (username,))
+        u = cursor.fetchone()
+
+    if not u or not verify_password(u.get("mot_de_passe"), password): # type: ignore
+        return jsonify({"success": False, "error": "Identifiants invalides"}), 401
+
+    token = make_token(u)
+
+    return jsonify({
+        "success": True,
+        "token": token,
+        "user": {
+            "id_utilisateur": u["id_utilisateur"],
+            "nom": u.get("nom"),
+            "username": u.get("username"),
+            "role": u.get("role"),
+        }
+    })
+
+@auth_api_bp.route("/me", methods=["GET"])
+def me():
+    auth = request.headers.get("Authorization", "")
+    if not auth.startswith("Bearer "):
+        return jsonify({"success": False, "error": "Token manquant"}), 401
+
+    token = auth.split(" ", 1)[1].strip()
+    try:
+        user = verify_token(token)
+        return jsonify({"success": True, "user": user})
+    except SignatureExpired:
+        return jsonify({"success": False, "error": "Session expirée"}), 401
+    except BadSignature:
+        return jsonify({"success": False, "error": "Token invalide"}), 401
+ 
+----------------------------Fin du fichier------------------------------- 
+ 
+Fichier : dashboard.py 
+ 
+from flask import Blueprint, request, jsonify
+from database import get_db_cursor
+
+dashboard_bp = Blueprint('dashboard', __name__)
+
+QUERIES = {
+    # KPIs
+    "kpi_ca_jour": """
+        SELECT COALESCE(SUM(montant_total),0) AS ca_jour
+        FROM ventes
+        WHERE DATE(date_vente) = CURDATE() AND annule='0';
+    """,
+    "kpi_nb_ventes_jour": """
+        SELECT COUNT(*) AS nb_ventes_jour
+        FROM ventes
+        WHERE DATE(date_vente) = CURDATE() AND annule='0';
+    """,
+    "kpi_nb_alertes_stock": """
+        SELECT COUNT(*) AS nb_alertes_stock
+        FROM vue_produits_stock_bas;
+    """,
+    "kpi_nb_produits_actifs": """
+        SELECT COUNT(DISTINCT p.id_produit) AS nb_produits_actifs
+        FROM produits p
+        JOIN lot_stock ls ON p.id_produit = ls.id_produit
+        WHERE p.actif = 1 AND ls.quantite > 0;
+    """,
+    "kpi_valeur_stock": """
+        SELECT COALESCE(SUM(ls.quantite * ls.prix_achat),0) AS valeur_stock
+        FROM lot_stock ls;
+    """,
+    "kpi_ca_ytd": """
+        SELECT COALESCE(SUM(montant_total),0) AS ca_ytd
+        FROM ventes
+        WHERE annule='0' AND date_vente >= DATE_FORMAT(CURDATE(),'%Y-01-01');
+    """,
+
+    # Graphs ventes
+    "chart_ventes_30j": """
+        SELECT jour, total_vente
+        FROM vue_ventes_30_jours
+        ORDER BY jour;
+    """,
+    "chart_ca_mensuel_ytd": """
+        SELECT DATE_FORMAT(date_vente,'%Y-%m') AS mois,
+               SUM(montant_total) AS ca_mois
+        FROM ventes
+        WHERE annule='0' AND YEAR(date_vente)=YEAR(CURDATE())
+        GROUP BY DATE_FORMAT(date_vente,'%Y-%m')
+        ORDER BY mois;
+    """,
+    "chart_ca_par_semaine_12": """
+        SELECT YEARWEEK(date_vente, 3) AS an_semaine,
+               MIN(DATE(date_vente)) AS debut_semaine,
+               SUM(montant_total) AS ca_semaine
+        FROM ventes
+        WHERE annule='0' AND date_vente >= (CURDATE() - INTERVAL 84 DAY)
+        GROUP BY YEARWEEK(date_vente,3)
+        ORDER BY an_semaine;
+    """,
+
+    # Top & répartition
+    "top5_produits_30j": """
+        SELECT produit, total_vendu
+        FROM vue_top_produits_vendus
+        ORDER BY total_vendu DESC
+        LIMIT 5;
+    """,
+    "repartition_categorie_30j": """
+        SELECT p.category, COALESCE(SUM(v.montant_total),0) AS ca
+        FROM ventes v
+        JOIN lignes_vente lv ON v.id_vente=lv.id_vente
+        JOIN lot_stock ls ON lv.id_lot=ls.id_lot
+        JOIN produits p ON ls.id_produit=p.id_produit
+        WHERE v.annule='0' AND v.date_vente >= (CURDATE() - INTERVAL 30 DAY)
+        GROUP BY p.category
+        ORDER BY ca DESC;
+    """,
+
+    # Alertes / stock
+    "alertes_expiration_30j": """
+        SELECT produit, DATE_FORMAT(date_expiration, '%d-%m-%Y') as date_expiration, quantite
+
+        FROM vue_produits_expiration_proche
+        ORDER BY date_expiration ASC;
+    """,
+    "stock_bas": """
+        SELECT produit, total_stock, seuil
+        FROM vue_produits_stock_bas
+        ORDER BY total_stock ASC;
+    """,
+    "resume_stock": """
+        SELECT produit, total_stock
+        FROM vue_resume_stock
+        ORDER BY total_stock DESC;
+    """,
+    "stock_delta_30j": """
+        SELECT DATE(date_mouvement) AS jour,
+               SUM(CASE WHEN type_mouvement='entree' THEN quantite
+                        WHEN type_mouvement='sortie' THEN -quantite
+                        ELSE 0 END) AS delta
+        FROM stock_mouvements
+        WHERE date_mouvement >= (CURDATE() - INTERVAL 30 DAY)
+        GROUP BY DATE(date_mouvement)
+        ORDER BY jour;
+    """,
+
+    # Nombre produits expirés encore en stock
+    "kpi_nb_produits_expires_en_stock": """
+    SELECT COUNT(*) AS nb_produits_expires_en_stock
+    FROM lot_stock ls
+    JOIN produits p ON p.id_produit = ls.id_produit
+    WHERE p.actif = 1
+      AND ls.quantite > 0
+      AND ls.date_expiration IS NOT NULL
+      AND ls.date_expiration < CURDATE();
+    """,
+
+    # Marge brute 30 jours
+    "kpi_marge_brute_30j": """
+    SELECT COALESCE(SUM( (lv.prix_unitaire - ls.prix_achat) * lv.quantite ),0) AS marge_brute_30j
+    FROM ventes v
+    JOIN lignes_vente lv ON v.id_vente = lv.id_vente
+    JOIN lot_stock ls ON lv.id_lot = ls.id_lot
+    WHERE v.annule='0'
+      AND v.date_vente >= (CURDATE() - INTERVAL 30 DAY);
+    """,
+
+    # Nombre de fournisseurs (30 jours)
+    "kpi_nb_fournisseurs_30j": """
+    SELECT COUNT(DISTINCT ls.fournisseur) AS nb_fournisseurs_30j
+    FROM lot_stock ls
+    WHERE ls.fournisseur IS NOT NULL
+      AND ls.date_approvisionnement >= (CURDATE() - INTERVAL 30 DAY);
+    """,
+
+    # Top fournisseurs (30 jours)
+    "chart_top_fournisseurs_30j": """
+    SELECT f.nom AS fournisseur,
+           COALESCE(SUM(ls.quantite * ls.prix_achat),0) AS total_achat
+    FROM lot_stock ls
+    JOIN fournisseurs f ON f.id_fournisseur = ls.fournisseur
+    WHERE ls.date_approvisionnement >= (CURDATE() - INTERVAL 30 DAY)
+    GROUP BY f.nom
+    ORDER BY total_achat DESC
+    LIMIT 7;
+    """,
+
+    # Prévision
+    "forecast_sma7": """
+        WITH d AS (
+          SELECT DATE(date_vente) AS jour, SUM(montant_total) AS ca
+          FROM ventes
+          WHERE annule='0' AND date_vente >= (CURDATE() - INTERVAL 60 DAY)
+          GROUP BY DATE(date_vente)
+        )
+        SELECT jour, ca,
+               AVG(ca) OVER (ORDER BY jour ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) AS sma7
+        FROM d
+        ORDER BY jour;
+    """
+}
+
+@dashboard_bp.route('/query', methods=["POST"])
+def dashboard():
+    payload = request.get_json(silent=True) or {}
+    name = payload.get("name")
+    if not name:
+        return jsonify({"success": False, "error": "Paramètre 'name' requis"}), 400
+
+    sql = QUERIES.get(name)
+    if not sql:
+        return jsonify({"success": False, "error": f"Requête inconnue: {name}"}), 400
+
+    try:
+        with get_db_cursor() as (cursor, conn):
+            cursor.execute(sql)
+            rows = cursor.fetchall()  # DictCursor -> dicts
+        return jsonify({"success": True, "name": name, "data": rows})
+    except Exception as e:
+        print("Erreur /api/dashboard:", e)
+        return jsonify({"success": False, "error": str(e)}), 500
+ 
+----------------------------Fin du fichier------------------------------- 
+ 
+Fichier : fournisseurs.py 
+ 
+from flask import Blueprint, request, jsonify
+from database import get_db_cursor
+
+fournisseurs_bp = Blueprint("fournisseurs", __name__)
+
+def _validate_payload(data, is_update=False):
+    nom = (data.get("nom") or "").strip()
+    if not is_update and not nom:
+        return False, "Le champ 'nom' est requis."
+    if nom and len(nom) > 100:
+        return False, "Le champ 'nom' dépasse 100 caractères."
+
+    email = (data.get("email") or "").strip()
+    if email and len(email) > 100:
+        return False, "Le champ 'email' dépasse 100 caractères."
+
+    contact = (data.get("contact") or "").strip()
+    if contact and len(contact) > 100:
+        return False, "Le champ 'contact' dépasse 100 caractères."
+
+    telephone = (data.get("telephone") or "").strip()
+    if telephone and len(telephone) > 20:
+        return False, "Le champ 'telephone' dépasse 20 caractères."
+
+    return True, None
+
+
+@fournisseurs_bp.get("/list")
+def list_fournisseurs():
+    try:
+        with get_db_cursor() as (cursor, conn):
+            cursor.execute("""
+                SELECT id_fournisseur, nom, contact, telephone, email
+                FROM fournisseurs
+                ORDER BY nom ASC
+            """)
+            rows = cursor.fetchall()
+        return jsonify({"success": True, "data": rows})
+    except Exception as e:
+        print("Erreur /api/fournisseurs/list:", e)
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@fournisseurs_bp.get("/<int:id_fournisseur>")
+def get_fournisseur(id_fournisseur):
+    try:
+        with get_db_cursor() as (cursor, conn):
+            cursor.execute("""
+                SELECT id_fournisseur, nom, contact, telephone, email
+                FROM fournisseurs
+                WHERE id_fournisseur = %s
+            """, (id_fournisseur,))
+            row = cursor.fetchone()
+        if not row:
+            return jsonify({"success": False, "error": "Fournisseur introuvable."}), 404
+        return jsonify({"success": True, "data": row})
+    except Exception as e:
+        print("Erreur /api/fournisseurs/<id>:", e)
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@fournisseurs_bp.get("/search")
+def search_fournisseurs():
+    q = (request.args.get("q") or "").strip()
+    limit = int(request.args.get("limit") or 10)
+    limit = max(1, min(limit, 50))
+
+    try:
+        with get_db_cursor() as (cursor, conn):
+            if not q:
+                cursor.execute("""
+                    SELECT id_fournisseur, nom, contact, telephone, email
+                    FROM fournisseurs
+                    ORDER BY nom ASC
+                    LIMIT %s
+                """, (limit,))
+            else:
+                like = f"%{q}%"
+                cursor.execute("""
+                    SELECT id_fournisseur, nom, contact, telephone, email
+                    FROM fournisseurs
+                    WHERE nom LIKE %s OR contact LIKE %s OR email LIKE %s
+                    ORDER BY nom ASC
+                    LIMIT %s
+                """, (like, like, like, limit))
+            rows = cursor.fetchall()
+        return jsonify({"success": True, "data": rows})
+    except Exception as e:
+        print("Erreur /api/fournisseurs/search:", e)
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@fournisseurs_bp.post("")
+def create_fournisseur():
+    data = request.get_json(silent=True) or {}
+    ok, err = _validate_payload(data, is_update=False)
+    if not ok:
+        return jsonify({"success": False, "error": err}), 400
+
+    try:
+        with get_db_cursor() as (cursor, conn):
+            cursor.execute("""
+                INSERT INTO fournisseurs (nom, contact, telephone, email)
+                VALUES (%s, %s, %s, %s)
+            """, (
+                (data.get("nom") or "").strip(),
+                (data.get("contact") or None),
+                (data.get("telephone") or None),
+                (data.get("email") or None),
+            ))
+            conn.commit()
+            new_id = cursor.lastrowid
+
+            cursor.execute("""
+                SELECT id_fournisseur, nom, contact, telephone, email
+                FROM fournisseurs
+                WHERE id_fournisseur = %s
+            """, (new_id,))
+            row = cursor.fetchone()
+
+        return jsonify({"success": True, "message": "Fournisseur créé.", "data": row})
+    except Exception as e:
+        print("Erreur /api/fournisseurs POST:", e)
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@fournisseurs_bp.put("/<int:id_fournisseur>")
+def update_fournisseur(id_fournisseur):
+    data = request.get_json(silent=True) or {}
+    ok, err = _validate_payload(data, is_update=True)
+    if not ok:
+        return jsonify({"success": False, "error": err}), 400
+
+    try:
+        with get_db_cursor() as (cursor, conn):
+            cursor.execute("SELECT id_fournisseur FROM fournisseurs WHERE id_fournisseur=%s", (id_fournisseur,))
+            if not cursor.fetchone():
+                return jsonify({"success": False, "error": "Fournisseur introuvable."}), 404
+
+            # Update “partiel” : si champ absent => on garde la valeur actuelle
+            cursor.execute("""
+                UPDATE fournisseurs
+                SET
+                    nom = COALESCE(%s, nom),
+                    contact = COALESCE(%s, contact),
+                    telephone = COALESCE(%s, telephone),
+                    email = COALESCE(%s, email)
+                WHERE id_fournisseur = %s
+            """, (
+                (data.get("nom").strip() if isinstance(data.get("nom"), str) else None), # type: ignore
+                (data.get("contact") if data.get("contact") is not None else None),
+                (data.get("telephone") if data.get("telephone") is not None else None),
+                (data.get("email") if data.get("email") is not None else None),
+                id_fournisseur
+            ))
+            conn.commit()
+
+            cursor.execute("""
+                SELECT id_fournisseur, nom, contact, telephone, email
+                FROM fournisseurs
+                WHERE id_fournisseur = %s
+            """, (id_fournisseur,))
+            row = cursor.fetchone()
+
+        return jsonify({"success": True, "message": "Fournisseur mis à jour.", "data": row})
+    except Exception as e:
+        print("Erreur /api/fournisseurs PUT:", e)
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@fournisseurs_bp.delete("/<int:id_fournisseur>")
+def delete_fournisseur(id_fournisseur):
+    cascade = (request.args.get("cascade") or "0").strip() in ("1", "true", "True", "yes", "YES")
+
+    try:
+        with get_db_cursor() as (cursor, conn):
+            cursor.execute("SELECT id_fournisseur FROM fournisseurs WHERE id_fournisseur=%s", (id_fournisseur,))
+            if not cursor.fetchone():
+                return jsonify({"success": False, "error": "Fournisseur introuvable."}), 404
+
+            cursor.execute("SELECT COUNT(*) AS n FROM lot_stock WHERE fournisseur=%s", (id_fournisseur,))
+            n = int(cursor.fetchone()["n"]) # type: ignore
+
+            if n > 0 and not cascade:
+                return jsonify({
+                    "success": False,
+                    "error": f"Suppression refusée: fournisseur utilisé dans {n} lot(s). Utilise cascade=1 si tu veux détacher."
+                }), 409
+
+            if n > 0 and cascade:
+                cursor.execute("UPDATE lot_stock SET fournisseur=NULL WHERE fournisseur=%s", (id_fournisseur,))
+
+            cursor.execute("DELETE FROM fournisseurs WHERE id_fournisseur=%s", (id_fournisseur,))
+            conn.commit()
+
+        return jsonify({"success": True, "message": "Fournisseur supprimé."})
+    except Exception as e:
+        print("Erreur /api/fournisseurs DELETE:", e)
+        return jsonify({"success": False, "error": str(e)}), 500
+ 
+----------------------------Fin du fichier------------------------------- 
+ 
+Fichier : lots.py 
+ 
+from flask import Blueprint, request, jsonify
+from database import get_db_cursor
+
+lots_bp = Blueprint("lots", __name__)
+
+@lots_bp.route("", methods=["GET"])
+def list_lots():
+    product_id = request.args.get("product_id")
+    available_only = request.args.get("available_only", "0")
+    if not product_id:
+        return jsonify({"success": False, "error": "product_id requis"}), 400
+
+    where = "WHERE ls.id_produit=%s"
+    params = [int(product_id)]
+    if available_only == "1":
+        where += " AND ls.quantite > 0"
+
+    sql = f"""
+        SELECT ls.id_lot, ls.id_produit, ls.quantite, ls.date_expiration,
+               ls.prix_achat, ls.fournisseur, ls.date_approvisionnement
+        FROM lot_stock ls
+        {where}
+        ORDER BY (ls.date_expiration IS NULL), ls.date_expiration ASC, ls.id_lot ASC
+    """
+
+    try:
+        with get_db_cursor() as (cursor, conn):
+            cursor.execute(sql, tuple(params))
+            rows = cursor.fetchall()
+        return jsonify({"success": True, "data": rows})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+@lots_bp.route("/for-sale", methods=["GET"])
+def lot_for_sale():
+    product_id = request.args.get("product_id")
+    if not product_id:
+        return jsonify({"success": False, "error": "product_id requis"}), 400
+
+    # FEFO : expire le plus tôt (NULL en dernier), quantité>0
+    try:
+        with get_db_cursor() as (cursor, conn):
+            cursor.execute("""
+                SELECT ls.id_lot, ls.id_produit, ls.quantite, ls.date_expiration,
+                       ls.prix_achat, ls.fournisseur, p.nom, p.prix_unitaire
+                FROM lot_stock ls
+                JOIN produits p ON p.id_produit = ls.id_produit
+                WHERE ls.id_produit=%s AND ls.quantite > 0
+                ORDER BY (ls.date_expiration IS NULL), ls.date_expiration ASC, ls.id_lot ASC
+                LIMIT 1
+            """, (int(product_id),))
+            row = cursor.fetchone()
+        if not row:
+            return jsonify({"success": False, "error": "Aucun lot disponible"}), 404
+        return jsonify({"success": True, "data": row})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+@lots_bp.route("", methods=["POST"])
+def create_lot():
+    data = request.get_json(silent=True) or {}
+    # champs requis min
+    required = ["id_produit", "quantite", "prix_achat", "id_utilisateur"]
+    for k in required:
+        if data.get(k) in (None, "", 0):
+            return jsonify({"success": False, "error": f"{k} requis"}), 400
+
+    try:
+        with get_db_cursor() as (cursor, conn):
+            cursor.execute("""
+                INSERT INTO lot_stock (id_produit, quantite, date_approvisionnement, date_expiration,
+                                       fournisseur, prix_achat, id_utilisateur)
+                VALUES (%s,%s, NOW(), %s, %s, %s, %s)
+            """, (
+                data["id_produit"],
+                data["quantite"],
+                data.get("date_expiration"),
+                data.get("fournisseur"),
+                data["prix_achat"],
+                data["id_utilisateur"]
+            ))
+            lot_id = cursor.lastrowid
+
+            cursor.execute("""
+                INSERT INTO stock_mouvements (id_lot, quantite, type_mouvement, date_mouvement, id_utilisateur, raison)
+                VALUES (%s,%s,'entree', NOW(), %s, %s)
+            """, (lot_id, data["quantite"], data["id_utilisateur"], data.get("raison") or "Approvisionnement"))
+
+            conn.commit()
+
+        return jsonify({"success": True, "data": {"id_lot": lot_id}})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+@lots_bp.route("/<int:lot_id>", methods=["PUT"])
+def update_lot(lot_id: int):
+    data = request.get_json(silent=True) or {}
+    required = ["quantite", "prix_achat", "id_utilisateur"]
+    for k in required:
+        if data.get(k) in (None, ""):
+            return jsonify({"success": False, "error": f"{k} requis"}), 400
+
+    try:
+        with get_db_cursor() as (cursor, conn):
+            cursor.execute("SELECT quantite FROM lot_stock WHERE id_lot=%s", (lot_id,))
+            row = cursor.fetchone()
+            if not row:
+                return jsonify({"success": False, "error": "Lot introuvable"}), 404
+            old_qty = int(row["quantite"] or 0)
+            new_qty = int(data["quantite"])
+            delta = new_qty - old_qty
+
+            cursor.execute("""
+                UPDATE lot_stock
+                SET quantite=%s, date_expiration=%s, fournisseur=%s, prix_achat=%s
+                WHERE id_lot=%s
+            """, (
+                new_qty,
+                data.get("date_expiration"),
+                data.get("fournisseur"),
+                data["prix_achat"],
+                lot_id
+            ))
+
+            if delta != 0:
+                cursor.execute("""
+                    INSERT INTO stock_mouvements (id_lot, quantite, type_mouvement, date_mouvement, id_utilisateur, raison)
+                    VALUES (%s,%s,'ajustement', NOW(), %s, %s)
+                """, (lot_id, delta, data["id_utilisateur"], data.get("raison") or "Ajustement"))
+
+            conn.commit()
+
+        return jsonify({"success": True})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+ 
+----------------------------Fin du fichier------------------------------- 
+ 
+Fichier : masterView.py 
+ 
+from flask import Blueprint, request, jsonify
+from database import get_db_cursor 
+
+master_bp=Blueprint('master', __name__)
+
+@master_bp.route("/list", methods=["GET"])
+def qte_stock():
+    try:
+        
+        #data=request.get_json()
+        
+       # if not data or 'nbJours' not in data:
+        #    return jsonify({'success':False,'error':'Paramètres manquants'}), 400
+        
+        #Recupération des données de la requête
+        #nombre=data['nbJours']
+        
+        
+        with get_db_cursor() as (cursor,conn):
+            query="""
+            SELECT * from vue_produits_disponibles;
+            """
+            cursor.execute(query)
+            resultat=cursor.fetchall()
+            
+            
+            return jsonify({'success': True, 'data': resultat})
+    except Exception as e:
+        return jsonify({'success': False, 'error':str(e)}), 500 
+----------------------------Fin du fichier------------------------------- 
+ 
+Fichier : modStock.py 
+ 
+from flask import Blueprint, request, jsonify
+from database import get_db_cursor 
+
+modStock_bp = Blueprint('modStock', __name__)
+
+
+@modStock_bp.route('/stock', methods=['POST', 'PUT'])  # type: ignore
+def gerer_stock():
+    data = request.get_json()
+
+    try:
+        with get_db_cursor() as (cursor,conn):
+            # Ajout d'un nouveau lot de stock
+            if request.method == "POST":
+                insert_lot_query = """
+                    INSERT INTO Lot_Stock (id_produit, quantite, date_approvisionnement, date_expiration,
+                                           fournisseur, prix_achat, id_utilisateur)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s)"""
+                cursor.execute(insert_lot_query,(
+                    data["id_produit"], data["quantite"], data["date_approvisionnement"],
+                    data.get("date_expiration"), data["fournisseur"], data["prix_achat"], data["id_utilisateur"]))
+                
+                # Recupération de l'ID du lot inséré
+                lot_id= cursor.lastrowid
+                # Enregistrement du mouvement de stock
+                cursor.execute("""
+                    INSERT INTO Stock_Mouvements (id_lot, quantite, type_mouvement, date_mouvement, id_utilisateur,raison)
+                    VALUES (%s, %s, 'entree', NOW(), %s,%s)""",(
+                    lot_id, data["quantite"], data["id_utilisateur"], data["raison"]))
+                conn.commit()
+                return jsonify({"status": "success", "message": "Stock ajouté"})
+
+            elif request.method == "PUT":
+                ancien_v=0
+                cursor.execute("SELECT quantite FROM Lot_Stock WHERE id_lot = %s", (data["id_lot"],))
+                result = cursor.fetchone()["quantite"] # type: ignore
+                if result is not None:
+                    ancien_v = result
+                cursor.execute("""
+                    UPDATE Lot_Stock
+                    SET quantite = %s, date_expiration = %s, fournisseur = %s, prix_achat = %s
+                    WHERE id_lot = %s""",(
+                    data["quantite"], data.get("date_expiration"), data["fournisseur"],
+                    data["prix_achat"], data["id_lot"]))
+
+                cursor.execute("""
+                    INSERT INTO Stock_Mouvements (id_lot, quantite, type_mouvement, date_mouvement, id_utilisateur,raison)
+                    VALUES (%s, %s, 'Modification Stock', NOW(), %s,%s)""",(
+                    data["id_lot"], data["quantite"]-ancien_v, data["id_utilisateur"], data["raison"]))
+                conn.commit()
+
+                return jsonify({"status": "success", "message": "Stock modifié"})
+
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
+ 
+----------------------------Fin du fichier------------------------------- 
+ 
+Fichier : price2.py 
+ 
+from flask import Blueprint, request, jsonify
+from database import get_db_cursor
+
+price2_bp = Blueprint("price2", __name__)
+
+@price2_bp.route("/history", methods=["GET"])
+def history():
+    product_id = request.args.get("product_id")
+    limit = int(request.args.get("limit") or 30)
+    if not product_id:
+        return jsonify({"success": False, "error": "product_id requis"}), 400
+
+    try:
+        with get_db_cursor() as (cursor, conn):
+            cursor.execute("""
+                SELECT ancien_prix, nouveau_prix, modifie_par, motif,
+                       DATE_FORMAT(date_modification, '%%Y-%%m-%%d %%H:%%i') AS date_modif
+                FROM historique_prix
+                WHERE id_produit=%s
+                ORDER BY date_modif DESC
+                LIMIT %s
+            """, (int(product_id), limit))
+            rows = cursor.fetchall()
+        return jsonify({"success": True, "data": rows})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+@price2_bp.route("/change", methods=["POST"])
+def change_price():
+    data = request.get_json(silent=True) or {}
+    required = ["id_produit", "nouveau_prix", "id_utilisateur"]
+    for k in required:
+        if data.get(k) in (None, "", 0):
+            return jsonify({"success": False, "error": f"{k} requis"}), 400
+
+    try:
+        with get_db_cursor() as (cursor, conn):
+            cursor.execute("SELECT prix_unitaire FROM produits WHERE id_produit=%s", (data["id_produit"],))
+            row = cursor.fetchone()
+            if not row:
+                return jsonify({"success": False, "error": "Produit introuvable"}), 404
+
+            ancien = float(row["prix_unitaire"] or 0)
+            nouveau = float(data["nouveau_prix"])
+
+            cursor.execute("UPDATE produits SET prix_unitaire=%s WHERE id_produit=%s", (nouveau, data["id_produit"]))
+            cursor.execute("""
+                INSERT INTO historique_prix (id_produit, ancien_prix, nouveau_prix, modifie_par, motif)
+                VALUES (%s,%s,%s,%s,%s)
+            """, (
+                data["id_produit"], ancien, nouveau, data["id_utilisateur"], data.get("motif") or "Ajustement"
+            ))
+            conn.commit()
+
+        return jsonify({"success": True})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+ 
+----------------------------Fin du fichier------------------------------- 
+ 
+Fichier : productmgt.py 
+ 
+from flask import Blueprint, request, jsonify
+from database import get_db_cursor
+import json
+
+productmgt_bp = Blueprint('productmgt', __name__)
+
+
+@productmgt_bp.route("/produit", methods=["POST", "PUT", "DELETE"]) 
+def gerer_produit():
+    data = request.get_json()
+    action = data.get("action")  # 'create', 'update', 'delete', 'read'
+    cascade = data.get("cascade", False)
+
+    try:
+        with get_db_cursor() as (cursor,conn):
+            if action == "create":
+                cursor.execute("""
+                    INSERT INTO Produits (nom, description, prix_unitaire, code_barre, image_produit)
+                    VALUES (%s, %s, %s, %s, %s)""",(
+                    data["nom"], data.get("description"), data["prix_unitaire"],
+                    data.get("code_barre"), data.get("image_produit")))
+                conn.commit()
+                return jsonify({"status": "success", "message": "Produit ajouté"})
+
+            elif action == "update":
+                cursor.execute("""
+                    UPDATE Produits
+                    SET nom = %s, description = %s, prix_unitaire = %s, code_barre = %s, image_produit = %s
+                    WHERE id_produit = %s""",(
+                    data["nom"], data.get("description"), data["prix_unitaire"],
+                    data.get("code_barre"), data.get("image_produit"), data["id_produit"]))
+                conn.commit()
+                return jsonify({"status": "success", "message": "Produit mis à jour"})
+
+            elif action == "delete":
+                if cascade:
+                    cursor.execute("DELETE FROM Lignes_vente WHERE id_lot IN (SELECT id_lot FROM Lot_Stock WHERE id_produit = %s)", (data["id_produit"],))
+                    cursor.execute("DELETE FROM Stock_Mouvements WHERE id_lot IN (SELECT id_lot FROM Lot_Stock WHERE id_produit = %s)", (data["id_produit"],))
+                    cursor.execute("DELETE FROM Lot_Stock WHERE id_produit = %s", (data["id_produit"],))
+                cursor.execute("DELETE FROM Produits WHERE id_produit = %s", (data["id_produit"],))
+                conn.commit()
+                return jsonify({"status": "success", "message": "Produit supprimé"})
+            
+            # --- LECTURE (SELECT) ---
+            if action == "read":
+                code_barre = data.get("code_barre")
+                nom = data.get("nom")
+
+                if code_barre:
+                    cursor.execute("""
+                        SELECT nom, description, prix_unitaire, code_barre, image_produit, date_creation, actif
+                        FROM Produits
+                        WHERE code_barre = %s
+                    """, (code_barre,))
+                elif nom:
+                    cursor.execute("""
+                        SELECT nom, description, prix_unitaire, code_barre, image_produit, date_creation, actif
+                        FROM Produits
+                        WHERE upper(nom) LIKE upper(%s)
+                    """, (f"%{nom}%",))
+                else:
+                    cursor.execute("""
+                        SELECT *
+                        FROM Produits order by nom
+                    """)
+
+                produits = cursor.fetchall()
+                return jsonify({"status": "success", "data": produits})
+
+            else:
+                return jsonify({"status": "error", "message": "Action inconnue"}), 400
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
+
+@productmgt_bp.route("/prix", methods=["PUT"])
+def modifier_prix_produit():
+    data = request.get_json()
+    id_produit = data.get("id_produit")
+    nouveau_prix = data.get("nouveau_prix")
+    id_utilisateur = data.get("id_utilisateur")
+    motif = data.get("motif", "Ajustement de prix")
+
+    if not id_produit or not nouveau_prix or not id_utilisateur:
+        return jsonify({"status": "error", "message": "Champs manquants"}), 400
+
+    try:
+        with get_db_cursor() as (cursor, conn):
+            # 🔹 Récupérer le prix actuel
+            cursor.execute("SELECT prix_unitaire FROM Produits WHERE id_produit = %s", (id_produit,))
+            row = cursor.fetchone()
+
+            if not row:
+                return jsonify({"status": "error", "message": "Produit introuvable"}), 404
+
+            ancien_prix = float(row["prix_unitaire"])
+
+            # 🔹 Mettre à jour le nouveau prix
+            cursor.execute("""
+                UPDATE Produits SET prix_unitaire = %s WHERE id_produit = %s
+            """, (nouveau_prix, id_produit))
+
+            # 🔹 Insérer dans Historique_Prix
+            cursor.execute("""
+                INSERT INTO Historique_Prix (id_produit, ancien_prix, nouveau_prix, modifie_par, motif)
+                VALUES (%s, %s, %s, %s, %s)
+            """, (id_produit, ancien_prix, nouveau_prix, id_utilisateur, motif))
+
+            conn.commit()
+
+            return jsonify({
+                "status": "success",
+                "message": "Prix mis à jour avec succès",
+                "id_produit": id_produit,
+                "ancien_prix": ancien_prix,
+                "nouveau_prix": nouveau_prix
+            })
+
+    except Exception as e:
+        print("Erreur SQL:", e)
+        return jsonify({"status": "error", "message": str(e)}), 500
+ 
+----------------------------Fin du fichier------------------------------- 
+ 
+Fichier : products.py 
+ 
+from flask import Blueprint, request, jsonify
+from database import get_db_cursor
+import json
+
+products_bp = Blueprint('products', __name__)
+
+@products_bp.route('/stock', methods=['POST'])
+def get_products_in_stock():
+    data = request.get_json()
+    try:
+        with get_db_cursor() as (cursor,conn):
+            query = """
+                SELECT nom, sum(quantite) as quantite from v_stock group by nom order by 2
+                LIMIT %s
+            """
+
+            cursor.execute(query, (data["limit"],))
+            results = cursor.fetchall()
+            
+        return jsonify({'success': True, 'data': results})
+    
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500 
+----------------------------Fin du fichier------------------------------- 
+ 
+Fichier : products2.py 
+ 
+from flask import Blueprint, request, jsonify
+from database import get_db_cursor
+
+products2_bp = Blueprint("products2", __name__)
+
+@products2_bp.route("/ping", methods=["GET"])
+def ping():
+    return jsonify({"success": True, "message": "products2 ok"})
+
+@products2_bp.route("", methods=["GET"])
+def list_products():
+    search = (request.args.get("search") or "").strip()
+    active = request.args.get("active")  # "1" / "0" / ""
+    category = (request.args.get("category") or "").strip()
+    limit = int(request.args.get("limit") or 60) # Default limit 60
+
+    where = []
+    params = []
+
+    if search:
+        where.append("(p.nom LIKE %s OR p.code_barre LIKE %s)")
+        params.extend([f"%{search}%", f"%{search}%"])
+
+    if active in ("0", "1"):
+        where.append("p.actif = %s")
+        params.append(int(active))
+
+    if category:
+        where.append("p.category = %s")
+        params.append(category)
+
+    sql = """
+        SELECT
+          p.id_produit, p.nom, p.description, p.prix_unitaire, p.code_barre,
+          p.category, p.seuil, p.actif, p.date_creation
+        FROM produits p
+    """
+    if where:
+        sql += " WHERE " + " AND ".join(where)
+
+    sql += " ORDER BY p.nom LIMIT %s"
+    params.append(limit)
+
+    try:
+        with get_db_cursor() as (cursor, conn):
+            cursor.execute(sql, tuple(params))
+            rows = cursor.fetchall()
+        return jsonify({"success": True, "data": rows})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+@products2_bp.route("/<int:product_id>", methods=["GET"])
+def get_product(product_id: int):
+    try:
+        with get_db_cursor() as (cursor, conn):
+            cursor.execute("""
+                SELECT id_produit, nom, description, prix_unitaire, code_barre,
+                       category, seuil, actif, date_creation
+                FROM produits
+                WHERE id_produit=%s
+            """, (product_id,))
+            row = cursor.fetchone()
+        if not row:
+            return jsonify({"success": False, "error": "Produit introuvable"}), 404
+        return jsonify({"success": True, "data": row})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+@products2_bp.route("", methods=["POST"])
+def create_product():
+    data = request.get_json(silent=True) or {}
+    nom = (data.get("nom") or "").strip()
+    if not nom:
+        return jsonify({"success": False, "error": "nom requis"}), 400
+
+    try:
+        with get_db_cursor() as (cursor, conn):
+            cursor.execute("""
+                INSERT INTO produits (nom, description, prix_unitaire, code_barre, category, seuil, actif)
+                VALUES (%s,%s,%s,%s,%s,%s,%s)
+            """, (
+                nom,
+                data.get("description"),
+                data.get("prix_unitaire"),
+                data.get("code_barre"),
+                data.get("category"),
+                data.get("seuil"),
+                int(data.get("actif", 1)),
+            ))
+            conn.commit()
+            new_id = cursor.lastrowid
+        return jsonify({"success": True, "data": {"id_produit": new_id}})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+@products2_bp.route("/<int:product_id>", methods=["PUT"])
+def update_product(product_id: int):
+    data = request.get_json(silent=True) or {}
+    nom = (data.get("nom") or "").strip()
+    if not nom:
+        return jsonify({"success": False, "error": "nom requis"}), 400
+
+    try:
+        with get_db_cursor() as (cursor, conn):
+            cursor.execute("""
+                UPDATE produits
+                SET nom=%s, description=%s, prix_unitaire=%s, code_barre=%s,
+                    category=%s, seuil=%s, actif=%s
+                WHERE id_produit=%s
+            """, (
+                nom,
+                data.get("description"),
+                data.get("prix_unitaire"),
+                data.get("code_barre"),
+                data.get("category"),
+                data.get("seuil"),
+                int(data.get("actif", 1)),
+                product_id
+            ))
+            conn.commit()
+        return jsonify({"success": True})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+@products2_bp.route("/<int:product_id>/status", methods=["PATCH"])
+def set_status(product_id: int):
+    data = request.get_json(silent=True) or {}
+    actif = int(data.get("actif", 1))
+
+    try:
+        with get_db_cursor() as (cursor, conn):
+            cursor.execute("UPDATE produits SET actif=%s WHERE id_produit=%s", (actif, product_id))
+            conn.commit()
+        return jsonify({"success": True})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+@products2_bp.route("/by-barcode/<code>", methods=["GET"])
+def by_barcode(code: str):
+    try:
+        with get_db_cursor() as (cursor, conn):
+            cursor.execute("""
+                SELECT id_produit, nom, prix_unitaire, code_barre, category, seuil, actif
+                FROM produits
+                WHERE code_barre=%s
+            """, (code,))
+            row = cursor.fetchone()
+        if not row:
+            return jsonify({"success": False, "error": "Produit introuvable"}), 404
+        return jsonify({"success": True, "data": row})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+ 
+----------------------------Fin du fichier------------------------------- 
+ 
+Fichier : produit_expiration.py 
+ 
+from flask import Blueprint, request, jsonify
+from database import get_db_cursor 
+
+expire_bp=Blueprint('expire', __name__)
+
+@expire_bp.route("/produit", methods=["POST"])
+def qte_stock():
+    try:
+        data=request.get_json()
+        
+        if not data or 'nbJours' not in data:
+            return jsonify({'success':False,'error':'Paramètres manquants'}), 400
+        
+        #Recupération des données de la requête
+        nombre=data['nbJours']
+        
+        with get_db_cursor() as (cursor,conn):
+            query="""
+            SELECT P.nom, LS.date_expiration, LS.quantite
+            FROM produits P
+            JOIN lot_stock LS ON P.id_produit = LS.id_produit
+            WHERE LS.date_expiration < DATE_ADD(NOW(),INTERVAL %s DAY)
+            AND LS.quantite > 0;
+            """
+            cursor.execute(query,(nombre,))
+            resultat=cursor.fetchall()
+            
+            
+            return jsonify({'success': True, 'data': resultat})
+    except Exception as e:
+        return jsonify({'success': False, 'error':str(e)}), 500 
+----------------------------Fin du fichier------------------------------- 
+ 
+Fichier : qte_stock_lot.py 
+ 
+from flask import Blueprint, request, jsonify
+from database import get_db_cursor
+import json
+
+qte_stock_bp=Blueprint('qte_stock', __name__)
+
+@qte_stock_bp.route("/lot_stock", methods=["POST"])
+def qte_stock():
+    try:
+        data=request.get_json()
+        
+        if not data or 'quantite' not in data:
+            return jsonify({'success':False,'error':'Paramètres manquants'}), 400
+        
+        #Recupération des données de la requête
+        quantite=data['quantite']
+        
+        with get_db_cursor() as (cursor,conn):
+            query="""
+            SELECT ROW_NUMBER() OVER (ORDER BY nom) AS rang, P.nom, LS.quantite,  DATE_FORMAT(LS.date_expiration, "%%d-%%m-%%Y") AS date_expiration
+            FROM produits P
+            JOIN lot_stock LS ON P.id_produit = LS.id_produit
+            WHERE LS.quantite > %s;
+            """
+            cursor.execute(query,(quantite,))
+            resultat=cursor.fetchall()
+            
+            return jsonify({'success': True, 'data': resultat})
+    except Exception as e:
+        return jsonify({'success': False, 'error':str(e)}), 500 
+----------------------------Fin du fichier------------------------------- 
+ 
+Fichier : saleMvt.py 
+ 
+from datetime import date
+from flask import Blueprint, request, jsonify
+from database import get_db_cursor
+
+saleMvt_bp = Blueprint('saleMvt', __name__)
+
+@saleMvt_bp.route("/vente", methods=["POST"])
+def enregistrer_vente():
+    data = request.get_json()
+    lignes = data.get("lignes", [])
+    id_utilisateur = data.get("id_utilisateur")
+
+    # ✅ Validation basique
+    if not lignes:
+        return jsonify({"status": "error", "message": "Aucune ligne de vente fournie."}), 400
+    if not id_utilisateur:
+        return jsonify({"status": "error", "message": "Utilisateur non spécifié."}), 400
+
+    try:
+        with get_db_cursor() as (cursor, conn):
+
+            # 1️⃣ Création de la vente (montant total temporaire = 0)
+            cursor.execute("""
+                INSERT INTO ventes (date_vente, montant_total, id_utilisateur)
+                VALUES (NOW(), 0, %s)
+            """, (id_utilisateur,))
+            id_vente = cursor.lastrowid
+
+            montant_total_calcule = 0.0
+
+            # 2️⃣ Traitement de chaque ligne
+            for ligne in lignes:
+                id_lot = ligne.get("id_lot")
+                quantite = ligne.get("quantite")
+
+                if not id_lot or not quantite:
+                    raise ValueError("Chaque ligne doit contenir id_lot et quantite.")
+
+                # 🔍 Récupérer le prix du lot et le stock actuel
+                cursor.execute("""
+                    SELECT ls.prix_achat, ls.quantite, p.prix_unitaire, ls.id_produit, p.nom, ls.date_expiration
+                    FROM lot_stock ls
+                    JOIN produits p ON ls.id_produit = p.id_produit
+                    WHERE ls.id_lot = %s
+                """, (id_lot,))
+                lot = cursor.fetchone()
+
+                if not lot:
+                    raise ValueError(f"Lot {id_lot} introuvable.")
+                if lot["quantite"] < quantite:
+                    raise ValueError(f"Stock insuffisant pour le produit \"{lot['nom']}\" (disponible : {lot['quantite']}).")
+                if lot["date_expiration"] and lot["date_expiration"] <= date.today():
+                    raise ValueError(f"Le produit '{lot['nom']}' du lot n°{id_lot} est expiré depuis le {lot['date_expiration']}.")
+
+                # 💰 Déterminer le prix de vente
+                # → utilise prix_vente (produit) si défini, sinon prix_achat (lot)
+                prix_unitaire = float(lot["prix_unitaire"] or lot["prix_achat"])
+                sous_total = prix_unitaire * quantite
+                montant_total_calcule += sous_total
+
+                # ➕ Insertion ligne de vente
+                cursor.execute("""
+                    INSERT INTO lignes_vente (id_vente, id_lot, quantite, prix_unitaire)
+                    VALUES (%s, %s, %s, %s)
+                """, (id_vente, id_lot, quantite, prix_unitaire))
+
+                # 🔄 Mise à jour du stock
+                cursor.execute("""
+                    UPDATE lot_stock
+                    SET quantite = quantite - %s
+                    WHERE id_lot = %s
+                """, (quantite, id_lot))
+
+                # 🧾 Mouvement de stock
+                cursor.execute("""
+                    INSERT INTO stock_mouvements (id_lot, quantite, type_mouvement, date_mouvement, id_utilisateur)
+                    VALUES (%s, %s, 'sortie', NOW(), %s)
+                """, (id_lot, quantite, id_utilisateur))
+
+            # 3️⃣ Mise à jour du total réel
+            cursor.execute("""
+                UPDATE ventes
+                SET montant_total = %s
+                WHERE id_vente = %s
+            """, (montant_total_calcule, id_vente))
+
+            conn.commit()
+
+            return jsonify({
+                "status": "success",
+                "message": "Vente enregistrée avec succès.",
+                "id_vente": id_vente,
+                "montant_total": montant_total_calcule
+            })
+
+    except Exception as e:
+        print("Erreur SQL dans enregistrer_vente:", e)
+        return jsonify({"status": "error", "message": str(e)}), 500
+
+@saleMvt_bp.route("/annuler", methods=["POST"])
+def annuler_vente():
+    data = request.get_json()
+    id_vente = data.get("id_vente")
+    id_utilisateur = data.get("id_utilisateur")
+    motif = data.get("motif", "Annulation manuelle de la vente")
+
+    # 🔎 Validation d'entrée
+    if not id_vente or not id_utilisateur:
+        return jsonify({
+            "status": "error",
+            "message": "Les champs 'id_vente' et 'id_utilisateur' sont requis."
+        }), 400
+
+    try:
+        with get_db_cursor() as (cursor, conn):
+
+            # 1️⃣ Vérifier la vente
+            cursor.execute("""
+                SELECT id_vente, montant_total, annule
+                FROM ventes
+                WHERE id_vente = %s
+            """, (id_vente,))
+            vente = cursor.fetchone()
+
+            if not vente:
+                return jsonify({
+                    "status": "error",
+                    "message": f"La vente {id_vente} n'existe pas."
+                }), 404
+
+            if vente["annule"] == "1":
+                return jsonify({
+                    "status": "error",
+                    "message": f"La vente {id_vente} est déjà annulée."
+                }), 400
+
+            # 2️⃣ Récupérer les lignes associées à cette vente
+            cursor.execute("""
+                SELECT id_lot, quantite
+                FROM lignes_vente
+                WHERE id_vente = %s
+            """, (id_vente,))
+            lignes = cursor.fetchall()
+
+            if not lignes:
+                return jsonify({
+                    "status": "error",
+                    "message": f"Aucune ligne de vente trouvée pour la vente {id_vente}."
+                }), 400
+
+            # 3️⃣ Exécuter toutes les opérations dans une transaction
+            try:
+                for ligne in lignes:
+                    id_lot = ligne["id_lot"]
+                    quantite = ligne["quantite"]
+
+                    # ✅ Réintégration du stock
+                    cursor.execute("""
+                        UPDATE lot_stock
+                        SET quantite = quantite + %s
+                        WHERE id_lot = %s
+                    """, (quantite, id_lot))
+
+                    # 🧾 Enregistrement d’un mouvement d’annulation
+                    cursor.execute("""
+                        INSERT INTO stock_mouvements (id_lot, quantite, type_mouvement, date_mouvement, id_utilisateur)
+                        VALUES (%s, %s, 'annulation vente', NOW(), %s)
+                    """, (id_lot, quantite, id_utilisateur))
+
+                # 4️⃣ Marquer la vente comme annulée + historique
+                cursor.execute("""
+                    UPDATE ventes
+                    SET annule = '1',
+                        annule_par = %s,
+                        motif_annulation = %s
+                    WHERE id_vente = %s
+                """, (id_utilisateur, motif, id_vente))
+
+                # ✅ Validation complète de la transaction
+                conn.commit()
+
+                return jsonify({
+                    "status": "success",
+                    "message": f"Vente {id_vente} annulée avec succès.",
+                    "id_vente": id_vente,
+                    "motif": motif
+                })
+
+            except Exception as inner_err:
+                # 🚨 Rollback automatique en cas d’erreur
+                conn.rollback()
+                raise inner_err
+
+    except Exception as e:
+        print("Erreur SQL dans annuler_vente:", e)
+        return jsonify({
+            "status": "error",
+            "message": str(e)
+        }), 500
+
+@saleMvt_bp.route("/retour", methods=["POST"]) # ignore 
+def retour_produits():
+    data = request.get_json()
+    id_vente = data.get("id_vente")
+    id_utilisateur = data.get("id_utilisateur")
+    produits_retour = data.get("produits", [])  # liste: [{id_lot, quantite}]
+    motif = data.get("motif", "Retour client")
+
+    # ✅ Validation des données
+    if not id_vente or not id_utilisateur or not produits_retour:
+        return jsonify({
+            "status": "error",
+            "message": "Champs 'id_vente', 'id_utilisateur' et 'produits' requis."
+        }), 400
+
+    try:
+        with get_db_cursor() as (cursor, conn):
+
+            # 🔹 Vérifier que la vente existe et non annulée
+            cursor.execute("""
+                SELECT id_vente, montant_total, annule
+                FROM ventes
+                WHERE id_vente = %s
+            """, (id_vente,))
+            vente = cursor.fetchone()
+
+            if not vente:
+                return jsonify({"status": "error", "message": f"Vente {id_vente} introuvable"}), 404
+            if vente["annule"] == "1":
+                return jsonify({"status": "error", "message": "Vente déjà annulée"}), 400
+
+            montant_rembourse_total = 0.0
+
+            # 🔹 Gérer chaque produit retourné
+            for item in produits_retour:
+                id_lot = item.get("id_lot")
+                qte_retour = float(item.get("quantite", 0))
+
+                # Vérifier que le produit existe dans la vente
+                cursor.execute("""
+                    SELECT quantite, prix_unitaire
+                    FROM lignes_vente
+                    WHERE id_vente = %s AND id_lot = %s
+                """, (id_vente, id_lot))
+                ligne = cursor.fetchone()
+
+                if not ligne:
+                    raise ValueError(f"Lot {id_lot} non trouvé dans la vente {id_vente}")
+                if qte_retour > ligne["quantite"]:
+                    raise ValueError(f"Quantité retournée ({qte_retour}) supérieure à vendue ({ligne['quantite']})")
+
+                # 💰 Calcul du montant à rembourser
+                montant_retour = qte_retour * float(ligne["prix_unitaire"])
+                montant_rembourse_total += montant_retour
+
+                # 🔄 Réintégration du stock
+                cursor.execute("""
+                    UPDATE lot_stock
+                    SET quantite = quantite + %s
+                    WHERE id_lot = %s
+                """, (qte_retour, id_lot))
+
+                # ✏️ Mise à jour de la ligne_vente
+                nouvelle_quantite = ligne["quantite"] - qte_retour
+                if nouvelle_quantite > 0:
+                    cursor.execute("""
+                        UPDATE lignes_vente
+                        SET quantite = %s
+                        WHERE id_vente = %s AND id_lot = %s
+                    """, (nouvelle_quantite, id_vente, id_lot))
+                else:
+                    cursor.execute("""
+                        DELETE FROM lignes_vente
+                        WHERE id_vente = %s AND id_lot = %s
+                    """, (id_vente, id_lot))
+
+                # 📦 Mouvement de stock
+                cursor.execute("""
+                    INSERT INTO stock_mouvements (id_lot, quantite, type_mouvement, date_mouvement, id_utilisateur)
+                    VALUES (%s, %s, 'retour', NOW(), %s)
+                """, (id_lot, qte_retour, id_utilisateur))
+
+            # 🔹 Recalcul du total de la vente
+            cursor.execute("""
+                SELECT SUM(quantite * prix_unitaire) AS nouveau_total
+                FROM lignes_vente
+                WHERE id_vente = %s
+            """, (id_vente,))
+            nouveau_total = cursor.fetchone()["nouveau_total"] or 0.0 # type: ignore
+
+            cursor.execute("""
+                UPDATE ventes
+                SET montant_total = %s
+                WHERE id_vente = %s
+            """, (nouveau_total, id_vente))
+
+            # 🔹 Historiser le retour
+            cursor.execute("""
+                INSERT INTO annulations_partielles (id_vente, montant_rembourse, date_annulation, id_utilisateur, motif)
+                VALUES (%s, %s, NOW(), %s, %s)
+            """, (id_vente, montant_rembourse_total, id_utilisateur, motif))
+
+            conn.commit()
+
+            return jsonify({
+                "status": "success",
+                "message": "Retour enregistré avec succès",
+                "id_vente": id_vente,
+                "montant_rembourse": montant_rembourse_total,
+                "nouveau_total": nouveau_total
+            })
+
+    except Exception as e:
+        print("Erreur dans retour_produits:", e)
+        return jsonify({"status": "error", "message": str(e)}), 500
+ 
+----------------------------Fin du fichier------------------------------- 
+ 
+Fichier : sales.py 
+ 
+from flask import Blueprint, request, jsonify
+from database import get_db_cursor
+from datetime import datetime, timedelta
+
+sales_bp = Blueprint('sales', __name__)
+
+@sales_bp.route('/top-sold', methods=['POST'])
+def get_top_sold_products():
+    try:
+        data = request.get_json()
+        
+        # Validation des paramètres
+        if not data or 'date_debut' not in data or 'date_fin' not in data:
+            return jsonify({'success': False, 'error': 'Paramètres manquants'}), 400
+        
+        date_debut = data['date_debut']
+        date_fin = data['date_fin']
+        
+        with get_db_cursor() as (cursor,conn):
+            query = """
+            SELECT P.nom, SUM(LV.quantite) AS total_quantite_vendue
+            FROM lignes_vente LV
+            JOIN lot_stock LS ON LV.id_lot = LS.id_lot
+            JOIN produits P ON LS.id_produit = P.id_produit
+            JOIN ventes V ON LV.id_vente = V.id_vente
+            WHERE V.date_vente BETWEEN %s AND %s
+            GROUP BY P.nom
+            ORDER BY total_quantite_vendue DESC
+            """
+            cursor.execute(query, (date_debut, date_fin))
+            
+            columns = [column[0] for column in cursor.description]
+            results = []
+            
+            for row in cursor.fetchall():
+                results.append(dict(zip(columns, row)))
+            
+            return jsonify({'success': True, 'data': results})
+    
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500 
+----------------------------Fin du fichier------------------------------- 
+ 
+Fichier : stock.py 
+ 
+from flask import Blueprint, request, jsonify
+from database import get_db_cursor
+
+stock_bp = Blueprint('stock', __name__)
+
+@stock_bp.route('/movements', methods=['POST'])
+def get_stock_movements():
+    try:
+        data = request.get_json()
+        
+        if not data or 'id_produit' not in data:
+            return jsonify({'success': False, 'error': 'ID produit manquant'}), 400
+        
+        product_id = data['id_produit']
+        
+        with get_db_cursor() as (cursor,conn):
+            query = """
+            SELECT P.nom, SM.type_mouvement, SM.quantite, DATE_FORMAT(SM.date_mouvement, "%%d-%%m-%%Y") as date_mouvement
+            FROM Stock_Mouvements SM
+            JOIN Lot_Stock LS ON SM.id_lot = LS.id_lot
+            JOIN Produits P ON LS.id_produit = P.id_produit
+            WHERE P.id_produit = %s
+            ORDER BY SM.date_mouvement DESC
+            """
+            cursor.execute(query, (product_id,))
+            results = cursor.fetchall()
+            
+            
+            return jsonify({'success': True, 'data': results})
+    
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500 
+----------------------------Fin du fichier------------------------------- 
+ 
+Fichier : stock2.py 
+ 
+from flask import Blueprint, request, jsonify
+from database import get_db_cursor
+
+stock2_bp = Blueprint("stock2", __name__)
+
+@stock2_bp.route("/movements", methods=["GET"])
+def movements():
+    product_id = request.args.get("product_id")
+    lot_id = request.args.get("lot_id")
+    limit = int(request.args.get("limit") or 30)
+
+    if not product_id and not lot_id:
+        return jsonify({"success": False, "error": "product_id ou lot_id requis"}), 400
+
+    try:
+        with get_db_cursor() as (cursor, conn):
+            if lot_id:
+                cursor.execute("""
+                    SELECT p.nom, sm.id_lot, sm.type_mouvement, sm.quantite,
+                           DATE_FORMAT(sm.date_mouvement, '%%Y-%%m-%%d %%H:%%i') AS date_mouvement
+                    FROM stock_mouvements sm
+                    JOIN lot_stock ls ON sm.id_lot = ls.id_lot
+                    JOIN produits p ON ls.id_produit = p.id_produit
+                    WHERE sm.id_lot=%s
+                    ORDER BY sm.date_mouvement DESC
+                    LIMIT %s
+                """, (int(lot_id), limit))
+            else:
+                cursor.execute("""
+                    SELECT p.nom, sm.id_lot, sm.type_mouvement, sm.quantite,
+                           DATE_FORMAT(sm.date_mouvement, '%%Y-%%m-%%d %%H:%%i') AS date_mouvement
+                    FROM stock_mouvements sm
+                    JOIN lot_stock ls ON sm.id_lot = ls.id_lot
+                    JOIN produits p ON ls.id_produit = p.id_produit
+                    WHERE p.id_produit=%s
+                    ORDER BY sm.date_mouvement DESC
+                    LIMIT %s
+                """, (int(product_id or 0), limit))
+
+            rows = cursor.fetchall()
+
+        return jsonify({"success": True, "data": rows})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+ 
+----------------------------Fin du fichier------------------------------- 
+ 
+Fichier : topProduitVendu.py 
+ 
+from flask import Blueprint, request, jsonify
+from database import get_db_cursor
+import json
+
+topProduitVendu_bp = Blueprint('produitVendu', __name__)
+
+@topProduitVendu_bp.route('/resultat', methods=['POST'])
+def get_products_in_stock():
+    data = request.get_json()
+    try:
+        with get_db_cursor() as (cursor,conn):
+            if (data["lite"]=="Y"):
+                query = """
+                SELECT 
+                    P.nom AS 'Nom_produit',
+                    SUM(LV.quantite * LV.prix_unitaire) AS Montant_vendu,
+                    SUM(LV.quantite) AS Quantite_vendue,
+                    (SELECT COALESCE(SUM(LS.quantite), 0) 
+                    FROM Lot_Stock LS 
+                    WHERE LS.id_produit = P.id_produit) AS Quantite_stock, date_format(V.date_vente, "%%d-%%m-%%Y") AS date_vente
+                FROM 
+                    Produits P
+                JOIN 
+                    Lot_Stock LS ON P.id_produit = LS.id_produit
+                JOIN 
+                    Lignes_vente LV ON LS.id_lot = LV.id_lot
+                JOIN 
+                    Ventes V ON LV.id_vente = V.id_vente
+                WHERE 
+                    CAST(V.date_vente AS DATE) BETWEEN %s AND %s
+                GROUP BY 
+                    P.nom, P.id_produit, date_vente
+                ORDER BY 
+                    SUM(LV.quantite * LV.prix_unitaire) DESC
+                LIMIT %s"""
+            else:
+                query = """
+                SELECT 
+                    P.nom AS 'Nom_produit',
+                    SUM(LV.quantite * LV.prix_unitaire) AS Montant_vendu,
+                    SUM(LV.quantite) AS Quantite_vendue,
+                    (SELECT COALESCE(SUM(LS.quantite), 0) 
+                    FROM Lot_Stock LS 
+                    WHERE LS.id_produit = P.id_produit) AS Quantite_stock
+                FROM 
+                    Produits P
+                JOIN 
+                    Lot_Stock LS ON P.id_produit = LS.id_produit
+                JOIN 
+                    Lignes_vente LV ON LS.id_lot = LV.id_lot
+                JOIN 
+                    Ventes V ON LV.id_vente = V.id_vente
+                WHERE 
+                    CAST(V.date_vente AS DATE) BETWEEN %s AND %s
+                GROUP BY 
+                    P.nom, P.id_produit
+                ORDER BY 
+                    SUM(LV.quantite * LV.prix_unitaire) DESC
+                LIMIT %s"""
+            cursor.execute(query,(data.get('date_debut'),data.get('date_fin'), data.get('limit'))) 
+            results = cursor.fetchall() 
+            
+            return jsonify({'success': True, 'data': results})
+    
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500 
+----------------------------Fin du fichier------------------------------- 
+ 
+Fichier : users.py 
+ 
+# routes/users.py
+from flask import Blueprint, request, jsonify
+from werkzeug.security import generate_password_hash
+from database import get_db_cursor
+from functools import wraps
+from itsdangerous import BadSignature, SignatureExpired
+from .auth_api import verify_token  # import depuis auth_api.py
+
+users_bp = Blueprint("users", __name__)
+
+def auth_required(f):
+    @wraps(f)
+    def wrapper(*args, **kwargs):
+        auth = request.headers.get("Authorization", "")
+        if not auth.startswith("Bearer "):
+            return jsonify({"success": False, "error": "Token manquant"}), 401
+        token = auth.split(" ", 1)[1].strip()
+        try:
+            request.user = verify_token(token)  # type: ignore # attach
+        except SignatureExpired:
+            return jsonify({"success": False, "error": "Session expirée"}), 401
+        except BadSignature:
+            return jsonify({"success": False, "error": "Token invalide"}), 401
+        return f(*args, **kwargs)
+    return wrapper
+
+def role_required(*roles):
+    def deco(f):
+        @wraps(f)
+        def wrapper(*args, **kwargs):
+            u = getattr(request, "user", {}) or {}
+            if u.get("role") not in roles:
+                return jsonify({"success": False, "error": "Accès refusé"}), 403
+            return f(*args, **kwargs)
+        return wrapper
+    return deco
+
+@users_bp.route("/", methods=["GET"])
+@auth_required
+@role_required("Admin")
+def list_users():
+    with get_db_cursor() as (cursor, conn):
+        cursor.execute("""
+            SELECT id_utilisateur, username,nom, role, date_creation, email
+            FROM utilisateurs
+            ORDER BY id_utilisateur DESC
+        """)
+        rows = cursor.fetchall()
+    return jsonify({"success": True, "data": rows})
+
+@users_bp.route("/", methods=["POST"])
+@auth_required
+@role_required("Admin")
+def create_user():
+    payload = request.get_json(silent=True) or {}
+    nom = (payload.get("nom") or "").strip()
+    username = (payload.get("username") or "").strip().lower()
+    password = payload.get("password") or payload.get("mot_de_passe")
+    role = payload.get("role") or "Vendeur"
+
+    if not username or not password or role not in ("Admin", "Vendeur"):
+        return jsonify({"success": False, "error": "username/password/role requis"}), 400
+
+    pwd_hash = generate_password_hash(password)
+
+    try:
+        with get_db_cursor() as (cursor, conn):
+            cursor.execute("""
+                INSERT INTO utilisateurs(nom, username, mot_de_passe, role)
+                VALUES(%s,%s,%s,%s)
+            """, (nom, username, pwd_hash, role))
+            conn.commit()
+            new_id = cursor.lastrowid
+        return jsonify({"success": True, "id_utilisateur": new_id})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+@users_bp.route("/<int:user_id>", methods=["PUT"])
+@auth_required
+@role_required("Admin")
+def update_user(user_id):
+    payload = request.get_json(silent=True) or {}
+    nom = (payload.get("nom") or "").strip()
+    username = (payload.get("username") or "").strip().lower()
+    role = payload.get("role")
+
+    fields = []
+    params = []
+    if nom:
+        fields.append("nom=%s"); params.append(nom)
+    if username:
+        fields.append("username=%s"); params.append(username)
+    if role in ("Admin", "Vendeur"):
+        fields.append("role=%s"); params.append(role)
+
+    if not fields:
+        return jsonify({"success": False, "error": "Aucune modification"}), 400
+
+    params.append(user_id)
+
+    with get_db_cursor() as (cursor, conn):
+        cursor.execute(f"UPDATE utilisateurs SET {', '.join(fields)} WHERE id_utilisateur=%s", tuple(params))
+        conn.commit()
+
+    return jsonify({"success": True})
+
+@users_bp.route("/<int:user_id>/password", methods=["PUT"])
+@auth_required
+@role_required("Admin")
+def reset_password(user_id):
+    payload = request.get_json(silent=True) or {}
+    password = payload.get("password") or payload.get("mot_de_passe")
+    if not password:
+        return jsonify({"success": False, "error": "password requis"}), 400
+
+    pwd_hash = generate_password_hash(password)
+
+    with get_db_cursor() as (cursor, conn):
+        cursor.execute("UPDATE utilisateurs SET mot_de_passe=%s WHERE id_utilisateur=%s", (pwd_hash, user_id))
+        conn.commit()
+
+    return jsonify({"success": True})
+
+@users_bp.route("/<int:user_id>", methods=["DELETE"])
+@auth_required
+@role_required("Admin")
+def delete_user(user_id):
+    with get_db_cursor() as (cursor, conn):
+        cursor.execute("DELETE FROM utilisateurs WHERE id_utilisateur=%s", (user_id,))
+        conn.commit()
+    return jsonify({"success": True})
+ 
+----------------------------Fin du fichier------------------------------- 
+ 
+Fichier : users_api.py 
+ 
+from flask import Blueprint, request, jsonify
+from werkzeug.security import generate_password_hash
+from database import get_db_cursor
+from routes.auth_api import require_auth, require_role  # ajuste l'import selon ton projet
+
+users_api_bp = Blueprint("users_api", __name__)
+
+@users_api_bp.route("/list", methods=["GET"])
+@require_auth
+@require_role("admin")
+def list_users():
+    q = (request.args.get("q") or "").strip()
+    role = (request.args.get("role") or "").strip()
+    actif = request.args.get("actif")  # "1" / "0" / None
+
+    sql = """
+        SELECT id_utilisateur, nom, username, role, actif, created_at, updated_at
+        FROM utilisateurs
+        WHERE 1=1
+    """
+    params = []
+
+    if q:
+        sql += " AND (nom LIKE %s OR username LIKE %s)"
+        like = f"%{q}%"
+        params += [like, like]
+
+    if role:
+        sql += " AND role = %s"
+        params.append(role)
+
+    if actif in ("0", "1"):
+        sql += " AND actif = %s"
+        params.append(int(actif))
+
+    sql += " ORDER BY id_utilisateur DESC"
+
+    with get_db_cursor() as (cursor, conn):
+        cursor.execute(sql, params)
+        rows = cursor.fetchall()
+    return jsonify({"success": True, "data": rows})
+
+@users_api_bp.route("/create", methods=["POST"])
+@require_auth
+@require_role("admin")
+def create_user():
+    payload = request.get_json(silent=True) or {}
+    nom = (payload.get("nom") or "").strip()
+    username = (payload.get("username") or "").strip()
+    role = (payload.get("role") or "caissier").strip()
+    password = (payload.get("password") or "").strip()
+
+    if not nom or not username or not password:
+        return jsonify({"success": False, "error": "nom, username et password requis"}), 400
+
+    if role not in ("admin", "caissier", "manager"):
+        return jsonify({"success": False, "error": "role invalide"}), 400
+
+    pwd_hash = generate_password_hash(password)
+
+    try:
+        with get_db_cursor() as (cursor, conn):
+            cursor.execute("""
+                INSERT INTO utilisateurs(nom, username, mot_de_passe, role, actif)
+                VALUES(%s,%s,%s,%s,1)
+            """, (nom, username, pwd_hash, role))
+            conn.commit()
+            new_id = cursor.lastrowid
+        return jsonify({"success": True, "id_utilisateur": new_id})
+    except Exception as e:
+        # si username duplicate
+        return jsonify({"success": False, "error": str(e)}), 400
+
+@users_api_bp.route("/update/<int:user_id>", methods=["PUT"])
+@require_auth
+@require_role("admin")
+def update_user(user_id):
+    payload = request.get_json(silent=True) or {}
+    nom = (payload.get("nom") or "").strip()
+    role = (payload.get("role") or "").strip()
+    actif = payload.get("actif")
+
+    fields = []
+    params = []
+
+    if nom:
+        fields.append("nom=%s")
+        params.append(nom)
+
+    if role:
+        if role not in ("admin", "caissier", "manager"):
+            return jsonify({"success": False, "error": "role invalide"}), 400
+        fields.append("role=%s")
+        params.append(role)
+
+    if actif in (0, 1, True, False, "0", "1"):
+        fields.append("actif=%s")
+        params.append(int(str(actif) == "1" or actif is True))
+
+    if not fields:
+        return jsonify({"success": False, "error": "Aucune modification"}), 400
+
+    params.append(user_id)
+
+    with get_db_cursor() as (cursor, conn):
+        cursor.execute(f"""
+            UPDATE utilisateurs SET {", ".join(fields)}
+            WHERE id_utilisateur=%s
+        """, params)
+        conn.commit()
+
+    return jsonify({"success": True})
+
+@users_api_bp.route("/reset_password/<int:user_id>", methods=["POST"])
+@require_auth
+@require_role("admin")
+def reset_password(user_id):
+    payload = request.get_json(silent=True) or {}
+    new_password = (payload.get("new_password") or "").strip()
+
+    if not new_password:
+        return jsonify({"success": False, "error": "new_password requis"}), 400
+
+    pwd_hash = generate_password_hash(new_password)
+
+    with get_db_cursor() as (cursor, conn):
+        cursor.execute("""
+            UPDATE utilisateurs SET mot_de_passe=%s
+            WHERE id_utilisateur=%s
+        """, (pwd_hash, user_id))
+        conn.commit()
+
+    return jsonify({"success": True})
+ 
+----------------------------Fin du fichier------------------------------- 
+ 
