@@ -4,6 +4,25 @@ import json
 
 topProduitVendu_bp = Blueprint('produitVendu', __name__)
 
+@topProduitVendu_bp.route('/list', methods=['POST'])
+def get_products_list():
+    data = request.get_json()
+    try:
+        with get_db_cursor() as (cursor,conn):
+            query = """
+            select v.id_vente, date_format(v.date_vente, '%%d-%%m-%%Y') date_vente, u.id_utilisateur, u.nom vendeur, v.montant_total
+            from ventes v, utilisateurs u
+            where v.id_utilisateur=u.id_utilisateur and CAST(v.date_vente AS DATE) BETWEEN %s AND %s
+            ORDER BY 
+                2 ASC
+            limit %s"""
+            
+            cursor.execute(query, (data.get('date_debut'), data.get('date_fin'), data.get('limit')))
+            results = cursor.fetchall()
+            return jsonify({'success': True, 'data': results})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
 @topProduitVendu_bp.route('/resultat', methods=['POST'])
 def get_products_in_stock():
     data = request.get_json()
@@ -12,7 +31,7 @@ def get_products_in_stock():
             if (data["lite"]=="Y"):
                 query = """
                 SELECT 
-                    P.nom AS 'Nom_produit',
+                    P.nom AS 'Nom_produit', 
                     SUM(LV.quantite * LV.prix_unitaire) AS Montant_vendu,
                     SUM(LV.quantite) AS Quantite_vendue,
                     (SELECT COALESCE(SUM(LS.quantite), 0) 

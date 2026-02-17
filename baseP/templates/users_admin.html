@@ -1,22 +1,27 @@
 <!doctype html>
 <html lang="fr">
+
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="../static/products_admin.css" />
   <title>PharmaPlus • Utilisateurs</title>
 </head>
+
 <body>
   <header class="topbar">
-      <nav class="nav">
-        <a class="navLink" href="index.html">POS</a>
-        <a class="navLink" href="products_admin.html">Produits</a>
-        <a class="navLink" href="dashboard.html">Dashboard</a>
-        <a class="navLink" href="suppliers_admin.html">Fournisseurs</a>
-        <span class="navSep"></span>
-        <a class="navLink" href="settings.html">Paramètres</a>
-        <a class="navLink" href="users_admin.html">Utilisateurs</a>
-      </nav>
+    <div id="logo">
+      <img src="/images/mobisoft1.png" alt="">
+    </div>
+    <nav class="nav">
+      <a class="navLink" href="index.html">POS</a>
+      <a class="navLink" href="products_admin.html">Produits</a>
+      <a class="navLink" href="dashboard.html">Dashboard</a>
+      <a class="navLink" href="suppliers_admin.html">Fournisseurs</a>
+      <span class="navSep"></span>
+      <a class="navLink" href="settings.html">Paramètres</a>
+      <a class="navLink" href="users_admin.html">Utilisateurs</a>
+    </nav>
     <div class="left">
       <h2>Utilisateurs</h2>
       <div class="muted">Création, rôles, activation, reset mot de passe</div>
@@ -28,7 +33,7 @@
 
   <section class="panel">
     <div class="row">
-      <input id="q" placeholder="Rechercher nom ou username..."/>
+      <input id="q" placeholder="Rechercher nom ou username..." />
       <select id="role">
         <option value="">Tous rôles</option>
         <option value="admin">Admin</option>
@@ -47,7 +52,12 @@
       <table>
         <thead>
           <tr>
-            <th>ID</th><th>Nom</th><th>Username</th><th>Rôle</th><th>Actif</th><th>Actions</th>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Username</th>
+            <th>Rôle</th>
+            <th>Actif</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody id="tbody"></tbody>
@@ -59,16 +69,23 @@
   <div class="modal" id="modal">
     <div class="box">
       <h3 id="modalTitle">Nouvel utilisateur</h3>
-      <div class="field"><div class="muted">Nom</div><input id="m_nom"></div>
-      <div class="field"><div class="muted">Username</div><input id="m_username"></div>
-      <div class="field"><div class="muted">Rôle</div>
+      <div class="field">
+        <div class="muted">Nom</div><input id="m_nom">
+      </div>
+      <div class="field">
+        <div class="muted">Username</div><input id="m_username">
+      </div>
+      <div class="field">
+        <div class="muted">Rôle</div>
         <select id="m_role">
           <option value="caissier">Caissier</option>
           <option value="manager">Manager</option>
           <option value="admin">Admin</option>
         </select>
       </div>
-      <div class="field"><div class="muted">Mot de passe initial</div><input id="m_password" type="password"></div>
+      <div class="field">
+        <div class="muted">Mot de passe initial</div><input id="m_password" type="password">
+      </div>
 
       <div class="row">
         <button id="btnCancel">Annuler</button>
@@ -80,4 +97,5 @@
 
   <script src="../static/users_admin.js"></script>
 </body>
+
 </html>

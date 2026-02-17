@@ -10,7 +10,7 @@ async function fetchJson(url, opts = {}) {
   });
   const text = await res.text();
   let data = null;
-  try { data = text ? JSON.parse(text) : null; } catch {}
+  try { data = text ? JSON.parse(text) : null; } catch { }
   if (!res.ok) throw new Error(data?.error || `HTTP ${res.status}`);
   return data;
 }
@@ -27,15 +27,45 @@ $("btnLogin").addEventListener("click", async () => {
       body: JSON.stringify({ username, password }),
     });
 
+    // Après login OK
     localStorage.setItem("auth_token", resp.token);
-    localStorage.setItem("user_id", resp.user.id_utilisateur);
-    localStorage.setItem("user_name", resp.user.nom || "");
-    localStorage.setItem("user_role", resp.user.role || "");
+
+    // IMPORTANT: pour que auth_guard.js ne redirige pas en boucle
+    localStorage.setItem("auth_user", JSON.stringify(resp.user));
+
+    // (Optionnel) si tu gardes les anciennes clés
+    localStorage.setItem("user_id", resp.user.id_utilisateur ?? resp.user.id ?? "");
+    localStorage.setItem("user_name", resp.user.nom ?? resp.user.name ?? "");
+    localStorage.setItem("user_role", resp.user.role ?? "");
+
+
+
 
     // Redirection
     window.location.href = "dashboard.html";
   } catch (e) {
-    $("msg").textContent = `Erreur: ${e.message}`;
+
+    let message = "";
+
+    if (e.message === "Failed to fetch") {
+      message = "Impossible de joindre le serveur.";
+    }
+
+    else if (e.message.includes("Identifiants")) {
+      message = "Identifiants incorrects.";
+    }
+
+    else if (e.message.includes("username et password requis")) {
+      message = "Nom d'utilisateur et mot de passe requis.";
+    }
+
+    else {
+      message = "Erreur inattendue."+` (${e.message})`;
+    }
+
+    $("msg").textContent = message;
+
+    // $("msg").textContent = `Erreur: ${e.message}`;
   }
 });
 

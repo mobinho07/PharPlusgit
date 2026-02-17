@@ -373,3 +373,20 @@ tbody td {
   background: var(--line);
   margin: 0 4px;
 }
+
+/* Styles pour le logo dans la page de connexion */
+
+#logo {
+  width: 7.50%;
+  height: 100%;
+
+  display: flex;
+  justify-content: center; /* centre horizontal */
+  align-items: center;     /* centre vertical */
+}
+
+#logo img {
+  width: 100%;          /* taille réduite */
+  aspect-ratio: 5 / 4;   /* ratio 5:4 */
+  object-fit: contain;   /* évite la déformation */
+}
