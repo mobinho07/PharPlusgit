@@ -340,9 +340,24 @@ tbody td {
   }
 }
 
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap : 10px;
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: wrap;
+  width: 60%;
+}
+
 .nav {
   display: flex;
-  gap: 10px;
+  gap: 2px;
   align-items: center;
   flex-wrap: wrap;
 }
@@ -380,7 +395,7 @@ tbody td {
   width: 7.50%;
   height: 100%;
 
-  display: flex;
+  display: block;
   justify-content: center; /* centre horizontal */
   align-items: center;     /* centre vertical */
 }
