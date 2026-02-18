@@ -1,3 +1,116 @@
+/* Cleaned CSS (duplicates removed: last rule kept) from admin.css */
+
+input {
+  width: 100%;
+  padding: 11px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: rgba(0, 0, 0, .20);
+  color: var(--text);
+  outline: none;
+}
+
+input::placeholder {
+  color: rgba(233, 238, 252, .45)
+}
+
+.kbd button {
+  padding: 14px 10px;
+  font-size: 1.05rem;
+  background: rgba(255, 255, 255, .06);
+}
+
+.kbd .warn {
+  background: rgba(255, 214, 10, .13);
+  border-color: rgba(255, 214, 10, .30)
+}
+
+tbody tr.selected {
+  background: rgba(79, 140, 255, .12)
+}
+
+.list .li {
+  padding: 10px 12px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+}
+
+.list .li:first-child {
+  border-top: none
+}
+
+@media (max-width: 1100px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  table {
+    min-width: 0
+  }
+}
+
+.toolbar input,
+.toolbar select {
+  flex: 1;
+  min-width: 180px;
+}
+
+.modal .box .items {
+  max-height: 300px;
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, .14);
+}
+
+.title {
+    font-weight: 800;
+    font-size: 1.05rem;
+}
+
+.kpiCard.warn {
+    border-color: rgba(255, 214, 10, .25);
+    background: linear-gradient(180deg, rgba(255, 214, 10, .10), rgba(255, 255, 255, .02));
+}
+
+.tag.danger {
+    border-color: rgba(255, 92, 119, .35);
+    background: rgba(255, 92, 119, .12);
+    color: #ffb7c3;
+}
+
+.li .meta b {
+    font-weight: 700;
+}
+
+.li .badge.warn {
+    border-color: rgba(255, 214, 10, .35);
+    background: rgba(255, 214, 10, .12);
+}
+
+.li .badge.danger {
+    border-color: rgba(255, 92, 119, .35);
+    background: rgba(255, 92, 119, .12);
+    color: #ffb7c3;
+}
+
+@media (max-width: 1250px) {
+    .kpiGrid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .twoCols {
+        grid-template-columns: 1fr;
+    }
+}
+
 :root {
   --bg: #0b1220;
   --card: #101b33;
@@ -154,11 +267,6 @@ textarea {
   outline: none;
 }
 
-textarea {
-  resize: vertical;
-  min-height: 110px
-}
-
 input::placeholder,
 textarea::placeholder {
   color: rgba(233, 238, 252, .45)
@@ -193,50 +301,8 @@ textarea::placeholder {
   min-height: 140px;
 }
 
-.li {
-  padding: 10px 12px;
-  border-top: 1px solid var(--line);
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  align-items: center;
-}
-
-.li:first-child {
-  border-top: none
-}
-
-.li:hover {
-  background: rgba(79, 140, 255, .10)
-}
-
-.li.selected {
-  background: rgba(79, 140, 255, .15)
-}
-
-.meta {
-  display: flex;
-  flex-direction: column;
-  gap: 2px
-}
-
 .meta b {
   font-weight: 650
-}
-
-.meta small {
-  color: var(--muted)
-}
-
-.btns {
-  display: flex;
-  gap: 8px
-}
-
-.tinybtn {
-  padding: 7px 9px;
-  border-radius: 10px;
-  font-size: .9rem;
 }
 
 .cart {
@@ -268,27 +334,6 @@ tbody td {
   padding: 10px 10px;
   border-bottom: 1px solid var(--line);
   vertical-align: middle;
-}
-
-.right {
-  text-align: right;
-  white-space: nowrap;
-}
-
-.formGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.formGrid .full {
-  grid-column: 1 / -1;
-}
-
-.divider {
-  height: 1px;
-  background: var(--line);
-  margin: 4px 0;
 }
 
 .modal {
@@ -340,21 +385,6 @@ tbody td {
   }
 }
 
-.topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap : 10px;
-}
-
-.topbar-left {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  flex-wrap: wrap;
-  width: 60%;
-}
-
 .nav {
   display: flex;
   gap: 2px;
@@ -389,21 +419,99 @@ tbody td {
   margin: 0 4px;
 }
 
-/* Styles pour le logo dans la page de connexion */
-
 #logo {
   width: 7.50%;
   height: 100%;
 
   display: block;
-  justify-content: center; /* centre horizontal */
-  align-items: center;     /* centre vertical */
+  justify-content: center; 
+  align-items: center;     
 }
 
 #logo img {
-  width: 100%;          /* taille réduite */
-  aspect-ratio: 5 / 4;   /* ratio 5:4 */
-  object-fit: contain;   /* évite la déformation */
+  width: 100%;          
+  aspect-ratio: 5 / 4;   
+  object-fit: contain;   
+}
+
+#logoAccueil img {
+  width: 200px;          
+  aspect-ratio: 5 / 4;   
+  object-fit: contain;   
+}
+
+.toolbar .field {
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  min-width: 260px;
+}
+
+.toolbar .field.small {min-width: 120px;}
+
+.toolbar .right {margin-left:auto; display:flex; gap:10px; align-items:center;}
+
+.table th, .table td {
+  padding:10px 10px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.table th {
+  color: rgba(255,255,255,.65);
+  font-weight:600;
+  text-align:left;
+  position: sticky;
+  top: 0;
+  background: rgba(9,15,32,.9);
+  backdrop-filter: blur(8px);
+}
+
+.right { text-align:right; white-space:nowrap; }
+
+@media (max-width: 900px){
+  .grid2{ grid-template-columns: 1fr; }
+}
+
+textarea {
+  resize: vertical;
+  min-height: 110px
+}
+
+.tinybtn {
+  padding: 7px 9px;
+  border-radius: 10px;
+  font-size: .9rem;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.formGrid .full {
+  grid-column: 1 / -1;
+}
+
+.divider {
+  height: 1px;
+  background: var(--line);
+  margin: 4px 0;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap : 10px;
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: wrap;
+  width: 60%;
 }
 
 #logoAccueil {
@@ -411,12 +519,39 @@ tbody td {
   height: 100%;
 
   display: flex;
-  justify-content: center; /* centre horizontal */
-  align-items: center;     /* centre vertical */
+  justify-content: center; 
+  align-items: center;     
 }
 
-#logoAccueil img {
-  width: 200px;          /* taille réduite */
-  aspect-ratio: 5 / 4;   /* ratio 5:4 */
-  object-fit: contain;   /* évite la déformation */
+.toolbar {
+  display:flex;
+  gap:12px;
+  align-items:flex-end;
+  flex-wrap:wrap;
+}
+
+.tablewrap {
+  overflow:auto;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius: 12px;
+  background: rgba(0,0,0,.14);
+}
+
+.table {
+  width:100%;
+  border-collapse:collapse;
+  min-width: 760px;
+}
+
+.grid2 {
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:12px;
+}
+
+.warnbox {
+  border:1px solid rgba(255,214,10,.30);
+  background: rgba(255,214,10,.10);
+  border-radius: 12px;
+  padding:10px;
 }
