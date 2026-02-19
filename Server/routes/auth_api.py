@@ -80,7 +80,7 @@ def require_role(*roles):
         return wrapper
     return deco
 
-
+# Endpoint de login
 @auth_api_bp.route("/login", methods=["POST"])
 def login():
     payload = request.get_json(silent=True) or {}
@@ -115,6 +115,7 @@ def login():
         }
     })
 
+# Endpoint pour vérifier le token et obtenir les infos de l'utilisateur connecté
 @auth_api_bp.route("/me", methods=["GET"])
 def me():
     auth = request.headers.get("Authorization", "")

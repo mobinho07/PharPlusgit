@@ -3,10 +3,6 @@ from database import get_db_cursor
 
 products2_bp = Blueprint("products2", __name__)
 
-@products2_bp.route("/ping", methods=["GET"])
-def ping():
-    return jsonify({"success": True, "message": "products2 ok"})
-
 @products2_bp.route("", methods=["GET"])
 def list_products():
     search = (request.args.get("search") or "").strip()

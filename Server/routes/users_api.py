@@ -7,14 +7,14 @@ users_api_bp = Blueprint("users_api", __name__)
 
 @users_api_bp.route("/list", methods=["GET"])
 @require_auth
-@require_role("admin")
+@require_role("Admin")
 def list_users():
     q = (request.args.get("q") or "").strip()
     role = (request.args.get("role") or "").strip()
     actif = request.args.get("actif")  # "1" / "0" / None
 
     sql = """
-        SELECT id_utilisateur, nom, username, role, actif, created_at, updated_at
+        SELECT id_utilisateur, nom, username, role, actif, date_creation, date_modification
         FROM utilisateurs
         WHERE 1=1
     """
@@ -36,13 +36,16 @@ def list_users():
     sql += " ORDER BY id_utilisateur DESC"
 
     with get_db_cursor() as (cursor, conn):
-        cursor.execute(sql, params)
-        rows = cursor.fetchall()
+        try:
+            cursor.execute(sql, params)
+            rows = cursor.fetchall()
+        except Exception as e:
+            return jsonify({"success": False, "error": f"Erreur SQL: {str(e)}"}), 500
     return jsonify({"success": True, "data": rows})
 
 @users_api_bp.route("/create", methods=["POST"])
 @require_auth
-@require_role("admin")
+@require_role("Admin")
 def create_user():
     payload = request.get_json(silent=True) or {}
     nom = (payload.get("nom") or "").strip()
@@ -53,7 +56,7 @@ def create_user():
     if not nom or not username or not password:
         return jsonify({"success": False, "error": "nom, username et password requis"}), 400
 
-    if role not in ("admin", "caissier", "manager"):
+    if role not in ("Admin", "caissier", "manager"):
         return jsonify({"success": False, "error": "role invalide"}), 400
 
     pwd_hash = generate_password_hash(password)
@@ -73,7 +76,7 @@ def create_user():
 
 @users_api_bp.route("/update/<int:user_id>", methods=["PUT"])
 @require_auth
-@require_role("admin")
+@require_role("Admin")
 def update_user(user_id):
     payload = request.get_json(silent=True) or {}
     nom = (payload.get("nom") or "").strip()
@@ -88,7 +91,7 @@ def update_user(user_id):
         params.append(nom)
 
     if role:
-        if role not in ("admin", "caissier", "manager"):
+        if role not in ("Admin", "caissier", "manager"):
             return jsonify({"success": False, "error": "role invalide"}), 400
         fields.append("role=%s")
         params.append(role)
@@ -113,7 +116,7 @@ def update_user(user_id):
 
 @users_api_bp.route("/reset_password/<int:user_id>", methods=["POST"])
 @require_auth
-@require_role("admin")
+@require_role("Admin")
 def reset_password(user_id):
     payload = request.get_json(silent=True) or {}
     new_password = (payload.get("new_password") or "").strip()
