@@ -734,3 +734,123 @@ code {
   display: flex;
   gap: 8px
 }
+
+/* NAV - icône seule + expansion au hover */
+.nav{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  flex-wrap:nowrap;          /* important: pour pousser à droite sur une ligne */
+}
+
+/* bouton compact (icône seule) */
+.navLink{
+  text-decoration:none;
+  color: var(--muted);
+  height: 38px;
+  width: 44px;               /* état compact */
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255,255,255,.04);
+
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+
+  overflow:hidden;           /* cache le texte quand fermé */
+  white-space:nowrap;
+
+  transition:
+    width .18s ease,
+    transform .18s ease,
+    border-color .18s ease,
+    background .18s ease,
+    color .18s ease;
+  position:relative;
+}
+
+/* icône */
+.navIco{
+  flex: 0 0 20px;                   /* taille fixe pour l'icône */
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size: 18px;
+  line-height: 1;
+}
+
+/* texte caché */
+.navText{
+  display: inline-block;
+  max-width: 0;                      /* caché */
+  overflow: hidden  ;              /* cache le texte quand fermé */
+  opacity:0;
+  transform: translateX(-6px);
+  transition: opacity .12s ease, transform .18s ease;
+  pointer-events:none;       /* évite sélection bizarre */
+}
+
+/* hover/focus : le bouton s'agrandit et révèle le texte */
+.navLink:hover,
+.navLink:focus-visible{
+  width: 148px;              /* largeur ouverte => pousse ceux à droite */
+  justify-content:flex-start;
+  padding-left: 12px;
+  color: var(--text);
+  border-color: rgba(79, 140, 255, .35);
+  background: rgba(255,255,255,.06);
+  z-index: 2;                /* passe au-dessus si légère superposition */
+}
+
+.navLink:hover .navText,
+.navLink:focus-visible .navText{
+  max-width: 120px;                     /* laisse de la place pour le texte */
+  opacity:1;
+  transform: translateX(0);
+}
+
+/* état active (tu as déjà .active) */
+.navLink.active{
+  color: var(--text);
+  background: rgba(79, 140, 255, .18);
+  border-color: rgba(79, 140, 255, .35);
+}
+
+/* direction d'expansion (visuel) */
+/* 1er bouton: vers la droite => pas de shift */
+.navLink.expand-right:hover,
+.navLink.expand-right:focus-visible{
+  transform: translateX(0);
+}
+
+/* boutons milieu: "dans les deux sens" (visuel) */
+.navLink.expand-both:hover,
+.navLink.expand-both:focus-visible{
+  transform: translateX(-12px);
+}
+
+/* dernier bouton: vers la gauche (visuel) */
+.navLink.expand-left:hover,
+.navLink.expand-left:focus-visible{
+  transform: translateX(-24px);
+}
+
+/* séparateur inchangé */
+.navSep{
+  width: 1px;
+  height: 26px;
+  background: var(--line);
+  margin: 0 4px;
+}
+
+/* mobile: revenir au texte normal (optionnel, mais conseillé) */
+@media (max-width: 700px){
+  .nav{ flex-wrap:wrap; }
+  .navLink{
+    width:auto;
+    justify-content:flex-start;
+  }
+  .navText{ opacity:1; transform:none; pointer-events:auto; }
+}
