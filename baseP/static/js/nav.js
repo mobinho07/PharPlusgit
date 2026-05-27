@@ -5,18 +5,10 @@
   });
 })();
 
-(function () {
-  const token = localStorage.getItem("auth_token");
+(function () { 
   const name = localStorage.getItem("user_name") || "—";
   const role = localStorage.getItem("user_role") || "—";
 
-  // si pas connecté -> login
-  if (!token && !location.pathname.endsWith("login.html")) {
-    location.href = "login.html";
-    return;
-  }
-
-  // inject navbar (si tu veux)
   const host = document.querySelector("header .left");
   if (host) {
     const pill = document.createElement("div");
@@ -32,6 +24,7 @@
     btn.textContent = "Déconnexion";
     btn.addEventListener("click", () => {
       localStorage.removeItem("auth_token");
+      localStorage.removeItem("auth_user");
       localStorage.removeItem("user_id");
       localStorage.removeItem("user_name");
       localStorage.removeItem("user_role");

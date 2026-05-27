@@ -22,6 +22,7 @@ from routes.users import users_bp
 from routes.users_api import users_api_bp 
 from flask import request
 from routes.logs_api import logs_api
+from routes.reporting import reporting_bp
 
 app = Flask(__name__)
 #CORS(app)  # Active CORS pour toutes les routes
@@ -53,7 +54,7 @@ app.register_blueprint(auth_api_bp, url_prefix="/api/auth")
 app.register_blueprint(users_bp, url_prefix="/api/users2")
 app.register_blueprint(users_api_bp, url_prefix="/api/users") 
 app.register_blueprint(logs_api, url_prefix="/api/logs")
-
+app.register_blueprint(reporting_bp, url_prefix="/api/reporting")
 
 @app.route('/')
 def home():

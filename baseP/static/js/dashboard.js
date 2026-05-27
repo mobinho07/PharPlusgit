@@ -14,13 +14,10 @@ function money(n) {
     return `$${Number(n || 0).toFixed(2)}`;
 }
 
-async function postQuery(name) {
-    const token = localStorage.getItem("auth_token") || "";
+async function postQuery(name) { 
     const res = await fetch(API.query, {
         method: "POST",
-        headers: { "Content-Type": "application/json",
-      ...(token ? { "Authorization": `Bearer ${token}` } : {})
-     },
+        headers: { "Content-Type": "application/json", },
         body: JSON.stringify({ name }),
     });
 

@@ -1,7 +1,6 @@
 <!doctype html>
 <html lang="fr">
-
-<head>
+  <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="../static/css/app.css" />
@@ -9,167 +8,227 @@
     <!-- script src="../static/js/api_logger.js"></script -->
     <script src="../static/js/nav.js" defer></script>
     <script src="../static/js/script.js" defer></script>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="app">
-        <header>
-            <div id="logo">
-                <img src="../static/img/mobisoft1.png" alt="">
-            </div>
-            <nav class="nav">
-                <a class="navLink expand-right" href="index.html" aria-label="Vente">
-                    <span class="navIco" aria-hidden="true">🧾</span>
-                    <span class="navText">Vente</span>
-                </a>
-
-                <a class="navLink expand-both" href="products_admin.html" aria-label="Produits">
-                    <span class="navIco" aria-hidden="true">💊</span>
-                    <span class="navText">Produits</span>
-                </a>
-
-                <a class="navLink expand-both" href="dashboard.html" aria-label="Dashboard">
-                    <span class="navIco" aria-hidden="true">📊</span>
-                    <span class="navText">Dashboard</span>
-                </a>
-
-                <a class="navLink expand-both" href="suppliers_admin.html" aria-label="Fournisseurs">
-                    <span class="navIco" aria-hidden="true">🚚</span>
-                    <span class="navText">Fournisseurs</span>
-                </a>
-
-                <span class="navSep"></span>
-
-                <a class="navLink expand-both" href="settings.html" aria-label="Paramètres">
-                    <span class="navIco" aria-hidden="true">⚙️</span>
-                    <span class="navText">Paramètres</span>
-                </a>
-
-                <a class="navLink expand-left" href="users_admin.html" aria-label="Utilisateurs">
-                    <span class="navIco" aria-hidden="true">👥</span>
-                    <span class="navText">Utilisateurs</span>
-                </a>
-            </nav>
-
-            <div class="left">
-                <div class="pill">Caisse: <b>POS-01</b></div>
-                <div class="pill">Panier: <b id="cartName">En cours</b></div>
-                <div class="pill">Client: <b id="customerName">Comptoir</b></div>
-                <div class="pill">Statut: <b id="status">En cours</b></div>
-            </div>
-            <div class="actions">
-                <button id="btnHold">Mettre en attente</button>
-                <button class="danger" id="btnCancel">Annuler panier</button>
-                <button class="primary" id="btnPay">Finaliser (Paiement)</button>
-            </div>
-        </header>
-
-        <div class="grid">
-            <!-- LEFT -->
-            <section class="panel">
-                <h3>Saisie rapide</h3>
-                <div class="field">
-                    <div class="muted">Rechercher produit</div>
-                    <input id="search" placeholder="Tape le nom du produit..." autocomplete="off" />
-                    <div class="suggestions" id="suggestions"></div>
-                </div>
-
-                <div class="field">
-                    <div class="muted">Code-barres</div>
-                    <input id="barcode" placeholder="Scanner / saisir puis Enter" autocomplete="off" />
-                </div>
-
-                <div class="row">
-                    <button id="btnDiscount" class="warn">Remise</button>
-                    <button id="btnRemove" class="danger">Retirer</button>
-                </div>
-
-                <div class="field">
-                    <div class="muted">Quantité (clavier numérique)</div>
-                    <input id="qtyInput" placeholder="Sélectionne une ligne, puis saisis la quantité" readonly />
-                </div>
-
-                <div class="kbd" id="kbd">
-                    <button data-k="1">1</button><button data-k="2">2</button><button data-k="3">3</button>
-                    <button data-k="4">4</button><button data-k="5">5</button><button data-k="6">6</button>
-                    <button data-k="7">7</button><button data-k="8">8</button><button data-k="9">9</button>
-                    <button class="warn" data-k="C">C</button><button data-k="0">0</button><button class="ok"
-                        data-k="OK">OK</button>
-                    <button class="wide" data-k="DEL">⌫</button><button data-k="1x">×1</button>
-                </div>
-
-                <div class="muted">
-                    ${money(p.price)} • Stock: ${p.quantite}
-                    ${p.date_expiration ? ` • Exp: ${p.date_expiration}` : ""}
-                    Astuce: clique une ligne du panier pour la sélectionner, puis utilise le clavier numérique pour
-                    modifier la quantité.
-                </div>
-
-            </section>
-
-            <!-- CENTER -->
-            <section class="panel">
-                <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;">
-                    <div>
-                        <h3>Panier en cours</h3>
-                        <div class="muted">Clic sur une ligne ⇒ sélection. Retrait/modif ⇒ autorisation admin.</div>
-                    </div>
-                    <span class="tag" id="lineCount">0 ligne</span>
-                </div>
-
-                <div class="cart">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Article</th>
-                                <th class="right">Prix</th>
-                                <th class="right">Qté</th>
-                                <th class="right">Total</th>
-                                <th class="right">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="cartBody"></tbody>
-                    </table>
-                </div>
-
-                <div class="summary">
-                    <div class="label">Sous-total</div>
-                    <div class="value" id="subTotal">$0.00</div>
-                    <div class="label">Taxes</div>
-                    <div class="value" id="taxTotal">$0.00</div>
-                    <div class="label total">Total</div>
-                    <div class="value total" id="grandTotal">$0.00</div>
-                </div>
-            </section>
-
-            <!-- RIGHT -->
-            <section class="panel">
-                <h3>Paniers en attente</h3>
-                <div class="muted">Suspendre un panier pour le reprendre plus tard (client parti chercher de l’argent,
-                    etc.).</div>
-
-                <div class="stack">
-                    <div class="list" id="holdList"></div>
-                </div>
-            </section>
+      <header>
+        <div id="logo">
+          <img src="../static/img/mobisoft1.png" alt="" />
         </div>
+        <nav class="nav">
+          <a class="navLink expand-right" href="index.html" aria-label="Vente">
+            <span class="navIco" aria-hidden="true">🧾</span>
+            <span class="navText">Vente</span>
+          </a>
+
+          <a
+            class="navLink expand-both"
+            href="products_admin.html"
+            aria-label="Produits"
+          >
+            <span class="navIco" aria-hidden="true">💊</span>
+            <span class="navText">Produits</span>
+          </a>
+
+          <a
+            class="navLink expand-both"
+            href="dashboard.html"
+            aria-label="Dashboard"
+          >
+            <span class="navIco" aria-hidden="true">📊</span>
+            <span class="navText">Dashboard</span>
+          </a>
+
+          <a
+            class="navLink expand-both"
+            href="suppliers_admin.html"
+            aria-label="Fournisseurs"
+          >
+            <span class="navIco" aria-hidden="true">🚚</span>
+            <span class="navText">Fournisseurs</span>
+          </a>
+
+          <span class="navSep"></span>
+
+          <a
+            class="navLink expand-both"
+            href="settings.html"
+            aria-label="Paramètres"
+          >
+            <span class="navIco" aria-hidden="true">⚙️</span>
+            <span class="navText">Paramètres</span>
+          </a>
+
+          <a
+            class="navLink expand-left"
+            href="users_admin.html"
+            aria-label="Utilisateurs"
+          >
+            <span class="navIco" aria-hidden="true">👥</span>
+            <span class="navText">Utilisateurs</span>
+          </a>
+          <a
+            class="navLink expand-left"
+            href="reporting.html"
+            aria-label="Rapports"
+          >
+            <span class="navIco" aria-hidden="true">🧾</span>
+            <span class="navText">Rapports</span>
+          </a>
+        </nav>
+
+        <div class="left">
+          <div class="pill">Caisse: <b>POS-01</b></div>
+          <div class="pill">Panier: <b id="cartName">En cours</b></div>
+          <div class="pill">Client: <b id="customerName">Comptoir</b></div>
+          <div class="pill">Statut: <b id="status">En cours</b></div>
+        </div>
+        <div class="actions">
+          <button id="btnHold">Mettre en attente</button>
+          <button class="danger" id="btnCancel">Annuler panier</button>
+          <button class="primary" id="btnPay">Finaliser (Paiement)</button>
+        </div>
+      </header>
+
+      <div class="grid">
+        <!-- LEFT -->
+        <section class="panel">
+          <h3>Saisie rapide</h3>
+          <div class="field">
+            <div class="muted">Rechercher produit</div>
+            <input
+              id="search"
+              placeholder="Tape le nom du produit..."
+              autocomplete="off"
+            />
+            <div class="suggestions" id="suggestions"></div>
+          </div>
+
+          <div class="field">
+            <div class="muted">Code-barres</div>
+            <input
+              id="barcode"
+              placeholder="Scanner / saisir puis Enter"
+              autocomplete="off"
+            />
+          </div>
+
+          <div class="row">
+            <button id="btnDiscount" class="warn">Remise</button>
+            <button id="btnRemove" class="danger">Retirer</button>
+          </div>
+
+          <div class="field">
+            <div class="muted">Quantité (clavier numérique)</div>
+            <input
+              id="qtyInput"
+              placeholder="Sélectionne une ligne, puis saisis la quantité"
+              readonly
+            />
+          </div>
+
+          <div class="kbd" id="kbd">
+            <button data-k="1">1</button><button data-k="2">2</button
+            ><button data-k="3">3</button> <button data-k="4">4</button
+            ><button data-k="5">5</button><button data-k="6">6</button>
+            <button data-k="7">7</button><button data-k="8">8</button
+            ><button data-k="9">9</button>
+            <button class="warn" data-k="C">C</button
+            ><button data-k="0">0</button
+            ><button class="ok" data-k="OK">OK</button>
+            <button class="wide" data-k="DEL">⌫</button
+            ><button data-k="1x">×1</button>
+          </div>
+
+          <div class="muted">
+            ${money(p.price)} • Stock: ${p.quantite} ${p.date_expiration ? ` •
+            Exp: ${p.date_expiration}` : ""} Astuce: clique une ligne du panier
+            pour la sélectionner, puis utilise le clavier numérique pour
+            modifier la quantité.
+          </div>
+        </section>
+
+        <!-- CENTER -->
+        <section class="panel">
+          <div
+            style="
+              display: flex;
+              align-items: baseline;
+              justify-content: space-between;
+              gap: 10px;
+            "
+          >
+            <div>
+              <h3>Panier en cours</h3>
+              <div class="muted">
+                Clic sur une ligne ⇒ sélection. Retrait/modif ⇒ autorisation
+                admin.
+              </div>
+            </div>
+            <span class="tag" id="lineCount">0 ligne</span>
+          </div>
+
+          <div class="cart">
+            <table>
+              <thead>
+                <tr>
+                  <th>Article</th>
+                  <th class="right">Prix</th>
+                  <th class="right">Qté</th>
+                  <th class="right">Total</th>
+                  <th class="right">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="cartBody"></tbody>
+            </table>
+          </div>
+
+          <div class="summary">
+            <div class="label">Sous-total</div>
+            <div class="value" id="subTotal">$0.00</div>
+            <div class="label">Taxes</div>
+            <div class="value" id="taxTotal">$0.00</div>
+            <div class="label total">Total</div>
+            <div class="value total" id="grandTotal">$0.00</div>
+          </div>
+        </section>
+
+        <!-- RIGHT -->
+        <section class="panel">
+          <h3>Paniers en attente</h3>
+          <div class="muted">
+            Suspendre un panier pour le reprendre plus tard (client parti
+            chercher de l’argent, etc.).
+          </div>
+
+          <div class="stack">
+            <div class="list" id="holdList"></div>
+          </div>
+        </section>
+      </div>
     </div>
 
     <!-- ADMIN MODAL -->
     <div class="modal" id="adminModal">
-        <div class="box">
-            <h4>Autorisation admin requise</h4>
-            <div class="muted">Entrez un PIN admin pour retirer/modifier un article.</div>
-            <input id="adminPin" placeholder="PIN admin (demo: 1234)" inputmode="numeric" />
-            <div class="row2">
-                <button id="adminCancel">Annuler</button>
-                <button class="primary" id="adminOk">Valider</button>
-            </div>
-            <div class="muted" id="adminMsg"></div>
+      <div class="box">
+        <h4>Autorisation admin requise</h4>
+        <div class="muted">
+          Entrez un PIN admin pour retirer/modifier un article.
         </div>
+        <input
+          id="adminPin"
+          placeholder="PIN admin (demo: 1234)"
+          inputmode="numeric"
+        />
+        <div class="row2">
+          <button id="adminCancel">Annuler</button>
+          <button class="primary" id="adminOk">Valider</button>
+        </div>
+        <div class="muted" id="adminMsg"></div>
+      </div>
     </div>
 
     <!-- script src="../static/auth_guard.js"></script -->
-</body>
-
+  </body>
 </html>

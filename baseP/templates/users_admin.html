@@ -1,126 +1,156 @@
 <!doctype html>
 <html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../static/css/admin.css" />
+    <title>PharmaPlus • Utilisateurs</title>
+  </head>
 
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="../static/css/admin.css" />
-  <title>PharmaPlus • Utilisateurs</title>
-</head>
-
-<body>
-  <header class="topbar">
-    <div id="logo">
-      <img src="../static/img/mobisoft1.png" alt="">
-    </div>
-    <nav class="nav">
-      <a class="navLink expand-right" href="index.html" aria-label="Vente">
-        <span class="navIco" aria-hidden="true">🧾</span>
-        <span class="navText">Vente</span>
-      </a>
-
-      <a class="navLink expand-both" href="products_admin.html" aria-label="Produits">
-        <span class="navIco" aria-hidden="true">💊</span>
-        <span class="navText">Produits</span>
-      </a>
-
-      <a class="navLink expand-both" href="dashboard.html" aria-label="Dashboard">
-        <span class="navIco" aria-hidden="true">📊</span>
-        <span class="navText">Dashboard</span>
-      </a>
-
-      <a class="navLink expand-both" href="suppliers_admin.html" aria-label="Fournisseurs">
-        <span class="navIco" aria-hidden="true">🚚</span>
-        <span class="navText">Fournisseurs</span>
-      </a>
-
-      <span class="navSep"></span>
-
-      <a class="navLink expand-both" href="settings.html" aria-label="Paramètres">
-        <span class="navIco" aria-hidden="true">⚙️</span>
-        <span class="navText">Paramètres</span>
-      </a>
-
-      <a class="navLink expand-left" href="users_admin.html" aria-label="Utilisateurs">
-        <span class="navIco" aria-hidden="true">👥</span>
-        <span class="navText">Utilisateurs</span>
-      </a>
-    </nav>
-    <div class="left">
-      <h2>Utilisateurs</h2>
-      <div class="muted">Création, rôles, activation, reset mot de passe</div>
-    </div>
-    <div class="actions">
-      <button class="primary" id="btnNew">+ Nouvel utilisateur</button>
-    </div>
-  </header>
-
-  <section class="panel">
-    <div class="row">
-      <input id="q" placeholder="Rechercher nom ou username..." />
-      <select id="role">
-        <option value="">Tous rôles</option>
-        <option value="admin">Admin</option>
-        <option value="manager">Manager</option>
-        <option value="caissier">Caissier</option>
-      </select>
-      <select id="actif">
-        <option value="">Actif + Inactif</option>
-        <option value="1">Actifs</option>
-        <option value="0">Inactifs</option>
-      </select>
-      <button id="btnSearch">Rechercher</button>
-    </div>
-
-    <div class="tablewrap">
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nom</th>
-            <th>Username</th>
-            <th>Rôle</th>
-            <th>Actif</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody id="tbody"></tbody>
-      </table>
-    </div>
-  </section>
-
-  <!-- Modal -->
-  <div class="modal" id="modal">
-    <div class="box">
-      <h3 id="modalTitle">Nouvel utilisateur</h3>
-      <div class="field">
-        <div class="muted">Nom</div><input id="m_nom">
+  <body>
+    <header class="topbar">
+      <div id="logo">
+        <img src="../static/img/mobisoft1.png" alt="" />
       </div>
-      <div class="field">
-        <div class="muted">Username</div><input id="m_username">
-      </div>
-      <div class="field">
-        <div class="muted">Rôle</div>
-        <select id="m_role">
-          <option value="caissier">Caissier</option>
-          <option value="manager">Manager</option>
-          <option value="admin">Admin</option>
-        </select>
-      </div>
-      <div class="field">
-        <div class="muted">Mot de passe initial</div><input id="m_password" type="password">
-      </div>
+      <nav class="nav">
+        <a class="navLink expand-right" href="index.html" aria-label="Vente">
+          <span class="navIco" aria-hidden="true">🧾</span>
+          <span class="navText">Vente</span>
+        </a>
 
+        <a
+          class="navLink expand-both"
+          href="products_admin.html"
+          aria-label="Produits"
+        >
+          <span class="navIco" aria-hidden="true">💊</span>
+          <span class="navText">Produits</span>
+        </a>
+
+        <a
+          class="navLink expand-both"
+          href="dashboard.html"
+          aria-label="Dashboard"
+        >
+          <span class="navIco" aria-hidden="true">📊</span>
+          <span class="navText">Dashboard</span>
+        </a>
+
+        <a
+          class="navLink expand-both"
+          href="suppliers_admin.html"
+          aria-label="Fournisseurs"
+        >
+          <span class="navIco" aria-hidden="true">🚚</span>
+          <span class="navText">Fournisseurs</span>
+        </a>
+
+        <span class="navSep"></span>
+
+        <a
+          class="navLink expand-both"
+          href="settings.html"
+          aria-label="Paramètres"
+        >
+          <span class="navIco" aria-hidden="true">⚙️</span>
+          <span class="navText">Paramètres</span>
+        </a>
+
+        <a
+          class="navLink expand-left"
+          href="users_admin.html"
+          aria-label="Utilisateurs"
+        >
+          <span class="navIco" aria-hidden="true">👥</span>
+          <span class="navText">Utilisateurs</span>
+        </a>
+
+        <a
+          class="navLink expand-left"
+          href="reporting.html"
+          aria-label="Rapports"
+        >
+          <span class="navIco" aria-hidden="true">🧾</span>
+          <span class="navText">Rapports</span>
+        </a>
+      </nav>
+      <div class="left">
+        <h2>Utilisateurs</h2>
+        <div class="muted">Création, rôles, activation, reset mot de passe</div>
+      </div>
+      <div class="actions">
+        <button class="primary" id="btnNew">+ Nouvel utilisateur</button>
+      </div>
+    </header>
+
+    <section class="panel">
       <div class="row">
-        <button id="btnCancel">Annuler</button>
-        <button class="primary" id="btnSave">Enregistrer</button>
+        <input id="q" placeholder="Rechercher nom ou username..." />
+        <select id="role">
+          <option value="">Tous rôles</option>
+          <option value="admin">Admin</option>
+          <option value="manager">Manager</option>
+          <option value="caissier">Caissier</option>
+        </select>
+        <select id="actif">
+          <option value="">Actif + Inactif</option>
+          <option value="1">Actifs</option>
+          <option value="0">Inactifs</option>
+        </select>
+        <button id="btnSearch">Rechercher</button>
       </div>
-      <div class="muted" id="modalMsg"></div>
+
+      <div class="tablewrap">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nom</th>
+              <th>Username</th>
+              <th>Rôle</th>
+              <th>Actif</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Modal -->
+    <div class="modal" id="modal">
+      <div class="box">
+        <h3 id="modalTitle">Nouvel utilisateur</h3>
+        <div class="field">
+          <div class="muted">Nom</div>
+          <input id="m_nom" />
+        </div>
+        <div class="field">
+          <div class="muted">Username</div>
+          <input id="m_username" />
+        </div>
+        <div class="field">
+          <div class="muted">Rôle</div>
+          <select id="m_role">
+            <option value="caissier">Caissier</option>
+            <option value="manager">Manager</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+        <div class="field">
+          <div class="muted">Mot de passe initial</div>
+          <input id="m_password" type="password" />
+        </div>
+
+        <div class="row">
+          <button id="btnCancel">Annuler</button>
+          <button class="primary" id="btnSave">Enregistrer</button>
+        </div>
+        <div class="muted" id="modalMsg"></div>
+      </div>
     </div>
-  </div>
 
-  <script src="../static/js/users_admin.js"></script>
-  <script src="../static/js/nav.js"></script>
-</body>
-
+    <script src="../static/js/users_admin.js"></script>
+    <script src="../static/js/nav.js"></script>
+  </body>
 </html>

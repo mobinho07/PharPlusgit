@@ -8,12 +8,10 @@ const API = {
 
 const $ = (id) => document.getElementById(id);
 
-async function fetchJson(url, opts={}) {
-  const token = localStorage.getItem("auth_token") || "";
+async function fetchJson(url, opts={}) { 
   const res = await fetch(url, {
     headers: {
-      "Content-Type":"application/json",
-      "Authorization": `Bearer ${token}`,
+      "Content-Type":"application/json", 
       ...(opts.headers||{})
     },
     ...opts

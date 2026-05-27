@@ -1,79 +1,111 @@
 <!doctype html>
 <html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PharmaPlus • Paramètres</title>
+    <link rel="stylesheet" href="../static/css/admin.css" />
+  </head>
 
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>PharmaPlus • Paramètres</title>
-  <link rel="stylesheet" href="../static/css/admin.css" />
-</head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <div class="topbar-left">
+          <div id="logo">
+            <img src="../static/img/mobisoft1.png" alt="" />
+          </div>
+          <nav class="nav">
+            <a
+              class="navLink expand-right"
+              href="index.html"
+              aria-label="Vente"
+            >
+              <span class="navIco" aria-hidden="true">🧾</span>
+              <span class="navText">Vente</span>
+            </a>
 
-<body>
-  <div class="app">
-    <header class="topbar">
-      <div class="topbar-left">
-        <div id="logo">
-          <img src="../static/img/mobisoft1.png" alt="">
+            <a
+              class="navLink expand-both"
+              href="products_admin.html"
+              aria-label="Produits"
+            >
+              <span class="navIco" aria-hidden="true">💊</span>
+              <span class="navText">Produits</span>
+            </a>
+
+            <a
+              class="navLink expand-both"
+              href="dashboard.html"
+              aria-label="Dashboard"
+            >
+              <span class="navIco" aria-hidden="true">📊</span>
+              <span class="navText">Dashboard</span>
+            </a>
+
+            <a
+              class="navLink expand-both"
+              href="suppliers_admin.html"
+              aria-label="Fournisseurs"
+            >
+              <span class="navIco" aria-hidden="true">🚚</span>
+              <span class="navText">Fournisseurs</span>
+            </a>
+
+            <span class="navSep"></span>
+
+            <a
+              class="navLink expand-both"
+              href="settings.html"
+              aria-label="Paramètres"
+            >
+              <span class="navIco" aria-hidden="true">⚙️</span>
+              <span class="navText">Paramètres</span>
+            </a>
+
+            <a
+              class="navLink expand-left"
+              href="users_admin.html"
+              aria-label="Utilisateurs"
+            >
+              <span class="navIco" aria-hidden="true">👥</span>
+              <span class="navText">Utilisateurs</span>
+            </a>
+            <a
+              class="navLink expand-left"
+              href="reporting.html"
+              aria-label="Rapports"
+            >
+              <span class="navIco" aria-hidden="true">🧾</span>
+              <span class="navText">Rapports</span>
+            </a>
+          </nav>
         </div>
-        <nav class="nav">
-          <a class="navLink expand-right" href="index.html" aria-label="Vente">
-            <span class="navIco" aria-hidden="true">🧾</span>
-            <span class="navText">Vente</span>
-          </a>
+        <div class="title">
+          <h2>Paramètres</h2>
+          <div class="muted">Gérer les paramètres de l'application</div>
+        </div>
 
-          <a class="navLink expand-both" href="products_admin.html" aria-label="Produits">
-            <span class="navIco" aria-hidden="true">💊</span>
-            <span class="navText">Produits</span>
-          </a>
+        <div class="actions"></div>
+      </header>
 
-          <a class="navLink expand-both" href="dashboard.html" aria-label="Dashboard">
-            <span class="navIco" aria-hidden="true">📊</span>
-            <span class="navText">Dashboard</span>
-          </a>
+      <section class="panel">
+        <h3>Paramètres globaux</h3>
+        <div class="field">
+          <label class="muted">URL de l'API</label>
+          <input id="apiUrl" placeholder="Ex: http://localhost:8000/api" />
+        </div>
 
-          <a class="navLink expand-both" href="suppliers_admin.html" aria-label="Fournisseurs">
-            <span class="navIco" aria-hidden="true">🚚</span>
-            <span class="navText">Fournisseurs</span>
-          </a>
+        <div class="field">
+          <label class="muted">Clé API (si nécessaire)</label>
+          <input id="apiKey" placeholder="Ex: 12345abcde" />
+        </div>
 
-          <span class="navSep"></span>
+        <button id="btnSaveSettings" class="primary">
+          Enregistrer les paramètres
+        </button>
+      </section>
+    </div>
 
-          <a class="navLink expand-both" href="settings.html" aria-label="Paramètres">
-            <span class="navIco" aria-hidden="true">⚙️</span>
-            <span class="navText">Paramètres</span>
-          </a>
-
-          <a class="navLink expand-left" href="users_admin.html" aria-label="Utilisateurs">
-            <span class="navIco" aria-hidden="true">👥</span>
-            <span class="navText">Utilisateurs</span>
-          </a>
-        </nav>
-      </div>
-      <div class="title">
-        <h2>Paramètres</h2>
-        <div class="muted">Gérer les paramètres de l'application</div>
-      </div>
-
-      <div class="actions"> </div>
-    </header>
-
-    <section class="panel">
-      <h3>Paramètres globaux</h3>
-      <div class="field">
-        <label class="muted">URL de l'API</label>
-        <input id="apiUrl" placeholder="Ex: http://localhost:8000/api" />
-      </div>
-
-      <div class="field">
-        <label class="muted">Clé API (si nécessaire)</label>
-        <input id="apiKey" placeholder="Ex: 12345abcde" />
-      </div>
-
-      <button id="btnSaveSettings" class="primary">Enregistrer les paramètres</button>
-    </section>
-  </div>
-
-  <script src="../static/js/nav.js"></script>
-</body>
-
+    <script src="../static/js/nav.js"></script>
+  </body>
 </html>

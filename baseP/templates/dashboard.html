@@ -1,7 +1,6 @@
 <!doctype html>
 <html lang="fr">
-
-<head>
+  <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="../static/css/app.css" />
@@ -20,220 +19,243 @@
     <script src="../static/js/api_logger.js" defer></script>
     <script src="../static/js/dashboard.js" defer></script>
     <script src="../static/js/nav.js" defer></script>
+  </head>
 
-</head>
-
-<body>
+  <body>
     <div class="app">
-        <header>
-            <div id="logo">
-                <img src="../static/img/mobisoft1.png" alt="">
+      <header>
+        <div id="logo">
+          <img src="../static/img/mobisoft1.png" alt="" />
+        </div>
+        <nav class="nav">
+          <a class="navLink expand-right" href="index.html" aria-label="Vente">
+            <span class="navIco" aria-hidden="true">🧾</span>
+            <span class="navText">Vente</span>
+          </a>
+
+          <a
+            class="navLink expand-both"
+            href="products_admin.html"
+            aria-label="Produits"
+          >
+            <span class="navIco" aria-hidden="true">💊</span>
+            <span class="navText">Produits</span>
+          </a>
+
+          <a
+            class="navLink expand-both"
+            href="dashboard.html"
+            aria-label="Dashboard"
+          >
+            <span class="navIco" aria-hidden="true">📊</span>
+            <span class="navText">Dashboard</span>
+          </a>
+
+          <a
+            class="navLink expand-both"
+            href="suppliers_admin.html"
+            aria-label="Fournisseurs"
+          >
+            <span class="navIco" aria-hidden="true">🚚</span>
+            <span class="navText">Fournisseurs</span>
+          </a>
+
+          <span class="navSep"></span>
+
+          <a
+            class="navLink expand-both"
+            href="settings.html"
+            aria-label="Paramètres"
+          >
+            <span class="navIco" aria-hidden="true">⚙️</span>
+            <span class="navText">Paramètres</span>
+          </a>
+
+          <a
+            class="navLink expand-left"
+            href="users_admin.html"
+            aria-label="Utilisateurs"
+          >
+            <span class="navIco" aria-hidden="true">👥</span>
+            <span class="navText">Utilisateurs</span>
+          </a>
+          <a
+            class="navLink expand-left"
+            href="reporting.html"
+            aria-label="Rapports"
+          >
+            <span class="navIco" aria-hidden="true">🧾</span>
+            <span class="navText">Rapports</span>
+          </a>
+        </nav>
+
+        <div class="left">
+          <div class="brand">
+            <div class="logo">P+</div>
+            <div>
+              <div class="title">PharmaPlus</div>
+              <div class="subtitle">Dashboard (API /api/dashboard/query)</div>
             </div>
-            <nav class="nav">
-                <a class="navLink expand-right" href="index.html" aria-label="Vente">
-                    <span class="navIco" aria-hidden="true">🧾</span>
-                    <span class="navText">Vente</span>
-                </a>
+          </div>
 
-                <a class="navLink expand-both" href="products_admin.html" aria-label="Produits">
-                    <span class="navIco" aria-hidden="true">💊</span>
-                    <span class="navText">Produits</span>
-                </a>
-
-                <a class="navLink expand-both" href="dashboard.html" aria-label="Dashboard">
-                    <span class="navIco" aria-hidden="true">📊</span>
-                    <span class="navText">Dashboard</span>
-                </a>
-
-                <a class="navLink expand-both" href="suppliers_admin.html" aria-label="Fournisseurs">
-                    <span class="navIco" aria-hidden="true">🚚</span>
-                    <span class="navText">Fournisseurs</span>
-                </a>
-
-                <span class="navSep"></span>
-
-                <a class="navLink expand-both" href="settings.html" aria-label="Paramètres">
-                    <span class="navIco" aria-hidden="true">⚙️</span>
-                    <span class="navText">Paramètres</span>
-                </a>
-
-                <a class="navLink expand-left" href="users_admin.html" aria-label="Utilisateurs">
-                    <span class="navIco" aria-hidden="true">👥</span>
-                    <span class="navText">Utilisateurs</span>
-                </a>
-            </nav>
-
-            <div class="left">
-                <div class="brand">
-                    <div class="logo">P+</div>
-                    <div>
-                        <div class="title">PharmaPlus</div>
-                        <div class="subtitle">Dashboard (API /api/dashboard/query)</div>
-                    </div>
-                </div>
-
-                <div class="pills">
-                    <div class="pill">Statut: <b id="apiStatus">—</b></div>
-                    <div class="pill">Dernière MAJ: <b id="lastRefresh">—</b></div>
-                </div>
-            </div>
-
-            <div class="actions">
-                <button id="btnRefresh">Rafraîchir</button>
-                <button class="primary" id="btnAuto">Auto: ON</button>
-            </div>
-        </header>
-
-        <!-- KPIs -->
-        <section class="kpiGrid">
-            <div class="kpiCard">
-                <div class="kpiLabel">CA (Aujourd’hui)</div>
-                <div class="kpiValue" id="kpi_ca_jour">$0.00</div>
-                <div class="kpiHint">Somme des ventes du jour (annulées exclues)</div>
-            </div>
-
-            <div class="kpiCard">
-                <div class="kpiLabel">Nb ventes (Aujourd’hui)</div>
-                <div class="kpiValue" id="kpi_nb_ventes_jour">0</div>
-                <div class="kpiHint">Transactions du jour</div>
-            </div>
-
-            <div class="kpiCard warn">
-                <div class="kpiLabel">Alertes stock bas</div>
-                <div class="kpiValue" id="kpi_nb_alertes_stock">0</div>
-                <div class="kpiHint">Produits sous seuil</div>
-            </div>
-
-            <div class="kpiCard">
-                <div class="kpiLabel">Produits actifs (en stock)</div>
-                <div class="kpiValue" id="kpi_nb_produits_actifs">0</div>
-                <div class="kpiHint">Produits actifs avec quantité &gt; 0</div>
-            </div>
-
-            <div class="kpiCard">
-                <div class="kpiLabel">Valeur stock (achat)</div>
-                <div class="kpiValue" id="kpi_valeur_stock">$0.00</div>
-                <div class="kpiHint">Σ (quantité * prix_achat)</div>
-            </div>
-
-            <div class="kpiCard">
-                <div class="kpiLabel">CA YTD</div>
-                <div class="kpiValue" id="kpi_ca_ytd">$0.00</div>
-                <div class="kpiHint">Du 1er janvier à aujourd’hui</div>
-            </div>
-            <div class="kpiCard danger">
-                <div class="kpiLabel">Expirés en stock</div>
-                <div class="kpiValue" id="kpi_nb_produits_expires_en_stock">0</div>
-                <div class="kpiHint">Lots expirés encore vendables (doit être 0)</div>
-            </div>
-
-            <div class="kpiCard">
-                <div class="kpiLabel">Marge brute (30j)</div>
-                <div class="kpiValue" id="kpi_marge_brute_30j">$0.00</div>
-                <div class="kpiHint">Approx : ventes - coût d’achat</div>
-            </div>
-
-            <div class="kpiCard">
-                <div class="kpiLabel">Fournisseurs (30j)</div>
-                <div class="kpiValue" id="kpi_nb_fournisseurs_30j">0</div>
-                <div class="kpiHint">Distinct fournisseurs approvisionnés</div>
-            </div>
-
-        </section>
-
-        <div class="grid">
-            <!-- LEFT -->
-            <section class="panel">
-                <div class="panelHead">
-                    <h3>Ventes - 30 jours</h3>
-                    <div class="tag" id="tagVentes30j">—</div>
-                </div>
-                <canvas id="chartVentes30j" height="160"></canvas>
-
-                <div class="panelHead" style="margin-top:14px;">
-                    <h3>Prévision (SMA7)</h3>
-                    <div class="tag" id="tagForecast">—</div>
-                </div>
-                <canvas id="chartForecast" height="160"></canvas>
-            </section>
-
-            <!-- CENTER -->
-            <section class="panel">
-                <div class="panelHead">
-                    <h3>CA - Tendances</h3>
-                    <div class="tag" id="tagCA">—</div>
-                    <div class="cardInner" style="margin-top:14px;">
-                        <div class="muted">Top fournisseurs (achat, 30j)</div>
-                        <canvas id="chartFournisseurs" height="200"></canvas>
-                    </div>
-
-                </div>
-
-                <div class="twoCols">
-                    <div class="cardInner">
-                        <div class="muted">CA mensuel (YTD)</div>
-                        <canvas id="chartCaMensuel" height="180"></canvas>
-                    </div>
-
-                    <div class="cardInner">
-                        <div class="muted">CA par semaine (12 sem.)</div>
-                        <canvas id="chartCaSemaine" height="180"></canvas>
-                    </div>
-                </div>
-
-                <div class="twoCols" style="margin-top:14px;">
-                    <div class="cardInner">
-                        <div class="muted">Top 5 produits (30j)</div>
-                        <canvas id="chartTop5" height="200"></canvas>
-                    </div>
-
-                    <div class="cardInner">
-                        <div class="muted">Répartition CA par catégorie (30j)</div>
-                        <canvas id="chartCat" height="200"></canvas>
-                    </div>
-                </div>
-            </section>
-
-            <!-- RIGHT -->
-            <section class="panel">
-                <div class="panelHead">
-                    <h3>Alertes</h3>
-                    <span class="tag danger" id="tagAlertes">—</span>
-                </div>
-
-                <div class="list">
-                    <div class="listHead">
-                        <b>Expiration proche</b>
-                        <small>(30 jours)</small>
-                    </div>
-                    <div id="listExp" class="listBody"></div>
-                </div>
-
-                <div class="list" style="margin-top:12px;">
-                    <div class="listHead">
-                        <b>Stock bas</b>
-                        <small>(vue_produits_stock_bas)</small>
-                    </div>
-                    <div id="listStockBas" class="listBody"></div>
-                </div>
-
-                <div class="list" style="margin-top:12px;">
-                    <div class="listHead">
-                        <b>Résumé stock</b>
-                        <small>(top)</small>
-                    </div>
-                    <div id="listResumeStock" class="listBody"></div>
-                </div>
-            </section>
+          <div class="pills">
+            <div class="pill">Statut: <b id="apiStatus">—</b></div>
+            <div class="pill">Dernière MAJ: <b id="lastRefresh">—</b></div>
+          </div>
         </div>
 
-        <footer class="footer">
-            <span class="muted">PharmaPlus • Dashboard</span>
-            <span class="muted">API: <code>/api/dashboard/query</code></span>
-        </footer>
+        <div class="actions">
+          <button id="btnRefresh">Rafraîchir</button>
+          <button class="primary" id="btnAuto">Auto: ON</button>
+        </div>
+      </header>
+
+      <!-- KPIs -->
+      <section class="kpiGrid">
+        <div class="kpiCard">
+          <div class="kpiLabel">CA (Aujourd’hui)</div>
+          <div class="kpiValue" id="kpi_ca_jour">$0.00</div>
+          <div class="kpiHint">Somme des ventes du jour (annulées exclues)</div>
+        </div>
+
+        <div class="kpiCard">
+          <div class="kpiLabel">Nb ventes (Aujourd’hui)</div>
+          <div class="kpiValue" id="kpi_nb_ventes_jour">0</div>
+          <div class="kpiHint">Transactions du jour</div>
+        </div>
+
+        <div class="kpiCard warn">
+          <div class="kpiLabel">Alertes stock bas</div>
+          <div class="kpiValue" id="kpi_nb_alertes_stock">0</div>
+          <div class="kpiHint">Produits sous seuil</div>
+        </div>
+
+        <div class="kpiCard">
+          <div class="kpiLabel">Produits actifs (en stock)</div>
+          <div class="kpiValue" id="kpi_nb_produits_actifs">0</div>
+          <div class="kpiHint">Produits actifs avec quantité &gt; 0</div>
+        </div>
+
+        <div class="kpiCard">
+          <div class="kpiLabel">Valeur stock (achat)</div>
+          <div class="kpiValue" id="kpi_valeur_stock">$0.00</div>
+          <div class="kpiHint">Σ (quantité * prix_achat)</div>
+        </div>
+
+        <div class="kpiCard">
+          <div class="kpiLabel">CA YTD</div>
+          <div class="kpiValue" id="kpi_ca_ytd">$0.00</div>
+          <div class="kpiHint">Du 1er janvier à aujourd’hui</div>
+        </div>
+        <div class="kpiCard danger">
+          <div class="kpiLabel">Expirés en stock</div>
+          <div class="kpiValue" id="kpi_nb_produits_expires_en_stock">0</div>
+          <div class="kpiHint">Lots expirés encore vendables (doit être 0)</div>
+        </div>
+
+        <div class="kpiCard">
+          <div class="kpiLabel">Marge brute (30j)</div>
+          <div class="kpiValue" id="kpi_marge_brute_30j">$0.00</div>
+          <div class="kpiHint">Approx : ventes - coût d’achat</div>
+        </div>
+
+        <div class="kpiCard">
+          <div class="kpiLabel">Fournisseurs (30j)</div>
+          <div class="kpiValue" id="kpi_nb_fournisseurs_30j">0</div>
+          <div class="kpiHint">Distinct fournisseurs approvisionnés</div>
+        </div>
+      </section>
+
+      <div class="grid">
+        <!-- LEFT -->
+        <section class="panel">
+          <div class="panelHead">
+            <h3>Ventes - 30 jours</h3>
+            <div class="tag" id="tagVentes30j">—</div>
+          </div>
+          <canvas id="chartVentes30j" height="160"></canvas>
+
+          <div class="panelHead" style="margin-top: 14px">
+            <h3>Prévision (SMA7)</h3>
+            <div class="tag" id="tagForecast">—</div>
+          </div>
+          <canvas id="chartForecast" height="160"></canvas>
+        </section>
+
+        <!-- CENTER -->
+        <section class="panel">
+          <div class="panelHead">
+            <h3>CA - Tendances</h3>
+            <div class="tag" id="tagCA">—</div>
+            <div class="cardInner" style="margin-top: 14px">
+              <div class="muted">Top fournisseurs (achat, 30j)</div>
+              <canvas id="chartFournisseurs" height="200"></canvas>
+            </div>
+          </div>
+
+          <div class="twoCols">
+            <div class="cardInner">
+              <div class="muted">CA mensuel (YTD)</div>
+              <canvas id="chartCaMensuel" height="180"></canvas>
+            </div>
+
+            <div class="cardInner">
+              <div class="muted">CA par semaine (12 sem.)</div>
+              <canvas id="chartCaSemaine" height="180"></canvas>
+            </div>
+          </div>
+
+          <div class="twoCols" style="margin-top: 14px">
+            <div class="cardInner">
+              <div class="muted">Top 5 produits (30j)</div>
+              <canvas id="chartTop5" height="200"></canvas>
+            </div>
+
+            <div class="cardInner">
+              <div class="muted">Répartition CA par catégorie (30j)</div>
+              <canvas id="chartCat" height="200"></canvas>
+            </div>
+          </div>
+        </section>
+
+        <!-- RIGHT -->
+        <section class="panel">
+          <div class="panelHead">
+            <h3>Alertes</h3>
+            <span class="tag danger" id="tagAlertes">—</span>
+          </div>
+
+          <div class="list">
+            <div class="listHead">
+              <b>Expiration proche</b>
+              <small>(30 jours)</small>
+            </div>
+            <div id="listExp" class="listBody"></div>
+          </div>
+
+          <div class="list" style="margin-top: 12px">
+            <div class="listHead">
+              <b>Stock bas</b>
+              <small>(vue_produits_stock_bas)</small>
+            </div>
+            <div id="listStockBas" class="listBody"></div>
+          </div>
+
+          <div class="list" style="margin-top: 12px">
+            <div class="listHead">
+              <b>Résumé stock</b>
+              <small>(top)</small>
+            </div>
+            <div id="listResumeStock" class="listBody"></div>
+          </div>
+        </section>
+      </div>
+
+      <footer class="footer">
+        <span class="muted">PharmaPlus • Dashboard</span>
+        <span class="muted">API: <code>/api/dashboard/query</code></span>
+      </footer>
     </div>
     <!-- script src="../static/auth_guard.js"></script -->
-
-</body>
-
+  </body>
 </html>

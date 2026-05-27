@@ -28,9 +28,8 @@ $("btnLogin").addEventListener("click", async () => {
     });
 
     // Après login OK
-    localStorage.setItem("auth_token", resp.token);
-
-    // IMPORTANT: pour que auth_guard.js ne redirige pas en boucle
+    if (resp.token)  localStorage.setItem("auth_token", resp.token);
+ 
     localStorage.setItem("auth_user", JSON.stringify(resp.user));
 
     // (Optionnel) si tu gardes les anciennes clés

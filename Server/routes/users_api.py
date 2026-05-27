@@ -1,13 +1,10 @@
 from flask import Blueprint, request, jsonify
 from werkzeug.security import generate_password_hash
 from database import get_db_cursor
-from routes.auth_api import require_auth, require_role  # ajuste l'import selon ton projet
 
 users_api_bp = Blueprint("users_api", __name__)
 
-@users_api_bp.route("/list", methods=["GET"])
-@require_auth
-@require_role("Admin")
+@users_api_bp.route("/list", methods=["GET"]) 
 def list_users():
     q = (request.args.get("q") or "").strip()
     role = (request.args.get("role") or "").strip()
@@ -43,9 +40,7 @@ def list_users():
             return jsonify({"success": False, "error": f"Erreur SQL: {str(e)}"}), 500
     return jsonify({"success": True, "data": rows})
 
-@users_api_bp.route("/create", methods=["POST"])
-@require_auth
-@require_role("Admin")
+@users_api_bp.route("/create", methods=["POST"]) 
 def create_user():
     payload = request.get_json(silent=True) or {}
     nom = (payload.get("nom") or "").strip()
@@ -74,9 +69,7 @@ def create_user():
         # si username duplicate
         return jsonify({"success": False, "error": str(e)}), 400
 
-@users_api_bp.route("/update/<int:user_id>", methods=["PUT"])
-@require_auth
-@require_role("Admin")
+@users_api_bp.route("/update/<int:user_id>", methods=["PUT"]) 
 def update_user(user_id):
     payload = request.get_json(silent=True) or {}
     nom = (payload.get("nom") or "").strip()
@@ -114,9 +107,7 @@ def update_user(user_id):
 
     return jsonify({"success": True})
 
-@users_api_bp.route("/reset_password/<int:user_id>", methods=["POST"])
-@require_auth
-@require_role("Admin")
+@users_api_bp.route("/reset_password/<int:user_id>", methods=["POST"]) 
 def reset_password(user_id):
     payload = request.get_json(silent=True) or {}
     new_password = (payload.get("new_password") or "").strip()

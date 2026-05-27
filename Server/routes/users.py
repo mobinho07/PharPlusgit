@@ -1,43 +1,11 @@
 # routes/users.py
 from flask import Blueprint, request, jsonify
 from werkzeug.security import generate_password_hash
-from database import get_db_cursor
-from functools import wraps
-from itsdangerous import BadSignature, SignatureExpired
-from .auth_api import verify_token  # import depuis auth_api.py
+from database import get_db_cursor 
 
 users_bp = Blueprint("users", __name__)
 
-def auth_required(f):
-    @wraps(f)
-    def wrapper(*args, **kwargs):
-        auth = request.headers.get("Authorization", "")
-        if not auth.startswith("Bearer "):
-            return jsonify({"success": False, "error": "Token manquant"}), 401
-        token = auth.split(" ", 1)[1].strip()
-        try:
-            request.user = verify_token(token)  # type: ignore # attach
-        except SignatureExpired:
-            return jsonify({"success": False, "error": "Session expirée"}), 401
-        except BadSignature:
-            return jsonify({"success": False, "error": "Token invalide"}), 401
-        return f(*args, **kwargs)
-    return wrapper
-
-def role_required(*roles):
-    def deco(f):
-        @wraps(f)
-        def wrapper(*args, **kwargs):
-            u = getattr(request, "user", {}) or {}
-            if u.get("role") not in roles:
-                return jsonify({"success": False, "error": "Accès refusé"}), 403
-            return f(*args, **kwargs)
-        return wrapper
-    return deco
-
-@users_bp.route("/", methods=["GET"])
-@auth_required
-@role_required("Admin")
+@users_bp.route("/", methods=["GET"]) 
 def list_users():
     with get_db_cursor() as (cursor, conn):
         cursor.execute("""
@@ -48,9 +16,7 @@ def list_users():
         rows = cursor.fetchall()
     return jsonify({"success": True, "data": rows})
 
-@users_bp.route("/", methods=["POST"])
-@auth_required
-@role_required("Admin")
+@users_bp.route("/", methods=["POST"]) 
 def create_user():
     payload = request.get_json(silent=True) or {}
     nom = (payload.get("nom") or "").strip()
@@ -75,9 +41,7 @@ def create_user():
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
 
-@users_bp.route("/<int:user_id>", methods=["PUT"])
-@auth_required
-@role_required("Admin")
+@users_bp.route("/<int:user_id>", methods=["PUT"]) 
 def update_user(user_id):
     payload = request.get_json(silent=True) or {}
     nom = (payload.get("nom") or "").strip()
@@ -104,9 +68,7 @@ def update_user(user_id):
 
     return jsonify({"success": True})
 
-@users_bp.route("/<int:user_id>/password", methods=["PUT"])
-@auth_required
-@role_required("Admin")
+@users_bp.route("/<int:user_id>/password", methods=["PUT"]) 
 def reset_password(user_id):
     payload = request.get_json(silent=True) or {}
     password = payload.get("password") or payload.get("mot_de_passe")
@@ -121,9 +83,7 @@ def reset_password(user_id):
 
     return jsonify({"success": True})
 
-@users_bp.route("/<int:user_id>", methods=["DELETE"])
-@auth_required
-@role_required("Admin")
+@users_bp.route("/<int:user_id>", methods=["DELETE"]) 
 def delete_user(user_id):
     with get_db_cursor() as (cursor, conn):
         cursor.execute("DELETE FROM utilisateurs WHERE id_utilisateur=%s", (user_id,))
