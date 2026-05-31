@@ -1,0 +1,3695 @@
+2026-05-27T15:01:09.248Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:09.251Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:09.252Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:09.254Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:09.255Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:09.256Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:09.257Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:09.258Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:09.259Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:09.260Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:09.261Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:09.261Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:09.262Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:09.263Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:09.264Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:09.265Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:09.266Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:09.267Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:09.268Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:10.115Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=859 | {
+  "data": [
+    {
+      "valeur_stock": "6961911.38"
+    }
+  ],
+  "name": "kpi_valeur_stock",
+  "success": true
+}
+2026-05-27T15:01:10.122Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=868 | {
+  "data": [
+    {
+      "nb_produits_actifs": 103
+    }
+  ],
+  "name": "kpi_nb_produits_actifs",
+  "success": true
+}
+2026-05-27T15:01:10.158Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=906 | {
+  "data": [
+    {
+      "nb_alertes_stock": 0
+    }
+  ],
+  "name": "kpi_nb_alertes_stock",
+  "success": true
+}
+2026-05-27T15:01:10.165Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=906 | {
+  "data": [
+    {
+      "nb_produits_expires_en_stock": 1225
+    }
+  ],
+  "name": "kpi_nb_produits_expires_en_stock",
+  "success": true
+}
+2026-05-27T15:01:10.198Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=938 | {
+  "data": [
+    {
+      "nb_fournisseurs_30j": 18
+    }
+  ],
+  "name": "kpi_nb_fournisseurs_30j",
+  "success": true
+}
+2026-05-27T15:01:10.250Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=997 | {
+  "data": [
+    {
+      "nb_ventes_jour": 0
+    }
+  ],
+  "name": "kpi_nb_ventes_jour",
+  "success": true
+}
+2026-05-27T15:01:10.288Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=1027 | {
+  "data": [
+    {
+      "jour": "Mon, 27 Apr 2026 00:00:00 GMT",
+      "total_vente": "3832.93"
+    },
+    {
+      "jour": "Tue, 28 Apr 2026 00:00:00 GMT",
+      "total_vente": "3350.95"
+    },
+    {
+      "jour": "Wed, 29 Apr 2026 00:00:00 GMT",
+      "total_vente": "4535.96"
+    },
+    {
+      "jour": "Thu, 30 Apr 2026 00:00:00 GMT",
+      "total_vente": "3229.09"
+    },
+    {
+      "jour": "Fri, 01 May 2026 00:00:00 GMT",
+      "total_vente": "3534.75"
+    },
+    {
+      "jour": "Sat, 02 May 2026 00:00:00 GMT",
+      "total_vente": "3533.46"
+    },
+    {
+      "jour": "Sun, 03 May 2026 00:00:00 GMT",
+      "total_vente": "3818.29"
+    },
+    {
+      "jour": "Mon, 04 May 2026 00:00:00 GMT",
+      "total_vente": "3258.37"
+    },
+    {
+      "jour": "Tue, 05 May 2026 00:00:00 GMT",
+      "total_vente": "4242.67"
+    },
+    {
+      "jour": "Wed, 06 May 2026 00:00:00 GMT",
+      "total_vente": "2688.34"
+    },
+    {
+      "jour": "Thu, 07 May 2026 00:00:00 GMT",
+      "total_vente": "3031.54"
+    },
+    {
+      "jour": "Fri, 08 May 2026 00:00:00 GMT",
+      "total_vente": "3207.59"
+    },
+    {
+      "jour": "Sat, 09 May 2026 00:00:00 GMT",
+      "total_vente": "3490.51"
+    },
+    {
+      "jour": "Sun, 10 May 2026 00:00:00 GMT",
+      "total_vente": "1577.46"
+    },
+    {
+      "jour": "Mon, 11 May 2026 00:00:00 GMT",
+      "total_vente": "1612.53"
+    },
+    {
+      "jour": "Tue, 12 May 2026 00:00:00 GMT",
+      "total_vente": "1687.91"
+    },
+    {
+      "jour": "Wed, 13 May 2026 00:00:00 GMT",
+      "total_vente": "1875.71"
+    },
+    {
+      "jour": "Thu, 14 May 2026 00:00:00 GMT",
+      "total_vente": "1100.89"
+    },
+    {
+      "jour": "Fri, 15 May 2026 00:00:00 GMT",
+      "total_vente": "793.77"
+    },
+    {
+      "jour": "Sat, 16 May 2026 00:00:00 GMT",
+      "total_vente": "879.22"
+    },
+    {
+      "jour": "Sun, 17 May 2026 00:00:00 GMT",
+      "total_vente": "1242.38"
+    },
+    {
+      "jour": "Mon, 18 May 2026 00:00:00 GMT",
+      "total_vente": "11
+2026-05-27T15:01:10.301Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=1052 | {
+  "data": [
+    {
+      "ca_jour": "0.00"
+    }
+  ],
+  "name": "kpi_ca_jour",
+  "success": true
+}
+2026-05-27T15:01:10.346Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=1086 | {
+  "data": [
+    {
+      "ca_ytd": "462547.15"
+    }
+  ],
+  "name": "kpi_ca_ytd",
+  "success": true
+}
+2026-05-27T15:01:10.389Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=1127 | {
+  "data": [
+    {
+      "an_semaine": 202610,
+      "ca_semaine": "17844.66",
+      "debut_semaine": "Wed, 04 Mar 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202611,
+      "ca_semaine": "23229.52",
+      "debut_semaine": "Mon, 09 Mar 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202612,
+      "ca_semaine": "23284.39",
+      "debut_semaine": "Mon, 16 Mar 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202613,
+      "ca_semaine": "25578.41",
+      "debut_semaine": "Mon, 23 Mar 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202614,
+      "ca_semaine": "21878.27",
+      "debut_semaine": "Mon, 30 Mar 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202615,
+      "ca_semaine": "24147.35",
+      "debut_semaine": "Mon, 06 Apr 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202616,
+      "ca_semaine": "24453.80",
+      "debut_semaine": "Mon, 13 Apr 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202617,
+      "ca_semaine": "22792.89",
+      "debut_semaine": "Mon, 20 Apr 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202618,
+      "ca_semaine": "25605.97",
+      "debut_semaine": "Mon, 27 Apr 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202619,
+      "ca_semaine": "21382.67",
+      "debut_semaine": "Mon, 04 May 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202620,
+      "ca_semaine": "8964.66",
+      "debut_semaine": "Mon, 11 May 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202621,
+      "ca_semaine": "8691.31",
+      "debut_semaine": "Mon, 18 May 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202622,
+      "ca_semaine": "3416.29",
+      "debut_semaine": "Mon, 25 May 2026 00:00:00 GMT"
+    }
+  ],
+  "name": "chart_ca_par_semaine_12",
+  "success": true
+}
+2026-05-27T15:01:10.402Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=1137 | {
+  "data": [
+    {
+      "fournisseur": "GlobalCare Supplies",
+      "total_achat": "21078.90"
+    },
+    {
+      "fournisseur": "PharmaNord Distribution",
+      "total_achat": "19052.78"
+    },
+    {
+      "fournisseur": "BioPharm Montr\u251c\u00aeal",
+      "total_achat": "11489.32"
+    },
+    {
+      "fournisseur": "Vitalis Grossiste",
+      "total_achat": "11085.50"
+    },
+    {
+      "fournisseur": "OmniHealth Supply",
+      "total_achat": "8762.75"
+    },
+    {
+      "fournisseur": "MediStock Qu\u251c\u00aebec",
+      "total_achat": "7974.48"
+    },
+    {
+      "fournisseur": "Clinimed Canada",
+      "total_achat": "7275.10"
+    }
+  ],
+  "name": "chart_top_fournisseurs_30j",
+  "success": true
+}
+2026-05-27T15:01:10.415Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=1153 | {
+  "data": [
+    {
+      "ca_mois": "103061.70",
+      "mois": "2026-01"
+    },
+    {
+      "ca_mois": "97187.26",
+      "mois": "2026-02"
+    },
+    {
+      "ca_mois": "106767.12",
+      "mois": "2026-03"
+    },
+    {
+      "ca_mois": "102276.00",
+      "mois": "2026-04"
+    },
+    {
+      "ca_mois": "53255.07",
+      "mois": "2026-05"
+    }
+  ],
+  "name": "chart_ca_mensuel_ytd",
+  "success": true
+}
+2026-05-27T15:01:10.444Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=1179 | {
+  "data": [
+    {
+      "date_expiration": "01-06-2026",
+      "produit": "Amoxicilline 500mg",
+      "quantite": 78
+    },
+    {
+      "date_expiration": "04-06-2026",
+      "produit": "Glucose comprim\u251c\u00aes",
+      "quantite": 623
+    },
+    {
+      "date_expiration": "05-06-2026",
+      "produit": "Test grossesse",
+      "quantite": 362
+    },
+    {
+      "date_expiration": "09-06-2026",
+      "produit": "Bandage \u251c\u00aelastique",
+      "quantite": 428
+    },
+    {
+      "date_expiration": "09-06-2026",
+      "produit": "Bandelettes glyc\u251c\u00aemie",
+      "quantite": 387
+    },
+    {
+      "date_expiration": "09-06-2026",
+      "produit": "Baume l\u251c\u00bfvres SPF",
+      "quantite": 526
+    },
+    {
+      "date_expiration": "11-06-2026",
+      "produit": "Atorvastatine 20mg",
+      "quantite": 705
+    },
+    {
+      "date_expiration": "11-06-2026",
+      "produit": "Amoxicilline 500mg",
+      "quantite": 1015
+    },
+    {
+      "date_expiration": "12-06-2026",
+      "produit": "Cr\u251c\u00bfme hydrocortisone 1%",
+      "quantite": 855
+    },
+    {
+      "date_expiration": "13-06-2026",
+      "produit": "Pansements assortis",
+      "quantite": 702
+    },
+    {
+      "date_expiration": "14-06-2026",
+      "produit": "Acetaminophene 500 mg",
+      "quantite": 890
+    },
+    {
+      "date_expiration": "14-06-2026",
+      "produit": "Sels de r\u251c\u00aehydratation orale",
+      "quantite": 959
+    },
+    {
+      "date_expiration": "15-06-2026",
+      "produit": "Hydrocortisone creme",
+      "quantite": 927
+    },
+    {
+      "date_expiration": "16-06-2026",
+      "produit": "Salbutamol inhalateur",
+      "quantite": 1
+    },
+    {
+      "date_expiration": "17-06-2026",
+      "produit": "Vitamine D 1000 UI",
+      "quantite": 1019
+    },
+    {
+      "date_expiration": "19-06-2026",
+      "produit": "Ibuprofene 200 mg",
+      "quantite": 737
+    },
+    {
+      "date_expiration": "20-06-2026",
+      "produit": "Dentifrice sensibilit\u251c\u00ae"
+2026-05-27T15:01:10.450Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=1190 | {
+  "data": [
+    {
+      "marge_brute_30j": "25744.21"
+    }
+  ],
+  "name": "kpi_marge_brute_30j",
+  "success": true
+}
+2026-05-27T15:01:10.458Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=1195 | {
+  "data": [
+    {
+      "produit": "Tensiom\u251c\u00bftre poignet",
+      "total_vendu": "138"
+    },
+    {
+      "produit": "Solution lentilles 360 ml",
+      "total_vendu": "136"
+    },
+    {
+      "produit": "Gel antiseptique 100 ml",
+      "total_vendu": "126"
+    },
+    {
+      "produit": "Val\u251c\u00aeriane capsules",
+      "total_vendu": "116"
+    },
+    {
+      "produit": "Gouttes yeux secs 15 ml",
+      "total_vendu": "114"
+    }
+  ],
+  "name": "top5_produits_30j",
+  "success": true
+}
+2026-05-27T15:01:10.462Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=1196 | {
+  "data": [],
+  "name": "stock_bas",
+  "success": true
+}
+2026-05-27T15:01:10.492Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=1224 | {
+  "data": [
+    {
+      "produit": "Gouttes anti-allergies 10 ml",
+      "total_stock": "19629"
+    },
+    {
+      "produit": "Glucose comprim\u251c\u00aes",
+      "total_stock": "17955"
+    },
+    {
+      "produit": "Peroxyde hydrog\u251c\u00bfne 3%",
+      "total_stock": "17511"
+    },
+    {
+      "produit": "Electrolytes sport",
+      "total_stock": "17305"
+    },
+    {
+      "produit": "ORS sachet",
+      "total_stock": "17233"
+    },
+    {
+      "produit": "Calcium 500 mg",
+      "total_stock": "17218"
+    },
+    {
+      "produit": "Paracetamol 500mg",
+      "total_stock": "15605"
+    },
+    {
+      "produit": "Val\u251c\u00aeriane capsules",
+      "total_stock": "15304"
+    },
+    {
+      "produit": "Solution lentilles 360 ml",
+      "total_stock": "15230"
+    },
+    {
+      "produit": "Aspirine 81 mg",
+      "total_stock": "14807"
+    },
+    {
+      "produit": "Tensiom\u251c\u00bftre poignet",
+      "total_stock": "14595"
+    },
+    {
+      "produit": "Cr\u251c\u00bfme douleur musculaire",
+      "total_stock": "14540"
+    },
+    {
+      "produit": "Gants nitrile boite",
+      "total_stock": "14447"
+    },
+    {
+      "produit": "Test grossesse",
+      "total_stock": "14299"
+    },
+    {
+      "produit": "Seringues 5ml boite",
+      "total_stock": "14249"
+    },
+    {
+      "produit": "Patch chaleur",
+      "total_stock": "14073"
+    },
+    {
+      "produit": "Tensiometre bras",
+      "total_stock": "13940"
+    },
+    {
+      "produit": "Rince-bouche antiseptique",
+      "total_stock": "13880"
+    },
+    {
+      "produit": "Gants nitrile bo\u251c\u00abte 100",
+      "total_stock": "13823"
+    },
+    {
+      "produit": "Acetaminophene 500 mg",
+      "total_stock": "13779"
+    },
+    {
+      "produit": "Thermometre digital",
+      "total_stock": "13774"
+    },
+    {
+      "produit": "Masques m\u251c\u00aedicaux bo\u251c\u00abte 50",
+      "total_stock": "13631"
+    },
+    {
+      "produit": "Dolaren plus 250mg",
+      "total_stock": "13546"
+    },
+    {
+2026-05-27T15:01:10.501Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=1237 | {
+  "data": [
+    {
+      "ca": "10833.20",
+      "category": "Vitamines"
+    },
+    {
+      "ca": "8947.71",
+      "category": "Premiers soins"
+    },
+    {
+      "ca": "8626.30",
+      "category": "Digestif"
+    },
+    {
+      "ca": "8568.13",
+      "category": "Rhume et grippe"
+    },
+    {
+      "ca": "8309.53",
+      "category": "Mat\u251c\u00aeriel m\u251c\u00aedical"
+    },
+    {
+      "ca": "7856.70",
+      "category": "Soins oculaires"
+    },
+    {
+      "ca": "6304.34",
+      "category": "Dermatologie"
+    },
+    {
+      "ca": "6054.46",
+      "category": "Respiratoire"
+    },
+    {
+      "ca": "5837.50",
+      "category": "Protection"
+    },
+    {
+      "ca": "5796.72",
+      "category": "Diab\u251c\u00bfte"
+    },
+    {
+      "ca": "5281.92",
+      "category": "MATERIEL"
+    },
+    {
+      "ca": "4875.33",
+      "category": "Allergies"
+    },
+    {
+      "ca": "4458.19",
+      "category": "Douleurs musculaires"
+    },
+    {
+      "ca": "4298.53",
+      "category": "Soins peau"
+    },
+    {
+      "ca": "3779.48",
+      "category": "Sommeil"
+    },
+    {
+      "ca": "3394.46",
+      "category": "CARDIO"
+    },
+    {
+      "ca": "3213.30",
+      "category": "Analgesiques"
+    },
+    {
+      "ca": "3136.27",
+      "category": "Bucco-dentaire"
+    },
+    {
+      "ca": "2970.64",
+      "category": "ANTIBIO"
+    },
+    {
+      "ca": "2849.07",
+      "category": "Douleur"
+    },
+    {
+      "ca": "2446.11",
+      "category": "Sport sant\u251c\u00ae"
+    },
+    {
+      "ca": "2108.31",
+      "category": "PALUDISME"
+    },
+    {
+      "ca": "2103.05",
+      "category": "SUPPLEMENT"
+    },
+    {
+      "ca": "2035.09",
+      "category": "Cortico"
+    },
+    {
+      "ca": "1895.63",
+      "category": "DIABETE"
+    },
+    {
+      "ca": "1698.22",
+      "category": "GASTRO"
+    },
+    {
+      "ca": "1588.75",
+      "category": "Soins cheveux"
+    },
+    {
+      "ca": "1293.96",
+      "category": "Autre"
+    },
+    {
+      "ca": "1266.42",
+      "category": "Infection"
+2026-05-27T15:01:10.520Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=1252 | {
+  "data": [
+    {
+      "ca": "3569.57",
+      "jour": "Sat, 28 Mar 2026 00:00:00 GMT",
+      "sma7": "3569.570000"
+    },
+    {
+      "ca": "3787.88",
+      "jour": "Sun, 29 Mar 2026 00:00:00 GMT",
+      "sma7": "3678.725000"
+    },
+    {
+      "ca": "2937.31",
+      "jour": "Mon, 30 Mar 2026 00:00:00 GMT",
+      "sma7": "3431.586667"
+    },
+    {
+      "ca": "2864.83",
+      "jour": "Tue, 31 Mar 2026 00:00:00 GMT",
+      "sma7": "3289.897500"
+    },
+    {
+      "ca": "2478.87",
+      "jour": "Wed, 01 Apr 2026 00:00:00 GMT",
+      "sma7": "3127.692000"
+    },
+    {
+      "ca": "4755.54",
+      "jour": "Thu, 02 Apr 2026 00:00:00 GMT",
+      "sma7": "3399.000000"
+    },
+    {
+      "ca": "3310.04",
+      "jour": "Fri, 03 Apr 2026 00:00:00 GMT",
+      "sma7": "3386.291429"
+    },
+    {
+      "ca": "2674.99",
+      "jour": "Sat, 04 Apr 2026 00:00:00 GMT",
+      "sma7": "3258.494286"
+    },
+    {
+      "ca": "2856.69",
+      "jour": "Sun, 05 Apr 2026 00:00:00 GMT",
+      "sma7": "3125.467143"
+    },
+    {
+      "ca": "3541.67",
+      "jour": "Mon, 06 Apr 2026 00:00:00 GMT",
+      "sma7": "3211.804286"
+    },
+    {
+      "ca": "3626.86",
+      "jour": "Tue, 07 Apr 2026 00:00:00 GMT",
+      "sma7": "3320.665714"
+    },
+    {
+      "ca": "3925.10",
+      "jour": "Wed, 08 Apr 2026 00:00:00 GMT",
+      "sma7": "3527.270000"
+    },
+    {
+      "ca": "3213.05",
+      "jour": "Thu, 09 Apr 2026 00:00:00 GMT",
+      "sma7": "3306.914286"
+    },
+    {
+      "ca": "3687.98",
+      "jour": "Fri, 10 Apr 2026 00:00:00 GMT",
+      "sma7": "3360.905714"
+    },
+    {
+      "ca": "2738.24",
+      "jour": "Sat, 11 Apr 2026 00:00:00 GMT",
+      "sma7": "3369.941429"
+    },
+    {
+      "ca": "3414.45",
+      "jour": "Sun, 12 Apr 2026 00:00:00 GMT",
+      "sma7": "3449.621429"
+    },
+    {
+      "ca": "3447.77",
+      "jour": "Mon, 13 Apr 2026 00:00:00 GMT",
+      "sma7": "3436.207143"
+    },
+    {
+      "ca": "3540.39",
+      "jour": "Tue, 14 Apr 2026 00:00:00 GMT",
+      "sma7": "3423.854
+2026-05-27T15:01:27.182Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:27.183Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:27.183Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:27.184Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:27.185Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:27.185Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:27.188Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:27.190Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:27.192Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:27.193Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:27.194Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:27.195Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:27.196Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:27.197Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:27.197Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:27.198Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:27.199Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:27.199Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:27.200Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:27.355Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=171 | {
+  "data": [
+    {
+      "nb_alertes_stock": 0
+    }
+  ],
+  "name": "kpi_nb_alertes_stock",
+  "success": true
+}
+2026-05-27T15:01:27.607Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=421 | {
+  "data": [
+    {
+      "nb_ventes_jour": 0
+    }
+  ],
+  "name": "kpi_nb_ventes_jour",
+  "success": true
+}
+2026-05-27T15:01:27.683Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=498 | {
+  "data": [
+    {
+      "nb_produits_actifs": 103
+    }
+  ],
+  "name": "kpi_nb_produits_actifs",
+  "success": true
+}
+2026-05-27T15:01:27.727Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=544 | {
+  "data": [
+    {
+      "ca_jour": "0.00"
+    }
+  ],
+  "name": "kpi_ca_jour",
+  "success": true
+}
+2026-05-27T15:01:27.757Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=571 | {
+  "data": [
+    {
+      "valeur_stock": "6961911.38"
+    }
+  ],
+  "name": "kpi_valeur_stock",
+  "success": true
+}
+2026-05-27T15:01:27.798Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=609 | {
+  "data": [
+    {
+      "nb_produits_expires_en_stock": 1225
+    }
+  ],
+  "name": "kpi_nb_produits_expires_en_stock",
+  "success": true
+}
+2026-05-27T15:01:27.814Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=627 | {
+  "data": [
+    {
+      "ca_ytd": "462547.15"
+    }
+  ],
+  "name": "kpi_ca_ytd",
+  "success": true
+}
+2026-05-27T15:01:27.845Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=652 | {
+  "data": [
+    {
+      "nb_fournisseurs_30j": 18
+    }
+  ],
+  "name": "kpi_nb_fournisseurs_30j",
+  "success": true
+}
+2026-05-27T15:01:27.879Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=687 | {
+  "data": [
+    {
+      "marge_brute_30j": "25744.21"
+    }
+  ],
+  "name": "kpi_marge_brute_30j",
+  "success": true
+}
+2026-05-27T15:01:27.948Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=753 | {
+  "data": [
+    {
+      "jour": "Mon, 27 Apr 2026 00:00:00 GMT",
+      "total_vente": "3832.93"
+    },
+    {
+      "jour": "Tue, 28 Apr 2026 00:00:00 GMT",
+      "total_vente": "3350.95"
+    },
+    {
+      "jour": "Wed, 29 Apr 2026 00:00:00 GMT",
+      "total_vente": "4535.96"
+    },
+    {
+      "jour": "Thu, 30 Apr 2026 00:00:00 GMT",
+      "total_vente": "3229.09"
+    },
+    {
+      "jour": "Fri, 01 May 2026 00:00:00 GMT",
+      "total_vente": "3534.75"
+    },
+    {
+      "jour": "Sat, 02 May 2026 00:00:00 GMT",
+      "total_vente": "3533.46"
+    },
+    {
+      "jour": "Sun, 03 May 2026 00:00:00 GMT",
+      "total_vente": "3818.29"
+    },
+    {
+      "jour": "Mon, 04 May 2026 00:00:00 GMT",
+      "total_vente": "3258.37"
+    },
+    {
+      "jour": "Tue, 05 May 2026 00:00:00 GMT",
+      "total_vente": "4242.67"
+    },
+    {
+      "jour": "Wed, 06 May 2026 00:00:00 GMT",
+      "total_vente": "2688.34"
+    },
+    {
+      "jour": "Thu, 07 May 2026 00:00:00 GMT",
+      "total_vente": "3031.54"
+    },
+    {
+      "jour": "Fri, 08 May 2026 00:00:00 GMT",
+      "total_vente": "3207.59"
+    },
+    {
+      "jour": "Sat, 09 May 2026 00:00:00 GMT",
+      "total_vente": "3490.51"
+    },
+    {
+      "jour": "Sun, 10 May 2026 00:00:00 GMT",
+      "total_vente": "1577.46"
+    },
+    {
+      "jour": "Mon, 11 May 2026 00:00:00 GMT",
+      "total_vente": "1612.53"
+    },
+    {
+      "jour": "Tue, 12 May 2026 00:00:00 GMT",
+      "total_vente": "1687.91"
+    },
+    {
+      "jour": "Wed, 13 May 2026 00:00:00 GMT",
+      "total_vente": "1875.71"
+    },
+    {
+      "jour": "Thu, 14 May 2026 00:00:00 GMT",
+      "total_vente": "1100.89"
+    },
+    {
+      "jour": "Fri, 15 May 2026 00:00:00 GMT",
+      "total_vente": "793.77"
+    },
+    {
+      "jour": "Sat, 16 May 2026 00:00:00 GMT",
+      "total_vente": "879.22"
+    },
+    {
+      "jour": "Sun, 17 May 2026 00:00:00 GMT",
+      "total_vente": "1242.38"
+    },
+    {
+      "jour": "Mon, 18 May 2026 00:00:00 GMT",
+      "total_vente": "11
+2026-05-27T15:01:27.992Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=796 | {
+  "data": [
+    {
+      "an_semaine": 202610,
+      "ca_semaine": "17844.66",
+      "debut_semaine": "Wed, 04 Mar 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202611,
+      "ca_semaine": "23229.52",
+      "debut_semaine": "Mon, 09 Mar 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202612,
+      "ca_semaine": "23284.39",
+      "debut_semaine": "Mon, 16 Mar 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202613,
+      "ca_semaine": "25578.41",
+      "debut_semaine": "Mon, 23 Mar 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202614,
+      "ca_semaine": "21878.27",
+      "debut_semaine": "Mon, 30 Mar 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202615,
+      "ca_semaine": "24147.35",
+      "debut_semaine": "Mon, 06 Apr 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202616,
+      "ca_semaine": "24453.80",
+      "debut_semaine": "Mon, 13 Apr 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202617,
+      "ca_semaine": "22792.89",
+      "debut_semaine": "Mon, 20 Apr 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202618,
+      "ca_semaine": "25605.97",
+      "debut_semaine": "Mon, 27 Apr 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202619,
+      "ca_semaine": "21382.67",
+      "debut_semaine": "Mon, 04 May 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202620,
+      "ca_semaine": "8964.66",
+      "debut_semaine": "Mon, 11 May 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202621,
+      "ca_semaine": "8691.31",
+      "debut_semaine": "Mon, 18 May 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202622,
+      "ca_semaine": "3416.29",
+      "debut_semaine": "Mon, 25 May 2026 00:00:00 GMT"
+    }
+  ],
+  "name": "chart_ca_par_semaine_12",
+  "success": true
+}
+2026-05-27T15:01:28.000Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=805 | {
+  "data": [
+    {
+      "ca_mois": "103061.70",
+      "mois": "2026-01"
+    },
+    {
+      "ca_mois": "97187.26",
+      "mois": "2026-02"
+    },
+    {
+      "ca_mois": "106767.12",
+      "mois": "2026-03"
+    },
+    {
+      "ca_mois": "102276.00",
+      "mois": "2026-04"
+    },
+    {
+      "ca_mois": "53255.07",
+      "mois": "2026-05"
+    }
+  ],
+  "name": "chart_ca_mensuel_ytd",
+  "success": true
+}
+2026-05-27T15:01:28.016Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=816 | {
+  "data": [
+    {
+      "produit": "Tensiom\u251c\u00bftre poignet",
+      "total_vendu": "138"
+    },
+    {
+      "produit": "Solution lentilles 360 ml",
+      "total_vendu": "136"
+    },
+    {
+      "produit": "Gel antiseptique 100 ml",
+      "total_vendu": "126"
+    },
+    {
+      "produit": "Val\u251c\u00aeriane capsules",
+      "total_vendu": "116"
+    },
+    {
+      "produit": "Gouttes yeux secs 15 ml",
+      "total_vendu": "114"
+    }
+  ],
+  "name": "top5_produits_30j",
+  "success": true
+}
+2026-05-27T15:01:28.029Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=831 | {
+  "data": [
+    {
+      "fournisseur": "GlobalCare Supplies",
+      "total_achat": "21078.90"
+    },
+    {
+      "fournisseur": "PharmaNord Distribution",
+      "total_achat": "19052.78"
+    },
+    {
+      "fournisseur": "BioPharm Montr\u251c\u00aeal",
+      "total_achat": "11489.32"
+    },
+    {
+      "fournisseur": "Vitalis Grossiste",
+      "total_achat": "11085.50"
+    },
+    {
+      "fournisseur": "OmniHealth Supply",
+      "total_achat": "8762.75"
+    },
+    {
+      "fournisseur": "MediStock Qu\u251c\u00aebec",
+      "total_achat": "7974.48"
+    },
+    {
+      "fournisseur": "Clinimed Canada",
+      "total_achat": "7275.10"
+    }
+  ],
+  "name": "chart_top_fournisseurs_30j",
+  "success": true
+}
+2026-05-27T15:01:28.053Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=854 | {
+  "data": [
+    {
+      "date_expiration": "01-06-2026",
+      "produit": "Amoxicilline 500mg",
+      "quantite": 78
+    },
+    {
+      "date_expiration": "04-06-2026",
+      "produit": "Glucose comprim\u251c\u00aes",
+      "quantite": 623
+    },
+    {
+      "date_expiration": "05-06-2026",
+      "produit": "Test grossesse",
+      "quantite": 362
+    },
+    {
+      "date_expiration": "09-06-2026",
+      "produit": "Bandage \u251c\u00aelastique",
+      "quantite": 428
+    },
+    {
+      "date_expiration": "09-06-2026",
+      "produit": "Bandelettes glyc\u251c\u00aemie",
+      "quantite": 387
+    },
+    {
+      "date_expiration": "09-06-2026",
+      "produit": "Baume l\u251c\u00bfvres SPF",
+      "quantite": 526
+    },
+    {
+      "date_expiration": "11-06-2026",
+      "produit": "Atorvastatine 20mg",
+      "quantite": 705
+    },
+    {
+      "date_expiration": "11-06-2026",
+      "produit": "Amoxicilline 500mg",
+      "quantite": 1015
+    },
+    {
+      "date_expiration": "12-06-2026",
+      "produit": "Cr\u251c\u00bfme hydrocortisone 1%",
+      "quantite": 855
+    },
+    {
+      "date_expiration": "13-06-2026",
+      "produit": "Pansements assortis",
+      "quantite": 702
+    },
+    {
+      "date_expiration": "14-06-2026",
+      "produit": "Acetaminophene 500 mg",
+      "quantite": 890
+    },
+    {
+      "date_expiration": "14-06-2026",
+      "produit": "Sels de r\u251c\u00aehydratation orale",
+      "quantite": 959
+    },
+    {
+      "date_expiration": "15-06-2026",
+      "produit": "Hydrocortisone creme",
+      "quantite": 927
+    },
+    {
+      "date_expiration": "16-06-2026",
+      "produit": "Salbutamol inhalateur",
+      "quantite": 1
+    },
+    {
+      "date_expiration": "17-06-2026",
+      "produit": "Vitamine D 1000 UI",
+      "quantite": 1019
+    },
+    {
+      "date_expiration": "19-06-2026",
+      "produit": "Ibuprofene 200 mg",
+      "quantite": 737
+    },
+    {
+      "date_expiration": "20-06-2026",
+      "produit": "Dentifrice sensibilit\u251c\u00ae"
+2026-05-27T15:01:28.070Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=872 | {
+  "data": [
+    {
+      "ca": "10833.20",
+      "category": "Vitamines"
+    },
+    {
+      "ca": "8947.71",
+      "category": "Premiers soins"
+    },
+    {
+      "ca": "8626.30",
+      "category": "Digestif"
+    },
+    {
+      "ca": "8568.13",
+      "category": "Rhume et grippe"
+    },
+    {
+      "ca": "8309.53",
+      "category": "Mat\u251c\u00aeriel m\u251c\u00aedical"
+    },
+    {
+      "ca": "7856.70",
+      "category": "Soins oculaires"
+    },
+    {
+      "ca": "6304.34",
+      "category": "Dermatologie"
+    },
+    {
+      "ca": "6054.46",
+      "category": "Respiratoire"
+    },
+    {
+      "ca": "5837.50",
+      "category": "Protection"
+    },
+    {
+      "ca": "5796.72",
+      "category": "Diab\u251c\u00bfte"
+    },
+    {
+      "ca": "5281.92",
+      "category": "MATERIEL"
+    },
+    {
+      "ca": "4875.33",
+      "category": "Allergies"
+    },
+    {
+      "ca": "4458.19",
+      "category": "Douleurs musculaires"
+    },
+    {
+      "ca": "4298.53",
+      "category": "Soins peau"
+    },
+    {
+      "ca": "3779.48",
+      "category": "Sommeil"
+    },
+    {
+      "ca": "3394.46",
+      "category": "CARDIO"
+    },
+    {
+      "ca": "3213.30",
+      "category": "Analgesiques"
+    },
+    {
+      "ca": "3136.27",
+      "category": "Bucco-dentaire"
+    },
+    {
+      "ca": "2970.64",
+      "category": "ANTIBIO"
+    },
+    {
+      "ca": "2849.07",
+      "category": "Douleur"
+    },
+    {
+      "ca": "2446.11",
+      "category": "Sport sant\u251c\u00ae"
+    },
+    {
+      "ca": "2108.31",
+      "category": "PALUDISME"
+    },
+    {
+      "ca": "2103.05",
+      "category": "SUPPLEMENT"
+    },
+    {
+      "ca": "2035.09",
+      "category": "Cortico"
+    },
+    {
+      "ca": "1895.63",
+      "category": "DIABETE"
+    },
+    {
+      "ca": "1698.22",
+      "category": "GASTRO"
+    },
+    {
+      "ca": "1588.75",
+      "category": "Soins cheveux"
+    },
+    {
+      "ca": "1293.96",
+      "category": "Autre"
+    },
+    {
+      "ca": "1266.42",
+      "category": "Infection"
+2026-05-27T15:01:28.077Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=878 | {
+  "data": [],
+  "name": "stock_bas",
+  "success": true
+}
+2026-05-27T15:01:28.100Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=901 | {
+  "data": [
+    {
+      "produit": "Gouttes anti-allergies 10 ml",
+      "total_stock": "19629"
+    },
+    {
+      "produit": "Glucose comprim\u251c\u00aes",
+      "total_stock": "17955"
+    },
+    {
+      "produit": "Peroxyde hydrog\u251c\u00bfne 3%",
+      "total_stock": "17511"
+    },
+    {
+      "produit": "Electrolytes sport",
+      "total_stock": "17305"
+    },
+    {
+      "produit": "ORS sachet",
+      "total_stock": "17233"
+    },
+    {
+      "produit": "Calcium 500 mg",
+      "total_stock": "17218"
+    },
+    {
+      "produit": "Paracetamol 500mg",
+      "total_stock": "15605"
+    },
+    {
+      "produit": "Val\u251c\u00aeriane capsules",
+      "total_stock": "15304"
+    },
+    {
+      "produit": "Solution lentilles 360 ml",
+      "total_stock": "15230"
+    },
+    {
+      "produit": "Aspirine 81 mg",
+      "total_stock": "14807"
+    },
+    {
+      "produit": "Tensiom\u251c\u00bftre poignet",
+      "total_stock": "14595"
+    },
+    {
+      "produit": "Cr\u251c\u00bfme douleur musculaire",
+      "total_stock": "14540"
+    },
+    {
+      "produit": "Gants nitrile boite",
+      "total_stock": "14447"
+    },
+    {
+      "produit": "Test grossesse",
+      "total_stock": "14299"
+    },
+    {
+      "produit": "Seringues 5ml boite",
+      "total_stock": "14249"
+    },
+    {
+      "produit": "Patch chaleur",
+      "total_stock": "14073"
+    },
+    {
+      "produit": "Tensiometre bras",
+      "total_stock": "13940"
+    },
+    {
+      "produit": "Rince-bouche antiseptique",
+      "total_stock": "13880"
+    },
+    {
+      "produit": "Gants nitrile bo\u251c\u00abte 100",
+      "total_stock": "13823"
+    },
+    {
+      "produit": "Acetaminophene 500 mg",
+      "total_stock": "13779"
+    },
+    {
+      "produit": "Thermometre digital",
+      "total_stock": "13774"
+    },
+    {
+      "produit": "Masques m\u251c\u00aedicaux bo\u251c\u00abte 50",
+      "total_stock": "13631"
+    },
+    {
+      "produit": "Dolaren plus 250mg",
+      "total_stock": "13546"
+    },
+    {
+2026-05-27T15:01:28.125Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=924 | {
+  "data": [
+    {
+      "ca": "3569.57",
+      "jour": "Sat, 28 Mar 2026 00:00:00 GMT",
+      "sma7": "3569.570000"
+    },
+    {
+      "ca": "3787.88",
+      "jour": "Sun, 29 Mar 2026 00:00:00 GMT",
+      "sma7": "3678.725000"
+    },
+    {
+      "ca": "2937.31",
+      "jour": "Mon, 30 Mar 2026 00:00:00 GMT",
+      "sma7": "3431.586667"
+    },
+    {
+      "ca": "2864.83",
+      "jour": "Tue, 31 Mar 2026 00:00:00 GMT",
+      "sma7": "3289.897500"
+    },
+    {
+      "ca": "2478.87",
+      "jour": "Wed, 01 Apr 2026 00:00:00 GMT",
+      "sma7": "3127.692000"
+    },
+    {
+      "ca": "4755.54",
+      "jour": "Thu, 02 Apr 2026 00:00:00 GMT",
+      "sma7": "3399.000000"
+    },
+    {
+      "ca": "3310.04",
+      "jour": "Fri, 03 Apr 2026 00:00:00 GMT",
+      "sma7": "3386.291429"
+    },
+    {
+      "ca": "2674.99",
+      "jour": "Sat, 04 Apr 2026 00:00:00 GMT",
+      "sma7": "3258.494286"
+    },
+    {
+      "ca": "2856.69",
+      "jour": "Sun, 05 Apr 2026 00:00:00 GMT",
+      "sma7": "3125.467143"
+    },
+    {
+      "ca": "3541.67",
+      "jour": "Mon, 06 Apr 2026 00:00:00 GMT",
+      "sma7": "3211.804286"
+    },
+    {
+      "ca": "3626.86",
+      "jour": "Tue, 07 Apr 2026 00:00:00 GMT",
+      "sma7": "3320.665714"
+    },
+    {
+      "ca": "3925.10",
+      "jour": "Wed, 08 Apr 2026 00:00:00 GMT",
+      "sma7": "3527.270000"
+    },
+    {
+      "ca": "3213.05",
+      "jour": "Thu, 09 Apr 2026 00:00:00 GMT",
+      "sma7": "3306.914286"
+    },
+    {
+      "ca": "3687.98",
+      "jour": "Fri, 10 Apr 2026 00:00:00 GMT",
+      "sma7": "3360.905714"
+    },
+    {
+      "ca": "2738.24",
+      "jour": "Sat, 11 Apr 2026 00:00:00 GMT",
+      "sma7": "3369.941429"
+    },
+    {
+      "ca": "3414.45",
+      "jour": "Sun, 12 Apr 2026 00:00:00 GMT",
+      "sma7": "3449.621429"
+    },
+    {
+      "ca": "3447.77",
+      "jour": "Mon, 13 Apr 2026 00:00:00 GMT",
+      "sma7": "3436.207143"
+    },
+    {
+      "ca": "3540.39",
+      "jour": "Tue, 14 Apr 2026 00:00:00 GMT",
+      "sma7": "3423.854
+2026-05-27T15:01:44.669Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:44.670Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:44.671Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:44.672Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:44.679Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:44.683Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:44.684Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:44.686Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:44.687Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:44.688Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:44.689Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:44.693Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:44.694Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:44.696Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:44.697Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:44.698Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:44.699Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:44.700Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:44.701Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:01:44.842Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=165 | {
+  "data": [
+    {
+      "nb_produits_actifs": 103
+    }
+  ],
+  "name": "kpi_nb_produits_actifs",
+  "success": true
+}
+2026-05-27T15:01:44.861Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=181 | {
+  "data": [
+    {
+      "nb_alertes_stock": 0
+    }
+  ],
+  "name": "kpi_nb_alertes_stock",
+  "success": true
+}
+2026-05-27T15:01:45.034Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=363 | {
+  "data": [
+    {
+      "nb_ventes_jour": 0
+    }
+  ],
+  "name": "kpi_nb_ventes_jour",
+  "success": true
+}
+2026-05-27T15:01:45.078Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=397 | {
+  "data": [
+    {
+      "valeur_stock": "6961911.38"
+    }
+  ],
+  "name": "kpi_valeur_stock",
+  "success": true
+}
+2026-05-27T15:01:45.101Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=430 | {
+  "data": [
+    {
+      "ca_jour": "0.00"
+    }
+  ],
+  "name": "kpi_ca_jour",
+  "success": true
+}
+2026-05-27T15:01:45.169Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=483 | {
+  "data": [
+    {
+      "nb_produits_expires_en_stock": 1225
+    }
+  ],
+  "name": "kpi_nb_produits_expires_en_stock",
+  "success": true
+}
+2026-05-27T15:01:45.245Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=557 | {
+  "data": [
+    {
+      "nb_fournisseurs_30j": 18
+    }
+  ],
+  "name": "kpi_nb_fournisseurs_30j",
+  "success": true
+}
+2026-05-27T15:01:45.267Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=580 | {
+  "data": [
+    {
+      "marge_brute_30j": "25744.21"
+    }
+  ],
+  "name": "kpi_marge_brute_30j",
+  "success": true
+}
+2026-05-27T15:01:45.285Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=599 | {
+  "data": [
+    {
+      "ca_ytd": "462547.15"
+    }
+  ],
+  "name": "kpi_ca_ytd",
+  "success": true
+}
+2026-05-27T15:01:45.360Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=671 | {
+  "data": [
+    {
+      "jour": "Mon, 27 Apr 2026 00:00:00 GMT",
+      "total_vente": "3832.93"
+    },
+    {
+      "jour": "Tue, 28 Apr 2026 00:00:00 GMT",
+      "total_vente": "3350.95"
+    },
+    {
+      "jour": "Wed, 29 Apr 2026 00:00:00 GMT",
+      "total_vente": "4535.96"
+    },
+    {
+      "jour": "Thu, 30 Apr 2026 00:00:00 GMT",
+      "total_vente": "3229.09"
+    },
+    {
+      "jour": "Fri, 01 May 2026 00:00:00 GMT",
+      "total_vente": "3534.75"
+    },
+    {
+      "jour": "Sat, 02 May 2026 00:00:00 GMT",
+      "total_vente": "3533.46"
+    },
+    {
+      "jour": "Sun, 03 May 2026 00:00:00 GMT",
+      "total_vente": "3818.29"
+    },
+    {
+      "jour": "Mon, 04 May 2026 00:00:00 GMT",
+      "total_vente": "3258.37"
+    },
+    {
+      "jour": "Tue, 05 May 2026 00:00:00 GMT",
+      "total_vente": "4242.67"
+    },
+    {
+      "jour": "Wed, 06 May 2026 00:00:00 GMT",
+      "total_vente": "2688.34"
+    },
+    {
+      "jour": "Thu, 07 May 2026 00:00:00 GMT",
+      "total_vente": "3031.54"
+    },
+    {
+      "jour": "Fri, 08 May 2026 00:00:00 GMT",
+      "total_vente": "3207.59"
+    },
+    {
+      "jour": "Sat, 09 May 2026 00:00:00 GMT",
+      "total_vente": "3490.51"
+    },
+    {
+      "jour": "Sun, 10 May 2026 00:00:00 GMT",
+      "total_vente": "1577.46"
+    },
+    {
+      "jour": "Mon, 11 May 2026 00:00:00 GMT",
+      "total_vente": "1612.53"
+    },
+    {
+      "jour": "Tue, 12 May 2026 00:00:00 GMT",
+      "total_vente": "1687.91"
+    },
+    {
+      "jour": "Wed, 13 May 2026 00:00:00 GMT",
+      "total_vente": "1875.71"
+    },
+    {
+      "jour": "Thu, 14 May 2026 00:00:00 GMT",
+      "total_vente": "1100.89"
+    },
+    {
+      "jour": "Fri, 15 May 2026 00:00:00 GMT",
+      "total_vente": "793.77"
+    },
+    {
+      "jour": "Sat, 16 May 2026 00:00:00 GMT",
+      "total_vente": "879.22"
+    },
+    {
+      "jour": "Sun, 17 May 2026 00:00:00 GMT",
+      "total_vente": "1242.38"
+    },
+    {
+      "jour": "Mon, 18 May 2026 00:00:00 GMT",
+      "total_vente": "11
+2026-05-27T15:01:45.522Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=827 | {
+  "data": [
+    {
+      "an_semaine": 202610,
+      "ca_semaine": "17844.66",
+      "debut_semaine": "Wed, 04 Mar 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202611,
+      "ca_semaine": "23229.52",
+      "debut_semaine": "Mon, 09 Mar 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202612,
+      "ca_semaine": "23284.39",
+      "debut_semaine": "Mon, 16 Mar 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202613,
+      "ca_semaine": "25578.41",
+      "debut_semaine": "Mon, 23 Mar 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202614,
+      "ca_semaine": "21878.27",
+      "debut_semaine": "Mon, 30 Mar 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202615,
+      "ca_semaine": "24147.35",
+      "debut_semaine": "Mon, 06 Apr 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202616,
+      "ca_semaine": "24453.80",
+      "debut_semaine": "Mon, 13 Apr 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202617,
+      "ca_semaine": "22792.89",
+      "debut_semaine": "Mon, 20 Apr 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202618,
+      "ca_semaine": "25605.97",
+      "debut_semaine": "Mon, 27 Apr 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202619,
+      "ca_semaine": "21382.67",
+      "debut_semaine": "Mon, 04 May 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202620,
+      "ca_semaine": "8964.66",
+      "debut_semaine": "Mon, 11 May 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202621,
+      "ca_semaine": "8691.31",
+      "debut_semaine": "Mon, 18 May 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202622,
+      "ca_semaine": "3416.29",
+      "debut_semaine": "Mon, 25 May 2026 00:00:00 GMT"
+    }
+  ],
+  "name": "chart_ca_par_semaine_12",
+  "success": true
+}
+2026-05-27T15:01:45.566Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=876 | {
+  "data": [
+    {
+      "ca_mois": "103061.70",
+      "mois": "2026-01"
+    },
+    {
+      "ca_mois": "97187.26",
+      "mois": "2026-02"
+    },
+    {
+      "ca_mois": "106767.12",
+      "mois": "2026-03"
+    },
+    {
+      "ca_mois": "102276.00",
+      "mois": "2026-04"
+    },
+    {
+      "ca_mois": "53255.07",
+      "mois": "2026-05"
+    }
+  ],
+  "name": "chart_ca_mensuel_ytd",
+  "success": true
+}
+2026-05-27T15:01:45.600Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=904 | {
+  "data": [
+    {
+      "produit": "Tensiom\u251c\u00bftre poignet",
+      "total_vendu": "138"
+    },
+    {
+      "produit": "Solution lentilles 360 ml",
+      "total_vendu": "136"
+    },
+    {
+      "produit": "Gel antiseptique 100 ml",
+      "total_vendu": "126"
+    },
+    {
+      "produit": "Val\u251c\u00aeriane capsules",
+      "total_vendu": "116"
+    },
+    {
+      "produit": "Gouttes yeux secs 15 ml",
+      "total_vendu": "114"
+    }
+  ],
+  "name": "top5_produits_30j",
+  "success": true
+}
+2026-05-27T15:01:45.682Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=986 | {
+  "data": [
+    {
+      "ca": "10833.20",
+      "category": "Vitamines"
+    },
+    {
+      "ca": "8947.71",
+      "category": "Premiers soins"
+    },
+    {
+      "ca": "8626.30",
+      "category": "Digestif"
+    },
+    {
+      "ca": "8568.13",
+      "category": "Rhume et grippe"
+    },
+    {
+      "ca": "8309.53",
+      "category": "Mat\u251c\u00aeriel m\u251c\u00aedical"
+    },
+    {
+      "ca": "7856.70",
+      "category": "Soins oculaires"
+    },
+    {
+      "ca": "6304.34",
+      "category": "Dermatologie"
+    },
+    {
+      "ca": "6054.46",
+      "category": "Respiratoire"
+    },
+    {
+      "ca": "5837.50",
+      "category": "Protection"
+    },
+    {
+      "ca": "5796.72",
+      "category": "Diab\u251c\u00bfte"
+    },
+    {
+      "ca": "5281.92",
+      "category": "MATERIEL"
+    },
+    {
+      "ca": "4875.33",
+      "category": "Allergies"
+    },
+    {
+      "ca": "4458.19",
+      "category": "Douleurs musculaires"
+    },
+    {
+      "ca": "4298.53",
+      "category": "Soins peau"
+    },
+    {
+      "ca": "3779.48",
+      "category": "Sommeil"
+    },
+    {
+      "ca": "3394.46",
+      "category": "CARDIO"
+    },
+    {
+      "ca": "3213.30",
+      "category": "Analgesiques"
+    },
+    {
+      "ca": "3136.27",
+      "category": "Bucco-dentaire"
+    },
+    {
+      "ca": "2970.64",
+      "category": "ANTIBIO"
+    },
+    {
+      "ca": "2849.07",
+      "category": "Douleur"
+    },
+    {
+      "ca": "2446.11",
+      "category": "Sport sant\u251c\u00ae"
+    },
+    {
+      "ca": "2108.31",
+      "category": "PALUDISME"
+    },
+    {
+      "ca": "2103.05",
+      "category": "SUPPLEMENT"
+    },
+    {
+      "ca": "2035.09",
+      "category": "Cortico"
+    },
+    {
+      "ca": "1895.63",
+      "category": "DIABETE"
+    },
+    {
+      "ca": "1698.22",
+      "category": "GASTRO"
+    },
+    {
+      "ca": "1588.75",
+      "category": "Soins cheveux"
+    },
+    {
+      "ca": "1293.96",
+      "category": "Autre"
+    },
+    {
+      "ca": "1266.42",
+      "category": "Infection"
+2026-05-27T15:01:45.693Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=996 | {
+  "data": [
+    {
+      "fournisseur": "GlobalCare Supplies",
+      "total_achat": "21078.90"
+    },
+    {
+      "fournisseur": "PharmaNord Distribution",
+      "total_achat": "19052.78"
+    },
+    {
+      "fournisseur": "BioPharm Montr\u251c\u00aeal",
+      "total_achat": "11489.32"
+    },
+    {
+      "fournisseur": "Vitalis Grossiste",
+      "total_achat": "11085.50"
+    },
+    {
+      "fournisseur": "OmniHealth Supply",
+      "total_achat": "8762.75"
+    },
+    {
+      "fournisseur": "MediStock Qu\u251c\u00aebec",
+      "total_achat": "7974.48"
+    },
+    {
+      "fournisseur": "Clinimed Canada",
+      "total_achat": "7275.10"
+    }
+  ],
+  "name": "chart_top_fournisseurs_30j",
+  "success": true
+}
+2026-05-27T15:01:45.713Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=1014 | {
+  "data": [
+    {
+      "date_expiration": "01-06-2026",
+      "produit": "Amoxicilline 500mg",
+      "quantite": 78
+    },
+    {
+      "date_expiration": "04-06-2026",
+      "produit": "Glucose comprim\u251c\u00aes",
+      "quantite": 623
+    },
+    {
+      "date_expiration": "05-06-2026",
+      "produit": "Test grossesse",
+      "quantite": 362
+    },
+    {
+      "date_expiration": "09-06-2026",
+      "produit": "Bandage \u251c\u00aelastique",
+      "quantite": 428
+    },
+    {
+      "date_expiration": "09-06-2026",
+      "produit": "Bandelettes glyc\u251c\u00aemie",
+      "quantite": 387
+    },
+    {
+      "date_expiration": "09-06-2026",
+      "produit": "Baume l\u251c\u00bfvres SPF",
+      "quantite": 526
+    },
+    {
+      "date_expiration": "11-06-2026",
+      "produit": "Atorvastatine 20mg",
+      "quantite": 705
+    },
+    {
+      "date_expiration": "11-06-2026",
+      "produit": "Amoxicilline 500mg",
+      "quantite": 1015
+    },
+    {
+      "date_expiration": "12-06-2026",
+      "produit": "Cr\u251c\u00bfme hydrocortisone 1%",
+      "quantite": 855
+    },
+    {
+      "date_expiration": "13-06-2026",
+      "produit": "Pansements assortis",
+      "quantite": 702
+    },
+    {
+      "date_expiration": "14-06-2026",
+      "produit": "Acetaminophene 500 mg",
+      "quantite": 890
+    },
+    {
+      "date_expiration": "14-06-2026",
+      "produit": "Sels de r\u251c\u00aehydratation orale",
+      "quantite": 959
+    },
+    {
+      "date_expiration": "15-06-2026",
+      "produit": "Hydrocortisone creme",
+      "quantite": 927
+    },
+    {
+      "date_expiration": "16-06-2026",
+      "produit": "Salbutamol inhalateur",
+      "quantite": 1
+    },
+    {
+      "date_expiration": "17-06-2026",
+      "produit": "Vitamine D 1000 UI",
+      "quantite": 1019
+    },
+    {
+      "date_expiration": "19-06-2026",
+      "produit": "Ibuprofene 200 mg",
+      "quantite": 737
+    },
+    {
+      "date_expiration": "20-06-2026",
+      "produit": "Dentifrice sensibilit\u251c\u00ae"
+2026-05-27T15:01:45.739Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=1039 | {
+  "data": [],
+  "name": "stock_bas",
+  "success": true
+}
+2026-05-27T15:01:45.759Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=1058 | {
+  "data": [
+    {
+      "produit": "Gouttes anti-allergies 10 ml",
+      "total_stock": "19629"
+    },
+    {
+      "produit": "Glucose comprim\u251c\u00aes",
+      "total_stock": "17955"
+    },
+    {
+      "produit": "Peroxyde hydrog\u251c\u00bfne 3%",
+      "total_stock": "17511"
+    },
+    {
+      "produit": "Electrolytes sport",
+      "total_stock": "17305"
+    },
+    {
+      "produit": "ORS sachet",
+      "total_stock": "17233"
+    },
+    {
+      "produit": "Calcium 500 mg",
+      "total_stock": "17218"
+    },
+    {
+      "produit": "Paracetamol 500mg",
+      "total_stock": "15605"
+    },
+    {
+      "produit": "Val\u251c\u00aeriane capsules",
+      "total_stock": "15304"
+    },
+    {
+      "produit": "Solution lentilles 360 ml",
+      "total_stock": "15230"
+    },
+    {
+      "produit": "Aspirine 81 mg",
+      "total_stock": "14807"
+    },
+    {
+      "produit": "Tensiom\u251c\u00bftre poignet",
+      "total_stock": "14595"
+    },
+    {
+      "produit": "Cr\u251c\u00bfme douleur musculaire",
+      "total_stock": "14540"
+    },
+    {
+      "produit": "Gants nitrile boite",
+      "total_stock": "14447"
+    },
+    {
+      "produit": "Test grossesse",
+      "total_stock": "14299"
+    },
+    {
+      "produit": "Seringues 5ml boite",
+      "total_stock": "14249"
+    },
+    {
+      "produit": "Patch chaleur",
+      "total_stock": "14073"
+    },
+    {
+      "produit": "Tensiometre bras",
+      "total_stock": "13940"
+    },
+    {
+      "produit": "Rince-bouche antiseptique",
+      "total_stock": "13880"
+    },
+    {
+      "produit": "Gants nitrile bo\u251c\u00abte 100",
+      "total_stock": "13823"
+    },
+    {
+      "produit": "Acetaminophene 500 mg",
+      "total_stock": "13779"
+    },
+    {
+      "produit": "Thermometre digital",
+      "total_stock": "13774"
+    },
+    {
+      "produit": "Masques m\u251c\u00aedicaux bo\u251c\u00abte 50",
+      "total_stock": "13631"
+    },
+    {
+      "produit": "Dolaren plus 250mg",
+      "total_stock": "13546"
+    },
+    {
+2026-05-27T15:01:45.803Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=1098 | {
+  "data": [
+    {
+      "ca": "3569.57",
+      "jour": "Sat, 28 Mar 2026 00:00:00 GMT",
+      "sma7": "3569.570000"
+    },
+    {
+      "ca": "3787.88",
+      "jour": "Sun, 29 Mar 2026 00:00:00 GMT",
+      "sma7": "3678.725000"
+    },
+    {
+      "ca": "2937.31",
+      "jour": "Mon, 30 Mar 2026 00:00:00 GMT",
+      "sma7": "3431.586667"
+    },
+    {
+      "ca": "2864.83",
+      "jour": "Tue, 31 Mar 2026 00:00:00 GMT",
+      "sma7": "3289.897500"
+    },
+    {
+      "ca": "2478.87",
+      "jour": "Wed, 01 Apr 2026 00:00:00 GMT",
+      "sma7": "3127.692000"
+    },
+    {
+      "ca": "4755.54",
+      "jour": "Thu, 02 Apr 2026 00:00:00 GMT",
+      "sma7": "3399.000000"
+    },
+    {
+      "ca": "3310.04",
+      "jour": "Fri, 03 Apr 2026 00:00:00 GMT",
+      "sma7": "3386.291429"
+    },
+    {
+      "ca": "2674.99",
+      "jour": "Sat, 04 Apr 2026 00:00:00 GMT",
+      "sma7": "3258.494286"
+    },
+    {
+      "ca": "2856.69",
+      "jour": "Sun, 05 Apr 2026 00:00:00 GMT",
+      "sma7": "3125.467143"
+    },
+    {
+      "ca": "3541.67",
+      "jour": "Mon, 06 Apr 2026 00:00:00 GMT",
+      "sma7": "3211.804286"
+    },
+    {
+      "ca": "3626.86",
+      "jour": "Tue, 07 Apr 2026 00:00:00 GMT",
+      "sma7": "3320.665714"
+    },
+    {
+      "ca": "3925.10",
+      "jour": "Wed, 08 Apr 2026 00:00:00 GMT",
+      "sma7": "3527.270000"
+    },
+    {
+      "ca": "3213.05",
+      "jour": "Thu, 09 Apr 2026 00:00:00 GMT",
+      "sma7": "3306.914286"
+    },
+    {
+      "ca": "3687.98",
+      "jour": "Fri, 10 Apr 2026 00:00:00 GMT",
+      "sma7": "3360.905714"
+    },
+    {
+      "ca": "2738.24",
+      "jour": "Sat, 11 Apr 2026 00:00:00 GMT",
+      "sma7": "3369.941429"
+    },
+    {
+      "ca": "3414.45",
+      "jour": "Sun, 12 Apr 2026 00:00:00 GMT",
+      "sma7": "3449.621429"
+    },
+    {
+      "ca": "3447.77",
+      "jour": "Mon, 13 Apr 2026 00:00:00 GMT",
+      "sma7": "3436.207143"
+    },
+    {
+      "ca": "3540.39",
+      "jour": "Tue, 14 Apr 2026 00:00:00 GMT",
+      "sma7": "3423.854
+2026-05-27T15:02:02.072Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:02:02.073Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:02:02.074Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:02:02.074Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:02:02.075Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:02:02.076Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:02:02.077Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:02:02.079Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:02:02.081Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:02:02.083Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:02:02.085Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:02:02.086Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:02:02.087Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:02:02.088Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:02:02.089Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:02:02.089Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:02:02.090Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:02:02.091Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:02:02.092Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:02:02.458Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=385 | {
+  "data": [
+    {
+      "ca_jour": "0.00"
+    }
+  ],
+  "name": "kpi_ca_jour",
+  "success": true
+}
+2026-05-27T15:02:02.582Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=504 | {
+  "data": [
+    {
+      "nb_ventes_jour": 0
+    }
+  ],
+  "name": "kpi_nb_ventes_jour",
+  "success": true
+}
+2026-05-27T15:02:02.583Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=509 | {
+  "data": [
+    {
+      "nb_alertes_stock": 0
+    }
+  ],
+  "name": "kpi_nb_alertes_stock",
+  "success": true
+}
+2026-05-27T15:02:02.597Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=521 | {
+  "data": [
+    {
+      "nb_produits_actifs": 103
+    }
+  ],
+  "name": "kpi_nb_produits_actifs",
+  "success": true
+}
+2026-05-27T15:02:02.612Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=535 | {
+  "data": [
+    {
+      "valeur_stock": "6961911.38"
+    }
+  ],
+  "name": "kpi_valeur_stock",
+  "success": true
+}
+2026-05-27T15:02:02.691Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=613 | {
+  "data": [
+    {
+      "nb_produits_expires_en_stock": 1225
+    }
+  ],
+  "name": "kpi_nb_produits_expires_en_stock",
+  "success": true
+}
+2026-05-27T15:02:02.794Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=710 | {
+  "data": [
+    {
+      "ca_ytd": "462547.15"
+    }
+  ],
+  "name": "kpi_ca_ytd",
+  "success": true
+}
+2026-05-27T15:02:02.804Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=720 | {
+  "data": [
+    {
+      "marge_brute_30j": "25744.21"
+    }
+  ],
+  "name": "kpi_marge_brute_30j",
+  "success": true
+}
+2026-05-27T15:02:02.827Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=745 | {
+  "data": [
+    {
+      "nb_fournisseurs_30j": 18
+    }
+  ],
+  "name": "kpi_nb_fournisseurs_30j",
+  "success": true
+}
+2026-05-27T15:02:02.926Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=842 | {
+  "data": [
+    {
+      "jour": "Mon, 27 Apr 2026 00:00:00 GMT",
+      "total_vente": "3832.93"
+    },
+    {
+      "jour": "Tue, 28 Apr 2026 00:00:00 GMT",
+      "total_vente": "3350.95"
+    },
+    {
+      "jour": "Wed, 29 Apr 2026 00:00:00 GMT",
+      "total_vente": "4535.96"
+    },
+    {
+      "jour": "Thu, 30 Apr 2026 00:00:00 GMT",
+      "total_vente": "3229.09"
+    },
+    {
+      "jour": "Fri, 01 May 2026 00:00:00 GMT",
+      "total_vente": "3534.75"
+    },
+    {
+      "jour": "Sat, 02 May 2026 00:00:00 GMT",
+      "total_vente": "3533.46"
+    },
+    {
+      "jour": "Sun, 03 May 2026 00:00:00 GMT",
+      "total_vente": "3818.29"
+    },
+    {
+      "jour": "Mon, 04 May 2026 00:00:00 GMT",
+      "total_vente": "3258.37"
+    },
+    {
+      "jour": "Tue, 05 May 2026 00:00:00 GMT",
+      "total_vente": "4242.67"
+    },
+    {
+      "jour": "Wed, 06 May 2026 00:00:00 GMT",
+      "total_vente": "2688.34"
+    },
+    {
+      "jour": "Thu, 07 May 2026 00:00:00 GMT",
+      "total_vente": "3031.54"
+    },
+    {
+      "jour": "Fri, 08 May 2026 00:00:00 GMT",
+      "total_vente": "3207.59"
+    },
+    {
+      "jour": "Sat, 09 May 2026 00:00:00 GMT",
+      "total_vente": "3490.51"
+    },
+    {
+      "jour": "Sun, 10 May 2026 00:00:00 GMT",
+      "total_vente": "1577.46"
+    },
+    {
+      "jour": "Mon, 11 May 2026 00:00:00 GMT",
+      "total_vente": "1612.53"
+    },
+    {
+      "jour": "Tue, 12 May 2026 00:00:00 GMT",
+      "total_vente": "1687.91"
+    },
+    {
+      "jour": "Wed, 13 May 2026 00:00:00 GMT",
+      "total_vente": "1875.71"
+    },
+    {
+      "jour": "Thu, 14 May 2026 00:00:00 GMT",
+      "total_vente": "1100.89"
+    },
+    {
+      "jour": "Fri, 15 May 2026 00:00:00 GMT",
+      "total_vente": "793.77"
+    },
+    {
+      "jour": "Sat, 16 May 2026 00:00:00 GMT",
+      "total_vente": "879.22"
+    },
+    {
+      "jour": "Sun, 17 May 2026 00:00:00 GMT",
+      "total_vente": "1242.38"
+    },
+    {
+      "jour": "Mon, 18 May 2026 00:00:00 GMT",
+      "total_vente": "11
+2026-05-27T15:02:02.929Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=840 | {
+  "data": [
+    {
+      "an_semaine": 202610,
+      "ca_semaine": "17844.66",
+      "debut_semaine": "Wed, 04 Mar 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202611,
+      "ca_semaine": "23229.52",
+      "debut_semaine": "Mon, 09 Mar 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202612,
+      "ca_semaine": "23284.39",
+      "debut_semaine": "Mon, 16 Mar 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202613,
+      "ca_semaine": "25578.41",
+      "debut_semaine": "Mon, 23 Mar 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202614,
+      "ca_semaine": "21878.27",
+      "debut_semaine": "Mon, 30 Mar 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202615,
+      "ca_semaine": "24147.35",
+      "debut_semaine": "Mon, 06 Apr 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202616,
+      "ca_semaine": "24453.80",
+      "debut_semaine": "Mon, 13 Apr 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202617,
+      "ca_semaine": "22792.89",
+      "debut_semaine": "Mon, 20 Apr 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202618,
+      "ca_semaine": "25605.97",
+      "debut_semaine": "Mon, 27 Apr 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202619,
+      "ca_semaine": "21382.67",
+      "debut_semaine": "Mon, 04 May 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202620,
+      "ca_semaine": "8964.66",
+      "debut_semaine": "Mon, 11 May 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202621,
+      "ca_semaine": "8691.31",
+      "debut_semaine": "Mon, 18 May 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202622,
+      "ca_semaine": "3416.29",
+      "debut_semaine": "Mon, 25 May 2026 00:00:00 GMT"
+    }
+  ],
+  "name": "chart_ca_par_semaine_12",
+  "success": true
+}
+2026-05-27T15:02:02.963Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=875 | {
+  "data": [
+    {
+      "ca_mois": "103061.70",
+      "mois": "2026-01"
+    },
+    {
+      "ca_mois": "97187.26",
+      "mois": "2026-02"
+    },
+    {
+      "ca_mois": "106767.12",
+      "mois": "2026-03"
+    },
+    {
+      "ca_mois": "102276.00",
+      "mois": "2026-04"
+    },
+    {
+      "ca_mois": "53255.07",
+      "mois": "2026-05"
+    }
+  ],
+  "name": "chart_ca_mensuel_ytd",
+  "success": true
+}
+2026-05-27T15:02:02.984Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=894 | {
+  "data": [
+    {
+      "fournisseur": "GlobalCare Supplies",
+      "total_achat": "21078.90"
+    },
+    {
+      "fournisseur": "PharmaNord Distribution",
+      "total_achat": "19052.78"
+    },
+    {
+      "fournisseur": "BioPharm Montr\u251c\u00aeal",
+      "total_achat": "11489.32"
+    },
+    {
+      "fournisseur": "Vitalis Grossiste",
+      "total_achat": "11085.50"
+    },
+    {
+      "fournisseur": "OmniHealth Supply",
+      "total_achat": "8762.75"
+    },
+    {
+      "fournisseur": "MediStock Qu\u251c\u00aebec",
+      "total_achat": "7974.48"
+    },
+    {
+      "fournisseur": "Clinimed Canada",
+      "total_achat": "7275.10"
+    }
+  ],
+  "name": "chart_top_fournisseurs_30j",
+  "success": true
+}
+2026-05-27T15:02:02.991Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=901 | {
+  "data": [
+    {
+      "date_expiration": "01-06-2026",
+      "produit": "Amoxicilline 500mg",
+      "quantite": 78
+    },
+    {
+      "date_expiration": "04-06-2026",
+      "produit": "Glucose comprim\u251c\u00aes",
+      "quantite": 623
+    },
+    {
+      "date_expiration": "05-06-2026",
+      "produit": "Test grossesse",
+      "quantite": 362
+    },
+    {
+      "date_expiration": "09-06-2026",
+      "produit": "Bandage \u251c\u00aelastique",
+      "quantite": 428
+    },
+    {
+      "date_expiration": "09-06-2026",
+      "produit": "Bandelettes glyc\u251c\u00aemie",
+      "quantite": 387
+    },
+    {
+      "date_expiration": "09-06-2026",
+      "produit": "Baume l\u251c\u00bfvres SPF",
+      "quantite": 526
+    },
+    {
+      "date_expiration": "11-06-2026",
+      "produit": "Atorvastatine 20mg",
+      "quantite": 705
+    },
+    {
+      "date_expiration": "11-06-2026",
+      "produit": "Amoxicilline 500mg",
+      "quantite": 1015
+    },
+    {
+      "date_expiration": "12-06-2026",
+      "produit": "Cr\u251c\u00bfme hydrocortisone 1%",
+      "quantite": 855
+    },
+    {
+      "date_expiration": "13-06-2026",
+      "produit": "Pansements assortis",
+      "quantite": 702
+    },
+    {
+      "date_expiration": "14-06-2026",
+      "produit": "Acetaminophene 500 mg",
+      "quantite": 890
+    },
+    {
+      "date_expiration": "14-06-2026",
+      "produit": "Sels de r\u251c\u00aehydratation orale",
+      "quantite": 959
+    },
+    {
+      "date_expiration": "15-06-2026",
+      "produit": "Hydrocortisone creme",
+      "quantite": 927
+    },
+    {
+      "date_expiration": "16-06-2026",
+      "produit": "Salbutamol inhalateur",
+      "quantite": 1
+    },
+    {
+      "date_expiration": "17-06-2026",
+      "produit": "Vitamine D 1000 UI",
+      "quantite": 1019
+    },
+    {
+      "date_expiration": "19-06-2026",
+      "produit": "Ibuprofene 200 mg",
+      "quantite": 737
+    },
+    {
+      "date_expiration": "20-06-2026",
+      "produit": "Dentifrice sensibilit\u251c\u00ae"
+2026-05-27T15:02:03.001Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=913 | {
+  "data": [
+    {
+      "produit": "Tensiom\u251c\u00bftre poignet",
+      "total_vendu": "138"
+    },
+    {
+      "produit": "Solution lentilles 360 ml",
+      "total_vendu": "136"
+    },
+    {
+      "produit": "Gel antiseptique 100 ml",
+      "total_vendu": "126"
+    },
+    {
+      "produit": "Val\u251c\u00aeriane capsules",
+      "total_vendu": "116"
+    },
+    {
+      "produit": "Gouttes yeux secs 15 ml",
+      "total_vendu": "114"
+    }
+  ],
+  "name": "top5_produits_30j",
+  "success": true
+}
+2026-05-27T15:02:03.021Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=933 | {
+  "data": [
+    {
+      "ca": "10833.20",
+      "category": "Vitamines"
+    },
+    {
+      "ca": "8947.71",
+      "category": "Premiers soins"
+    },
+    {
+      "ca": "8626.30",
+      "category": "Digestif"
+    },
+    {
+      "ca": "8568.13",
+      "category": "Rhume et grippe"
+    },
+    {
+      "ca": "8309.53",
+      "category": "Mat\u251c\u00aeriel m\u251c\u00aedical"
+    },
+    {
+      "ca": "7856.70",
+      "category": "Soins oculaires"
+    },
+    {
+      "ca": "6304.34",
+      "category": "Dermatologie"
+    },
+    {
+      "ca": "6054.46",
+      "category": "Respiratoire"
+    },
+    {
+      "ca": "5837.50",
+      "category": "Protection"
+    },
+    {
+      "ca": "5796.72",
+      "category": "Diab\u251c\u00bfte"
+    },
+    {
+      "ca": "5281.92",
+      "category": "MATERIEL"
+    },
+    {
+      "ca": "4875.33",
+      "category": "Allergies"
+    },
+    {
+      "ca": "4458.19",
+      "category": "Douleurs musculaires"
+    },
+    {
+      "ca": "4298.53",
+      "category": "Soins peau"
+    },
+    {
+      "ca": "3779.48",
+      "category": "Sommeil"
+    },
+    {
+      "ca": "3394.46",
+      "category": "CARDIO"
+    },
+    {
+      "ca": "3213.30",
+      "category": "Analgesiques"
+    },
+    {
+      "ca": "3136.27",
+      "category": "Bucco-dentaire"
+    },
+    {
+      "ca": "2970.64",
+      "category": "ANTIBIO"
+    },
+    {
+      "ca": "2849.07",
+      "category": "Douleur"
+    },
+    {
+      "ca": "2446.11",
+      "category": "Sport sant\u251c\u00ae"
+    },
+    {
+      "ca": "2108.31",
+      "category": "PALUDISME"
+    },
+    {
+      "ca": "2103.05",
+      "category": "SUPPLEMENT"
+    },
+    {
+      "ca": "2035.09",
+      "category": "Cortico"
+    },
+    {
+      "ca": "1895.63",
+      "category": "DIABETE"
+    },
+    {
+      "ca": "1698.22",
+      "category": "GASTRO"
+    },
+    {
+      "ca": "1588.75",
+      "category": "Soins cheveux"
+    },
+    {
+      "ca": "1293.96",
+      "category": "Autre"
+    },
+    {
+      "ca": "1266.42",
+      "category": "Infection"
+2026-05-27T15:02:03.030Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=940 | {
+  "data": [],
+  "name": "stock_bas",
+  "success": true
+}
+2026-05-27T15:02:03.045Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=954 | {
+  "data": [
+    {
+      "produit": "Gouttes anti-allergies 10 ml",
+      "total_stock": "19629"
+    },
+    {
+      "produit": "Glucose comprim\u251c\u00aes",
+      "total_stock": "17955"
+    },
+    {
+      "produit": "Peroxyde hydrog\u251c\u00bfne 3%",
+      "total_stock": "17511"
+    },
+    {
+      "produit": "Electrolytes sport",
+      "total_stock": "17305"
+    },
+    {
+      "produit": "ORS sachet",
+      "total_stock": "17233"
+    },
+    {
+      "produit": "Calcium 500 mg",
+      "total_stock": "17218"
+    },
+    {
+      "produit": "Paracetamol 500mg",
+      "total_stock": "15605"
+    },
+    {
+      "produit": "Val\u251c\u00aeriane capsules",
+      "total_stock": "15304"
+    },
+    {
+      "produit": "Solution lentilles 360 ml",
+      "total_stock": "15230"
+    },
+    {
+      "produit": "Aspirine 81 mg",
+      "total_stock": "14807"
+    },
+    {
+      "produit": "Tensiom\u251c\u00bftre poignet",
+      "total_stock": "14595"
+    },
+    {
+      "produit": "Cr\u251c\u00bfme douleur musculaire",
+      "total_stock": "14540"
+    },
+    {
+      "produit": "Gants nitrile boite",
+      "total_stock": "14447"
+    },
+    {
+      "produit": "Test grossesse",
+      "total_stock": "14299"
+    },
+    {
+      "produit": "Seringues 5ml boite",
+      "total_stock": "14249"
+    },
+    {
+      "produit": "Patch chaleur",
+      "total_stock": "14073"
+    },
+    {
+      "produit": "Tensiometre bras",
+      "total_stock": "13940"
+    },
+    {
+      "produit": "Rince-bouche antiseptique",
+      "total_stock": "13880"
+    },
+    {
+      "produit": "Gants nitrile bo\u251c\u00abte 100",
+      "total_stock": "13823"
+    },
+    {
+      "produit": "Acetaminophene 500 mg",
+      "total_stock": "13779"
+    },
+    {
+      "produit": "Thermometre digital",
+      "total_stock": "13774"
+    },
+    {
+      "produit": "Masques m\u251c\u00aedicaux bo\u251c\u00abte 50",
+      "total_stock": "13631"
+    },
+    {
+      "produit": "Dolaren plus 250mg",
+      "total_stock": "13546"
+    },
+    {
+2026-05-27T15:02:03.075Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=983 | {
+  "data": [
+    {
+      "ca": "3569.57",
+      "jour": "Sat, 28 Mar 2026 00:00:00 GMT",
+      "sma7": "3569.570000"
+    },
+    {
+      "ca": "3787.88",
+      "jour": "Sun, 29 Mar 2026 00:00:00 GMT",
+      "sma7": "3678.725000"
+    },
+    {
+      "ca": "2937.31",
+      "jour": "Mon, 30 Mar 2026 00:00:00 GMT",
+      "sma7": "3431.586667"
+    },
+    {
+      "ca": "2864.83",
+      "jour": "Tue, 31 Mar 2026 00:00:00 GMT",
+      "sma7": "3289.897500"
+    },
+    {
+      "ca": "2478.87",
+      "jour": "Wed, 01 Apr 2026 00:00:00 GMT",
+      "sma7": "3127.692000"
+    },
+    {
+      "ca": "4755.54",
+      "jour": "Thu, 02 Apr 2026 00:00:00 GMT",
+      "sma7": "3399.000000"
+    },
+    {
+      "ca": "3310.04",
+      "jour": "Fri, 03 Apr 2026 00:00:00 GMT",
+      "sma7": "3386.291429"
+    },
+    {
+      "ca": "2674.99",
+      "jour": "Sat, 04 Apr 2026 00:00:00 GMT",
+      "sma7": "3258.494286"
+    },
+    {
+      "ca": "2856.69",
+      "jour": "Sun, 05 Apr 2026 00:00:00 GMT",
+      "sma7": "3125.467143"
+    },
+    {
+      "ca": "3541.67",
+      "jour": "Mon, 06 Apr 2026 00:00:00 GMT",
+      "sma7": "3211.804286"
+    },
+    {
+      "ca": "3626.86",
+      "jour": "Tue, 07 Apr 2026 00:00:00 GMT",
+      "sma7": "3320.665714"
+    },
+    {
+      "ca": "3925.10",
+      "jour": "Wed, 08 Apr 2026 00:00:00 GMT",
+      "sma7": "3527.270000"
+    },
+    {
+      "ca": "3213.05",
+      "jour": "Thu, 09 Apr 2026 00:00:00 GMT",
+      "sma7": "3306.914286"
+    },
+    {
+      "ca": "3687.98",
+      "jour": "Fri, 10 Apr 2026 00:00:00 GMT",
+      "sma7": "3360.905714"
+    },
+    {
+      "ca": "2738.24",
+      "jour": "Sat, 11 Apr 2026 00:00:00 GMT",
+      "sma7": "3369.941429"
+    },
+    {
+      "ca": "3414.45",
+      "jour": "Sun, 12 Apr 2026 00:00:00 GMT",
+      "sma7": "3449.621429"
+    },
+    {
+      "ca": "3447.77",
+      "jour": "Mon, 13 Apr 2026 00:00:00 GMT",
+      "sma7": "3436.207143"
+    },
+    {
+      "ca": "3540.39",
+      "jour": "Tue, 14 Apr 2026 00:00:00 GMT",
+      "sma7": "3423.854
+2026-05-27T15:02:17.603Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:02:17.604Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:02:17.605Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:02:17.607Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:02:17.608Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:02:17.608Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:02:17.610Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:02:17.610Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:02:17.611Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:02:17.613Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:02:17.613Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:02:17.615Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:02:17.619Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:02:17.621Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:02:17.623Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:02:17.624Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:02:17.625Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:02:17.626Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:02:17.627Z | REQUEST  | POST | http://127.0.0.1:5000/api/dashboard/query
+2026-05-27T15:02:18.432Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=825 | {
+  "data": [
+    {
+      "nb_alertes_stock": 0
+    }
+  ],
+  "name": "kpi_nb_alertes_stock",
+  "success": true
+}
+2026-05-27T15:02:18.455Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=847 | {
+  "data": [
+    {
+      "nb_produits_actifs": 103
+    }
+  ],
+  "name": "kpi_nb_produits_actifs",
+  "success": true
+}
+2026-05-27T15:02:18.471Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=867 | {
+  "data": [
+    {
+      "nb_ventes_jour": 0
+    }
+  ],
+  "name": "kpi_nb_ventes_jour",
+  "success": true
+}
+2026-05-27T15:02:18.478Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=869 | {
+  "data": [
+    {
+      "valeur_stock": "6961911.38"
+    }
+  ],
+  "name": "kpi_valeur_stock",
+  "success": true
+}
+2026-05-27T15:02:18.489Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=886 | {
+  "data": [
+    {
+      "ca_jour": "0.00"
+    }
+  ],
+  "name": "kpi_ca_jour",
+  "success": true
+}
+2026-05-27T15:02:18.496Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=886 | {
+  "data": [
+    {
+      "nb_produits_expires_en_stock": 1225
+    }
+  ],
+  "name": "kpi_nb_produits_expires_en_stock",
+  "success": true
+}
+2026-05-27T15:02:18.524Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=912 | {
+  "data": [
+    {
+      "nb_fournisseurs_30j": 18
+    }
+  ],
+  "name": "kpi_nb_fournisseurs_30j",
+  "success": true
+}
+2026-05-27T15:02:18.554Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=942 | {
+  "data": [
+    {
+      "marge_brute_30j": "25744.21"
+    }
+  ],
+  "name": "kpi_marge_brute_30j",
+  "success": true
+}
+2026-05-27T15:02:18.573Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=959 | {
+  "data": [
+    {
+      "jour": "Mon, 27 Apr 2026 00:00:00 GMT",
+      "total_vente": "3832.93"
+    },
+    {
+      "jour": "Tue, 28 Apr 2026 00:00:00 GMT",
+      "total_vente": "3350.95"
+    },
+    {
+      "jour": "Wed, 29 Apr 2026 00:00:00 GMT",
+      "total_vente": "4535.96"
+    },
+    {
+      "jour": "Thu, 30 Apr 2026 00:00:00 GMT",
+      "total_vente": "3229.09"
+    },
+    {
+      "jour": "Fri, 01 May 2026 00:00:00 GMT",
+      "total_vente": "3534.75"
+    },
+    {
+      "jour": "Sat, 02 May 2026 00:00:00 GMT",
+      "total_vente": "3533.46"
+    },
+    {
+      "jour": "Sun, 03 May 2026 00:00:00 GMT",
+      "total_vente": "3818.29"
+    },
+    {
+      "jour": "Mon, 04 May 2026 00:00:00 GMT",
+      "total_vente": "3258.37"
+    },
+    {
+      "jour": "Tue, 05 May 2026 00:00:00 GMT",
+      "total_vente": "4242.67"
+    },
+    {
+      "jour": "Wed, 06 May 2026 00:00:00 GMT",
+      "total_vente": "2688.34"
+    },
+    {
+      "jour": "Thu, 07 May 2026 00:00:00 GMT",
+      "total_vente": "3031.54"
+    },
+    {
+      "jour": "Fri, 08 May 2026 00:00:00 GMT",
+      "total_vente": "3207.59"
+    },
+    {
+      "jour": "Sat, 09 May 2026 00:00:00 GMT",
+      "total_vente": "3490.51"
+    },
+    {
+      "jour": "Sun, 10 May 2026 00:00:00 GMT",
+      "total_vente": "1577.46"
+    },
+    {
+      "jour": "Mon, 11 May 2026 00:00:00 GMT",
+      "total_vente": "1612.53"
+    },
+    {
+      "jour": "Tue, 12 May 2026 00:00:00 GMT",
+      "total_vente": "1687.91"
+    },
+    {
+      "jour": "Wed, 13 May 2026 00:00:00 GMT",
+      "total_vente": "1875.71"
+    },
+    {
+      "jour": "Thu, 14 May 2026 00:00:00 GMT",
+      "total_vente": "1100.89"
+    },
+    {
+      "jour": "Fri, 15 May 2026 00:00:00 GMT",
+      "total_vente": "793.77"
+    },
+    {
+      "jour": "Sat, 16 May 2026 00:00:00 GMT",
+      "total_vente": "879.22"
+    },
+    {
+      "jour": "Sun, 17 May 2026 00:00:00 GMT",
+      "total_vente": "1242.38"
+    },
+    {
+      "jour": "Mon, 18 May 2026 00:00:00 GMT",
+      "total_vente": "11
+2026-05-27T15:02:18.595Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=985 | {
+  "data": [
+    {
+      "ca_ytd": "462547.15"
+    }
+  ],
+  "name": "kpi_ca_ytd",
+  "success": true
+}
+2026-05-27T15:02:18.609Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=993 | {
+  "data": [
+    {
+      "an_semaine": 202610,
+      "ca_semaine": "17844.66",
+      "debut_semaine": "Wed, 04 Mar 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202611,
+      "ca_semaine": "23229.52",
+      "debut_semaine": "Mon, 09 Mar 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202612,
+      "ca_semaine": "23284.39",
+      "debut_semaine": "Mon, 16 Mar 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202613,
+      "ca_semaine": "25578.41",
+      "debut_semaine": "Mon, 23 Mar 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202614,
+      "ca_semaine": "21878.27",
+      "debut_semaine": "Mon, 30 Mar 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202615,
+      "ca_semaine": "24147.35",
+      "debut_semaine": "Mon, 06 Apr 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202616,
+      "ca_semaine": "24453.80",
+      "debut_semaine": "Mon, 13 Apr 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202617,
+      "ca_semaine": "22792.89",
+      "debut_semaine": "Mon, 20 Apr 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202618,
+      "ca_semaine": "25605.97",
+      "debut_semaine": "Mon, 27 Apr 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202619,
+      "ca_semaine": "21382.67",
+      "debut_semaine": "Mon, 04 May 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202620,
+      "ca_semaine": "8964.66",
+      "debut_semaine": "Mon, 11 May 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202621,
+      "ca_semaine": "8691.31",
+      "debut_semaine": "Mon, 18 May 2026 00:00:00 GMT"
+    },
+    {
+      "an_semaine": 202622,
+      "ca_semaine": "3416.29",
+      "debut_semaine": "Mon, 25 May 2026 00:00:00 GMT"
+    }
+  ],
+  "name": "chart_ca_par_semaine_12",
+  "success": true
+}
+2026-05-27T15:02:18.664Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=1043 | {
+  "data": [
+    {
+      "produit": "Tensiom\u251c\u00bftre poignet",
+      "total_vendu": "138"
+    },
+    {
+      "produit": "Solution lentilles 360 ml",
+      "total_vendu": "136"
+    },
+    {
+      "produit": "Gel antiseptique 100 ml",
+      "total_vendu": "126"
+    },
+    {
+      "produit": "Val\u251c\u00aeriane capsules",
+      "total_vendu": "116"
+    },
+    {
+      "produit": "Gouttes yeux secs 15 ml",
+      "total_vendu": "114"
+    }
+  ],
+  "name": "top5_produits_30j",
+  "success": true
+}
+2026-05-27T15:02:18.675Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=1061 | {
+  "data": [
+    {
+      "ca_mois": "103061.70",
+      "mois": "2026-01"
+    },
+    {
+      "ca_mois": "97187.26",
+      "mois": "2026-02"
+    },
+    {
+      "ca_mois": "106767.12",
+      "mois": "2026-03"
+    },
+    {
+      "ca_mois": "102276.00",
+      "mois": "2026-04"
+    },
+    {
+      "ca_mois": "53255.07",
+      "mois": "2026-05"
+    }
+  ],
+  "name": "chart_ca_mensuel_ytd",
+  "success": true
+}
+2026-05-27T15:02:18.682Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=1059 | {
+  "data": [
+    {
+      "fournisseur": "GlobalCare Supplies",
+      "total_achat": "21078.90"
+    },
+    {
+      "fournisseur": "PharmaNord Distribution",
+      "total_achat": "19052.78"
+    },
+    {
+      "fournisseur": "BioPharm Montr\u251c\u00aeal",
+      "total_achat": "11489.32"
+    },
+    {
+      "fournisseur": "Vitalis Grossiste",
+      "total_achat": "11085.50"
+    },
+    {
+      "fournisseur": "OmniHealth Supply",
+      "total_achat": "8762.75"
+    },
+    {
+      "fournisseur": "MediStock Qu\u251c\u00aebec",
+      "total_achat": "7974.48"
+    },
+    {
+      "fournisseur": "Clinimed Canada",
+      "total_achat": "7275.10"
+    }
+  ],
+  "name": "chart_top_fournisseurs_30j",
+  "success": true
+}
+2026-05-27T15:02:18.689Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=1064 | {
+  "data": [
+    {
+      "date_expiration": "01-06-2026",
+      "produit": "Amoxicilline 500mg",
+      "quantite": 78
+    },
+    {
+      "date_expiration": "04-06-2026",
+      "produit": "Glucose comprim\u251c\u00aes",
+      "quantite": 623
+    },
+    {
+      "date_expiration": "05-06-2026",
+      "produit": "Test grossesse",
+      "quantite": 362
+    },
+    {
+      "date_expiration": "09-06-2026",
+      "produit": "Bandage \u251c\u00aelastique",
+      "quantite": 428
+    },
+    {
+      "date_expiration": "09-06-2026",
+      "produit": "Bandelettes glyc\u251c\u00aemie",
+      "quantite": 387
+    },
+    {
+      "date_expiration": "09-06-2026",
+      "produit": "Baume l\u251c\u00bfvres SPF",
+      "quantite": 526
+    },
+    {
+      "date_expiration": "11-06-2026",
+      "produit": "Atorvastatine 20mg",
+      "quantite": 705
+    },
+    {
+      "date_expiration": "11-06-2026",
+      "produit": "Amoxicilline 500mg",
+      "quantite": 1015
+    },
+    {
+      "date_expiration": "12-06-2026",
+      "produit": "Cr\u251c\u00bfme hydrocortisone 1%",
+      "quantite": 855
+    },
+    {
+      "date_expiration": "13-06-2026",
+      "produit": "Pansements assortis",
+      "quantite": 702
+    },
+    {
+      "date_expiration": "14-06-2026",
+      "produit": "Acetaminophene 500 mg",
+      "quantite": 890
+    },
+    {
+      "date_expiration": "14-06-2026",
+      "produit": "Sels de r\u251c\u00aehydratation orale",
+      "quantite": 959
+    },
+    {
+      "date_expiration": "15-06-2026",
+      "produit": "Hydrocortisone creme",
+      "quantite": 927
+    },
+    {
+      "date_expiration": "16-06-2026",
+      "produit": "Salbutamol inhalateur",
+      "quantite": 1
+    },
+    {
+      "date_expiration": "17-06-2026",
+      "produit": "Vitamine D 1000 UI",
+      "quantite": 1019
+    },
+    {
+      "date_expiration": "19-06-2026",
+      "produit": "Ibuprofene 200 mg",
+      "quantite": 737
+    },
+    {
+      "date_expiration": "20-06-2026",
+      "produit": "Dentifrice sensibilit\u251c\u00ae"
+2026-05-27T15:02:18.697Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=1076 | {
+  "data": [
+    {
+      "ca": "10833.20",
+      "category": "Vitamines"
+    },
+    {
+      "ca": "8947.71",
+      "category": "Premiers soins"
+    },
+    {
+      "ca": "8626.30",
+      "category": "Digestif"
+    },
+    {
+      "ca": "8568.13",
+      "category": "Rhume et grippe"
+    },
+    {
+      "ca": "8309.53",
+      "category": "Mat\u251c\u00aeriel m\u251c\u00aedical"
+    },
+    {
+      "ca": "7856.70",
+      "category": "Soins oculaires"
+    },
+    {
+      "ca": "6304.34",
+      "category": "Dermatologie"
+    },
+    {
+      "ca": "6054.46",
+      "category": "Respiratoire"
+    },
+    {
+      "ca": "5837.50",
+      "category": "Protection"
+    },
+    {
+      "ca": "5796.72",
+      "category": "Diab\u251c\u00bfte"
+    },
+    {
+      "ca": "5281.92",
+      "category": "MATERIEL"
+    },
+    {
+      "ca": "4875.33",
+      "category": "Allergies"
+    },
+    {
+      "ca": "4458.19",
+      "category": "Douleurs musculaires"
+    },
+    {
+      "ca": "4298.53",
+      "category": "Soins peau"
+    },
+    {
+      "ca": "3779.48",
+      "category": "Sommeil"
+    },
+    {
+      "ca": "3394.46",
+      "category": "CARDIO"
+    },
+    {
+      "ca": "3213.30",
+      "category": "Analgesiques"
+    },
+    {
+      "ca": "3136.27",
+      "category": "Bucco-dentaire"
+    },
+    {
+      "ca": "2970.64",
+      "category": "ANTIBIO"
+    },
+    {
+      "ca": "2849.07",
+      "category": "Douleur"
+    },
+    {
+      "ca": "2446.11",
+      "category": "Sport sant\u251c\u00ae"
+    },
+    {
+      "ca": "2108.31",
+      "category": "PALUDISME"
+    },
+    {
+      "ca": "2103.05",
+      "category": "SUPPLEMENT"
+    },
+    {
+      "ca": "2035.09",
+      "category": "Cortico"
+    },
+    {
+      "ca": "1895.63",
+      "category": "DIABETE"
+    },
+    {
+      "ca": "1698.22",
+      "category": "GASTRO"
+    },
+    {
+      "ca": "1588.75",
+      "category": "Soins cheveux"
+    },
+    {
+      "ca": "1293.96",
+      "category": "Autre"
+    },
+    {
+      "ca": "1266.42",
+      "category": "Infection"
+2026-05-27T15:02:18.726Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=1099 | {
+  "data": [],
+  "name": "stock_bas",
+  "success": true
+}
+2026-05-27T15:02:18.738Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=1112 | {
+  "data": [
+    {
+      "produit": "Gouttes anti-allergies 10 ml",
+      "total_stock": "19629"
+    },
+    {
+      "produit": "Glucose comprim\u251c\u00aes",
+      "total_stock": "17955"
+    },
+    {
+      "produit": "Peroxyde hydrog\u251c\u00bfne 3%",
+      "total_stock": "17511"
+    },
+    {
+      "produit": "Electrolytes sport",
+      "total_stock": "17305"
+    },
+    {
+      "produit": "ORS sachet",
+      "total_stock": "17233"
+    },
+    {
+      "produit": "Calcium 500 mg",
+      "total_stock": "17218"
+    },
+    {
+      "produit": "Paracetamol 500mg",
+      "total_stock": "15605"
+    },
+    {
+      "produit": "Val\u251c\u00aeriane capsules",
+      "total_stock": "15304"
+    },
+    {
+      "produit": "Solution lentilles 360 ml",
+      "total_stock": "15230"
+    },
+    {
+      "produit": "Aspirine 81 mg",
+      "total_stock": "14807"
+    },
+    {
+      "produit": "Tensiom\u251c\u00bftre poignet",
+      "total_stock": "14595"
+    },
+    {
+      "produit": "Cr\u251c\u00bfme douleur musculaire",
+      "total_stock": "14540"
+    },
+    {
+      "produit": "Gants nitrile boite",
+      "total_stock": "14447"
+    },
+    {
+      "produit": "Test grossesse",
+      "total_stock": "14299"
+    },
+    {
+      "produit": "Seringues 5ml boite",
+      "total_stock": "14249"
+    },
+    {
+      "produit": "Patch chaleur",
+      "total_stock": "14073"
+    },
+    {
+      "produit": "Tensiometre bras",
+      "total_stock": "13940"
+    },
+    {
+      "produit": "Rince-bouche antiseptique",
+      "total_stock": "13880"
+    },
+    {
+      "produit": "Gants nitrile bo\u251c\u00abte 100",
+      "total_stock": "13823"
+    },
+    {
+      "produit": "Acetaminophene 500 mg",
+      "total_stock": "13779"
+    },
+    {
+      "produit": "Thermometre digital",
+      "total_stock": "13774"
+    },
+    {
+      "produit": "Masques m\u251c\u00aedicaux bo\u251c\u00abte 50",
+      "total_stock": "13631"
+    },
+    {
+      "produit": "Dolaren plus 250mg",
+      "total_stock": "13546"
+    },
+    {
+2026-05-27T15:02:18.763Z | RESPONSE | POST | http://127.0.0.1:5000/api/dashboard/query | 200 | ok=true | duration_ms=1136 | {
+  "data": [
+    {
+      "ca": "3569.57",
+      "jour": "Sat, 28 Mar 2026 00:00:00 GMT",
+      "sma7": "3569.570000"
+    },
+    {
+      "ca": "3787.88",
+      "jour": "Sun, 29 Mar 2026 00:00:00 GMT",
+      "sma7": "3678.725000"
+    },
+    {
+      "ca": "2937.31",
+      "jour": "Mon, 30 Mar 2026 00:00:00 GMT",
+      "sma7": "3431.586667"
+    },
+    {
+      "ca": "2864.83",
+      "jour": "Tue, 31 Mar 2026 00:00:00 GMT",
+      "sma7": "3289.897500"
+    },
+    {
+      "ca": "2478.87",
+      "jour": "Wed, 01 Apr 2026 00:00:00 GMT",
+      "sma7": "3127.692000"
+    },
+    {
+      "ca": "4755.54",
+      "jour": "Thu, 02 Apr 2026 00:00:00 GMT",
+      "sma7": "3399.000000"
+    },
+    {
+      "ca": "3310.04",
+      "jour": "Fri, 03 Apr 2026 00:00:00 GMT",
+      "sma7": "3386.291429"
+    },
+    {
+      "ca": "2674.99",
+      "jour": "Sat, 04 Apr 2026 00:00:00 GMT",
+      "sma7": "3258.494286"
+    },
+    {
+      "ca": "2856.69",
+      "jour": "Sun, 05 Apr 2026 00:00:00 GMT",
+      "sma7": "3125.467143"
+    },
+    {
+      "ca": "3541.67",
+      "jour": "Mon, 06 Apr 2026 00:00:00 GMT",
+      "sma7": "3211.804286"
+    },
+    {
+      "ca": "3626.86",
+      "jour": "Tue, 07 Apr 2026 00:00:00 GMT",
+      "sma7": "3320.665714"
+    },
+    {
+      "ca": "3925.10",
+      "jour": "Wed, 08 Apr 2026 00:00:00 GMT",
+      "sma7": "3527.270000"
+    },
+    {
+      "ca": "3213.05",
+      "jour": "Thu, 09 Apr 2026 00:00:00 GMT",
+      "sma7": "3306.914286"
+    },
+    {
+      "ca": "3687.98",
+      "jour": "Fri, 10 Apr 2026 00:00:00 GMT",
+      "sma7": "3360.905714"
+    },
+    {
+      "ca": "2738.24",
+      "jour": "Sat, 11 Apr 2026 00:00:00 GMT",
+      "sma7": "3369.941429"
+    },
+    {
+      "ca": "3414.45",
+      "jour": "Sun, 12 Apr 2026 00:00:00 GMT",
+      "sma7": "3449.621429"
+    },
+    {
+      "ca": "3447.77",
+      "jour": "Mon, 13 Apr 2026 00:00:00 GMT",
+      "sma7": "3436.207143"
+    },
+    {
+      "ca": "3540.39",
+      "jour": "Tue, 14 Apr 2026 00:00:00 GMT",
+      "sma7": "3423.854

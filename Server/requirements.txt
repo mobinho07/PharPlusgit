@@ -4,3 +4,4 @@ pyodbc
 python-dotenv
 flask-cors
 pymysql
+cryptography

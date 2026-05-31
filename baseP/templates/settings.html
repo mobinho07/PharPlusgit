@@ -84,7 +84,14 @@
           <h2>Paramètres</h2>
           <div class="muted">Gérer les paramètres de l'application</div>
         </div>
-
+        <div class="setting-card">
+          <h3>🔄 Mise à jour système</h3>
+          <p id="currentVersion">Version: chargement...</p>
+          <button id="btnUpdate" class="btnPrimary">
+            Vérifier et mettre à jour
+          </button>
+          <pre id="updateStatus"></pre>
+        </div>
         <div class="actions"></div>
       </header>
 
@@ -107,5 +114,6 @@
     </div>
 
     <script src="../static/js/nav.js"></script>
+    <script src="../static/js/parametres.js"></script>
   </body>
 </html>

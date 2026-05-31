@@ -1,11 +1,11 @@
-(function(){
+(function () {
   const path = location.pathname.split("/").pop();
-  document.querySelectorAll(".navLink").forEach(a=>{
-    if(a.getAttribute("href") === path) a.classList.add("active");
+  document.querySelectorAll(".navLink").forEach(a => {
+    if (a.getAttribute("href") === path) a.classList.add("active");
   });
 })();
 
-(function () { 
+(function () {
   const name = localStorage.getItem("user_name") || "—";
   const role = localStorage.getItem("user_role") || "—";
 

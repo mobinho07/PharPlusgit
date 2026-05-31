@@ -555,3 +555,31 @@ textarea {
   border-radius: 12px;
   padding:10px;
 }
+
+/*
+Update button
+*/
+.setting-card{
+    padding:20px;
+    /*background:#eeb5b5;*/
+    border-radius:12px;
+    margin-bottom:20px;
+}
+
+.btnPrimary{
+    background:#3ec0f3;
+    color:rgb(0, 0, 0);
+    border:none;
+    padding:12px 18px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.btnPrimary:hover{
+    opacity:.9;
+}
+
+#updateStatus{
+    margin-top:10px;
+    font-size:14px;
+}
