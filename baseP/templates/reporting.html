@@ -1,90 +1,142 @@
 <!doctype html>
 <html lang="fr">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="../static/css/app.css" />
-  <title>PharmaPlus • Reporting</title>
-  <script src="../static/js/reporting.js" defer></script>
-  <script src="../static/js/nav.js" defer></script>
-</head>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../static/css/app.css" />
+    <title>PharmaPlus • Reporting</title>
+    <script src="../static/js/reporting.js" defer></script>
+    <script src="../static/js/nav.js" defer></script>
+  </head>
 
-<body>
-  <div class="app">
-    <header>
-      <div id="logo">
-        <img src="../static/img/mobisoft1.png" alt="">
-      </div>
-      <nav class="nav">
-        <a class="navLink expand-right" href="index.html" aria-label="Vente">
-          <span class="navIco" aria-hidden="true">🧾</span>
-          <span class="navText">Vente</span>
-        </a>
-        <a class="navLink expand-both" href="products_admin.html" aria-label="Produits">
-          <span class="navIco" aria-hidden="true">💊</span>
-          <span class="navText">Produits</span>
-        </a>
-        <a class="navLink expand-both" href="dashboard.html" aria-label="Dashboard">
-          <span class="navIco" aria-hidden="true">📊</span>
-          <span class="navText">Dashboard</span>
-        </a>
-        <a class="navLink expand-both" href="reporting.html" aria-label="Reporting">
-          <span class="navIco" aria-hidden="true">📈</span>
-          <span class="navText">Reporting</span>
-        </a>
-        <a class="navLink expand-both" href="suppliers_admin.html" aria-label="Fournisseurs">
-          <span class="navIco" aria-hidden="true">🚚</span>
-          <span class="navText">Fournisseurs</span>
-        </a>
-        <span class="navSep"></span>
-        <a class="navLink expand-both" href="settings.html" aria-label="Paramètres">
-          <span class="navIco" aria-hidden="true">⚙️</span>
-          <span class="navText">Paramètres</span>
-        </a>
-        <a class="navLink expand-left" href="users_admin.html" aria-label="Utilisateurs">
-          <span class="navIco" aria-hidden="true">👥</span>
-          <span class="navText">Utilisateurs</span>
-        </a>
-      </nav>
-      <div class="actions"></div>
-    </header>
-
-    <main class="page">
-      <section class="card">
-        <h1>Reporting</h1>
-        <p class="muted">Analyse des ventes, approvisionnements, mouvements de stock, ajustements et lots à expiration.</p>
-
-        <div class="filters" style="display:flex;gap:10px;flex-wrap:wrap;align-items:end;">
-          <label>Rapport<br>
-            <select id="reportName">
-              <option value="sales_by_day">Ventes par jour</option>
-              <option value="sales_by_month">Ventes par mois</option>
-              <option value="top_products">Top produits</option>
-              <option value="gross_margin_by_month">Marge brute par mois</option>
-              <option value="purchases_by_supplier">Approvisionnements par fournisseur</option>
-              <option value="stock_movements">Mouvements de stock</option>
-              <option value="declassements_ajustements">Déclassements / ajustements</option>
-              <option value="expiring_stock">Lots à expiration</option>
-            </select>
-          </label>
-
-          <label>Du<br><input id="dateFrom" type="date"></label>
-          <label>Au<br><input id="dateTo" type="date"></label>
-
-          <button id="btnRun">Exécuter</button>
-          <button id="btnCsv" type="button">Exporter CSV</button>
-          <span id="status" class="muted">—</span>
+  <body>
+    <div class="app">
+      <header>
+        <div id="logo">
+          <img src="../static/img/mobisoft1.png" alt="" />
         </div>
-      </section>
+        <nav class="nav">
+          <a class="navLink expand-right" href="index.html" aria-label="Vente">
+            <span class="navIco" aria-hidden="true">🧾</span>
+            <span class="navText">Vente</span>
+          </a>
+          <a
+            class="navLink expand-both"
+            href="products_admin.html"
+            aria-label="Produits"
+          >
+            <span class="navIco" aria-hidden="true">💊</span>
+            <span class="navText">Produits</span>
+          </a>
+          <a
+            class="navLink expand-both"
+            href="dashboard.html"
+            aria-label="Dashboard"
+          >
+            <span class="navIco" aria-hidden="true">📊</span>
+            <span class="navText">Dashboard</span>
+          </a>
+          <a
+            class="navLink expand-both"
+            href="reporting.html"
+            aria-label="Reporting"
+          >
+            <span class="navIco" aria-hidden="true">📈</span>
+            <span class="navText">Reporting</span>
+          </a>
+          <a
+            class="navLink expand-both"
+            href="reapprov.html"
+            aria-label="Réapprovisionnement"
+          >
+            <span class="navIco" aria-hidden="true">📦</span>
+            <span class="navText">Réappro</span>
+          </a>
+          <a
+            class="navLink expand-both"
+            href="suppliers_admin.html"
+            aria-label="Fournisseurs"
+          >
+            <span class="navIco" aria-hidden="true">🚚</span>
+            <span class="navText">Fournisseurs</span>
+          </a>
+          <span class="navSep"></span>
+          <a
+            class="navLink expand-both"
+            href="settings.html"
+            aria-label="Paramètres"
+          >
+            <span class="navIco" aria-hidden="true">⚙️</span>
+            <span class="navText">Paramètres</span>
+          </a>
+          <a
+            class="navLink expand-left"
+            href="users_admin.html"
+            aria-label="Utilisateurs"
+          >
+            <span class="navIco" aria-hidden="true">👥</span>
+            <span class="navText">Utilisateurs</span>
+          </a>
+        </nav>
+        <div class="actions"></div>
+      </header>
 
-      <section class="card">
-        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
-          <h2 id="reportTitle">Résultat</h2>
-          <span class="pill">Lignes: <b id="rowCount">0</b></span>
-        </div>
-        <div id="reportTable" class="tableWrap"></div>
-      </section>
-    </main>
-  </div>
-</body>
+      <main class="page">
+        <section class="card">
+          <h1>Reporting</h1>
+          <p class="muted">
+            Analyse des ventes, approvisionnements, mouvements de stock,
+            ajustements et lots à expiration.
+          </p>
+
+          <div
+            class="filters"
+            style="display: flex; gap: 10px; flex-wrap: wrap; align-items: end"
+          >
+            <label
+              >Rapport<br />
+              <select id="reportName">
+                <option value="sales_by_day">Ventes par jour</option>
+                <option value="sales_by_month">Ventes par mois</option>
+                <option value="top_products">Top produits</option>
+                <option value="gross_margin_by_month">
+                  Marge brute par mois
+                </option>
+                <option value="purchases_by_supplier">
+                  Approvisionnements par fournisseur
+                </option>
+                <option value="stock_movements">Mouvements de stock</option>
+                <option value="declassements_ajustements">
+                  Déclassements / ajustements
+                </option>
+                <option value="expiring_stock">Lots à expiration</option>
+              </select>
+            </label>
+
+            <label>Du<br /><input id="dateFrom" type="date" /></label>
+            <label>Au<br /><input id="dateTo" type="date" /></label>
+
+            <button id="btnRun">Exécuter</button>
+            <button id="btnCsv" type="button">Exporter CSV</button>
+            <span id="status" class="muted">—</span>
+          </div>
+        </section>
+
+        <section class="card">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              gap: 10px;
+            "
+          >
+            <h2 id="reportTitle">Résultat</h2>
+            <span class="pill">Lignes: <b id="rowCount">0</b></span>
+          </div>
+          <div id="reportTable" class="tableWrap"></div>
+        </section>
+      </main>
+    </div>
+  </body>
 </html>

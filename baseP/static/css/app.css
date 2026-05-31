@@ -854,3 +854,44 @@ code {
   }
   .navText{ opacity:1; transform:none; pointer-events:auto; }
 }
+
+/* Reapprovisionnement - suggestions */
+.badge {
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.badge.danger {
+  background: #ffe1e1;
+  color: #b00020;
+}
+
+.badge.warn {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.badge.info {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.badge.ok {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.badge.muted {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.right {
+  text-align: right;
+}
+
+.tableWrap {
+  overflow-x: auto;
+}

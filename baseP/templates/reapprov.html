@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../static/css/app.css" />
+  <title>PharmaPlus • Réapprovisionnement</title>
+
+  <script src="../static/js/reapprov.js" defer></script>
+  <script src="../static/js/nav.js" defer></script>
+</head>
+
+<body>
+  <div class="app">
+    <header>
+      <div id="logo">
+        <img src="../static/img/mobisoft1.png" alt="">
+      </div>
+
+      <nav class="nav">
+        <a class="navLink expand-right" href="index.html" aria-label="Vente">
+          <span class="navIco">🧾</span>
+          <span class="navText">Vente</span>
+        </a>
+
+        <a class="navLink expand-both" href="products_admin.html" aria-label="Produits">
+          <span class="navIco">💊</span>
+          <span class="navText">Produits</span>
+        </a>
+
+        <a class="navLink expand-both" href="dashboard.html" aria-label="Dashboard">
+          <span class="navIco">📊</span>
+          <span class="navText">Dashboard</span>
+        </a>
+
+        <a class="navLink expand-both" href="reporting.html" aria-label="Reporting">
+          <span class="navIco">📈</span>
+          <span class="navText">Reporting</span>
+        </a>
+
+        <a class="navLink expand-both" href="reapprovisionnement.html" aria-label="Réapprovisionnement">
+          <span class="navIco">📦</span>
+          <span class="navText">Réappro</span>
+        </a>
+
+        <a class="navLink expand-both" href="suppliers_admin.html" aria-label="Fournisseurs">
+          <span class="navIco">🚚</span>
+          <span class="navText">Fournisseurs</span>
+        </a>
+
+        <span class="navSep"></span>
+
+        <a class="navLink expand-both" href="settings.html" aria-label="Paramètres">
+          <span class="navIco">⚙️</span>
+          <span class="navText">Paramètres</span>
+        </a>
+
+        <a class="navLink expand-left" href="users_admin.html" aria-label="Utilisateurs">
+          <span class="navIco">👥</span>
+          <span class="navText">Utilisateurs</span>
+        </a>
+      </nav>
+
+      <div class="actions"></div>
+    </header>
+
+    <main class="page">
+      <section class="card">
+        <h1>Réapprovisionnement intelligent</h1>
+        <p class="muted">
+          Suggestions basées sur les ventes des 30 derniers jours, le stock actuel,
+          le délai fournisseur et le stock de sécurité.
+        </p>
+
+        <div style="display:flex;gap:12px;align-items:center;">
+          <button id="btnRefresh">Actualiser</button>
+          <span id="status" class="muted">—</span>
+          <span class="pill">Produits: <b id="count">0</b></span>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="tableWrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Produit</th>
+                <th class="right">Stock</th>
+                <th class="right">Vendu 30j</th>
+                <th class="right">Conso/jour</th>
+                <th class="right">Jours restants</th>
+                <th class="right">Qté recommandée</th>
+                <th class="right">Stock min</th>
+                <th>Urgence</th>
+              </tr>
+            </thead>
+            <tbody id="tbody">
+              <tr>
+                <td colspan="8">Chargement...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
