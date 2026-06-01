@@ -376,3 +376,35 @@ $("btnAuto").addEventListener("click", () => setAuto(!autoOn));
     setAuto(true);
     await refreshAll();
 })();
+
+async function loadSalesForecast() {
+    try {
+        const res = await fetch("http://127.0.0.1:5000/api/forecast/sales");
+        const data = await res.json();
+
+        if (!data.success) {
+            console.error(data.error);
+            return;
+        }
+
+        document.getElementById("forecastTomorrow").textContent =
+            `${data.demain.ca_prevu.toFixed(2)} $ / ${data.demain.ventes_prevues} ventes`;
+
+        document.getElementById("forecastWeek").textContent =
+            `${data.semaine_prochaine.ca_prevu.toFixed(2)} $ / ${data.semaine_prochaine.ventes_prevues} ventes`;
+
+        document.getElementById("forecastMonth").textContent =
+            `${data.mois_prochain.ca_prevu.toFixed(2)} $ / ${data.mois_prochain.ventes_prevues} ventes`;
+
+    } catch (err) {
+        console.error("Erreur prévision:", err);
+    }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    loadSalesForecast();
+
+    setInterval(() => {
+        loadSalesForecast();
+    }, 10000);
+});

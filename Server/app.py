@@ -25,6 +25,7 @@ from routes.logs_api import logs_api
 from routes.reporting import reporting_bp
 from routes.checkupdate import system_bp
 from routes.reapprov import reapprov_bp
+from routes.prevision import forecast_bp
 
 app = Flask(__name__)
 #CORS(app)  # Active CORS pour toutes les routes
@@ -59,6 +60,7 @@ app.register_blueprint(logs_api, url_prefix="/api/logs")
 app.register_blueprint(reporting_bp, url_prefix="/api/reporting")
 app.register_blueprint(system_bp, url_prefix="/api/system")
 app.register_blueprint(reapprov_bp, url_prefix="/api/reapprov")
+app.register_blueprint(forecast_bp, url_prefix="/api/forecast")
 
 @app.route('/')
 def home():

@@ -617,6 +617,12 @@ tbody td {
     font-weight: 800;
     margin-top: 6px;
 }
+ 
+.kpiValue2 {
+    font-size: 1.25rem;
+    font-weight: 800;
+    margin-top: 6px;
+}
 
 .kpiHint {
     color: rgba(233, 238, 252, .55);
